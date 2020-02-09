@@ -1,0 +1,64 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">编辑栏目信息</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/helpCenter/edit" class="form-horizontal" method="post">
+        	<div class="form-body">
+        		<div class="form-group #if($!item.pid==0) hidden #end">
+                     <label class="control-label col-md-2">上级栏目：</label>
+                     <label class="control-label col-md-1">$!pItem.name</label>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-2">栏目名称：</label>
+                     <div class="col-md-3">
+                         <input type="text" class="form-control" name="name" value="$!item.name">
+                         <input type="hidden" class="form-control" name="pid" value="$!item.pid">
+                         <input type="hidden" class="form-control" name="id" value="$!item.id">
+                         <input type="hidden" class="form-control" name="level" value="$!item.level">
+                     </div>
+                 </div>
+                 <div class="form-group inline">
+					<label class="control-label col-md-2">使用终端：</label>
+					<div class="col-md-4" style="vertical-align: middle; margin-top: 7px;">
+						<input type="checkbox" name="loc" id="chk_loc_pc" value="pcWeb" #if($!item.loc.contains("pcWeb")) checked #end >
+						PC端
+						<input type="checkbox" id="chk_loc_wechat" name="loc" value="wechat" #if($!item.loc.contains("wechat")) checked #end >
+						微信端
+					</div>
+				</div>
+                 
+                 <div class="form-group">
+					<label class="control-label col-md-2">是否启用：</label>
+					<div class="col-md-4" style="vertical-align: middle; margin-top: 7px;">
+						<input type="radio" name="status" value="true" #if($!item.status) checked #end>
+						启用
+						<input type="radio" name="status" value="false" #if(!$!item.status) checked #end>
+						禁用
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">排序：</label>
+					<div class="col-md-2">
+						<input type="text" class="form-control positiveIntegerNum" name="sort" value="$!item.sort">
+					</div>
+				</div>
+                 <div class="form-group #if($!item.pid==0) hidden #end">
+                     <label class="control-label col-md-2">内容：</label>
+                     <div class="col-md-10">
+                         <textarea class="form-control" name="content" id="textContent" style="width:100%;height:400px;">$!item.content</textarea>
+                     </div>
+                 </div>
+                 
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/helpCenter/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="/helpCenter/list"  class="btn btn-outline grey-salsa ajaxify">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-kindeditor.js"></script>

@@ -1,0 +1,57 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">基本设置 > 服务项管理 > 售后原因设置 > 编辑</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/sale/edit" class="form-horizontal" method="post">
+        	<div class="form-body">
+				<input type="hidden" name="id" value="$!item.id">
+                
+                <div class="form-group">
+                	<label class="col-md-3 control-label">售后类型：</label>
+							<div class="col-md-8">
+								<select name="saleType" class="form-control">
+									<option value="CHANGEGOODS" #if($!item.saleType == 'EXCHANGE') selected="selected" #end>换货</option>
+									<option value="REFUND" #if($!item.saleType == 'REFUND') selected="selected" #end>仅退款</option>
+									<option value="RETURNSREFUNDS" #if($!item.saleType == 'RETURNSREFUNDS') selected="selected" #end>退货退款</option>
+									<option value="IN_REPAIR" #if($!item.saleType == 'IN_REPAIR') selected="selected" #end>维修</option>
+									<option value="OTHER" #if($!item.saleType == 'OTHER') selected="selected" #end>其他</option>
+								</select>
+							</div>
+                </div>
+                
+                <div class="form-group">
+                	<label class="control-label col-md-3">售后原因：</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="saleCause" value="$!item.saleCause">
+                    </div>
+                </div>
+                
+               <div class="form-group">
+                     <label class="control-label col-md-3">启用：</label>
+                     <div class="col-md-8">
+						<div class="mt-radio-inline">
+							<label class="mt-radio">
+							<input type="radio" name="state"  value="1"   #if($!item.state==true) checked #end>是
+                          <span></span>
+                        </label>
+                        <label class="mt-radio">
+                           <input type="radio" name="state"  value="0"  #if($!item.state==false) checked #end >否
+                           <span></span>  
+                       </label>
+						</div>
+						
+                     </div> 
+                 </div> 
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/sale/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,71 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">添加</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/userLevel/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+				<div class="form-group">
+                	<label class="control-label col-md-3">等级名称：</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="name" placeholder = "10字以内" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                	<label class="control-label col-md-3">等级显示：</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="level"  placeholder = "例如：V1、V2" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                	<label class="control-label col-md-3">所需经验值：</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="exp" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                     <label class="control-label col-md-3">*是否启用: </label>
+                     <div class="col-md-7 form-control-static">
+                     	<label class="mt-radio mt-radio-outline">启用
+							<input type="radio" value="TRUE" name="state" checked>
+							<span></span>
+						</label>
+						<label class="mt-radio mt-radio-outline">禁用
+							<input type="radio" value="FALSE" name="state">
+							<span></span>
+						</label>
+                     </div>
+                 </div>
+                 <div class="form-group">
+ 					<div class="col-md-10"> 
+ 						<h5 class="text-success text-right"><strong>注：所需经验值为0，视为新会员默认等级</strong></h5>
+ 					</div>
+ 				</div>
+            </div>
+            <div class="form-actions right">
+            	<!--  <a href="javascript:;"   class="btn green print"> 打印</a>-->
+				<a href="javascript:;" thref="/userLevel/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- <script type="text/javascript">
+$(".print").on('click',function(){
+	$(".form-body").printThis({
+        debug: false,
+        importCSS: true,
+        importStyle: true,
+        printContainer: true,
+        pageTitle: "打印",
+        removeInline: false,
+        printDelay: 333,
+        header: null,
+        formValues: true,
+    });
+})
+
+</script> -->

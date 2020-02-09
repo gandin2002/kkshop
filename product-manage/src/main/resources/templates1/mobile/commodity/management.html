@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单位管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 ,maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/weui.min.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/jquery-weui.min.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/css/common.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/css/commodity.css">
+    <script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/plugins/fancybox/lib/jquery-1.10.1.min.js"></script>
+    <script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/jquery-weui.min.js"></script>
+</head>
+<body class="view-container">
+<div class="header bar-positive">
+    <a href="" class="left"><img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/blockr.png"/></a>
+    <h1>单位管理</h1>
+    <a href="" class="right"><img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/more.png"/></a>
+</div>
+
+<div class="relation-search">
+    <input type="text" class="search" placeholder="请搜索商品单位">
+    <i class="weui-icon-search"></i>
+    <a href="" class="">搜索</a>
+</div>
+<div class="new-contaner contenten management">
+    <div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>商品单位：<span>片</span><span class="mark"></span></p>
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>商品单位：<span>箱</span><span class="error"></span></p>
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>商品单位：<span>套</span><span class="mark"></span></p>
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>商品单位：<span>枝</span><span class="mark"></span></p>
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>商品单位：<span>束</span><span class="mark"></span></p>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="check">
+    <a href="javascript:void(0);" class="open-popup">新增单位</a>
+</div>
+<div id="topp" class="weui-popup__container popup-bottom detail" style="margin-bottom: 50px">
+    <div class="weui-popup__overlay"></div>
+    <div class="weui-popup__modal ">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell weui-cell_switch">
+                <div class="weui-cell__hd">单位名称</div>
+                <div class="weui-cell__bd">
+                    <input type="text" >
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_switch">
+                <div class="weui-cell__hd">启用状态</div>
+                <div class="weui-cell__bd">
+                    <label for="switchCP" class="weui-switch-cp">
+                        <input id="switchCP" class="weui-switch-cp__input" type="checkbox" checked="checked">
+                        <div class="weui-switch-cp__box"></div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="check" style="margin-top: 50px;z-index: 10">
+        <a href="" >保存</a>
+    </div>
+</div>
+</body>
+<script>
+    $(".weui-navbar a").on("click",function(){
+        $(this).addClass("blue").siblings().removeClass("blue");
+    });
+    $(".sale_search").on('click',function(){
+        $(".mask").css('display','block');
+        $(".right-posty").animate({right:"0"},"500")
+    })
+    $(".open-popup").on('click',function(){
+        $("#topp").css("display","block");
+        $(".mask").css("display","block");
+    })
+    $(".mask").on('click',function(){
+        $(".mask").css('display','none');
+        $(".right-posty").animate({right:"-300px"},"500");
+    })
+    $(".weui-popup__overlay").on('click',function(){
+        $("#topp").css("display","none");
+//        $(".mask").css('display','none');
+    })
+
+</script>
+</html>

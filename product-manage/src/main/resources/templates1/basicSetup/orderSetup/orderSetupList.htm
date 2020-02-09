@@ -1,0 +1,83 @@
+﻿<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="tabbable-line ">
+			<div class="tab-content">
+				<div class="portlet-body form">
+					<form role="form" action="#" class="form-horizontal" method="post" id="fromSerialize">
+				 		<div class="form-body">
+							<div class="form-group">
+			 					<div class="col-md-4"> 
+			 						<h4 class="text-success  "><strong>订单涉及设置:</strong></h4>
+			 					</div>
+			 				</div>
+						 	#foreach($item in $!sysParamList)
+							 #set($index = ($velocityCount +(-1)))
+								#if($!item.sysValueType == "INPUT")
+					 				<div class="form-group">
+					 					<label class="col-md-3 control-label">$item.display</label>
+					 					<div class="col-md-1">
+					 						<input type="number" class="form-control" name="list[$!index].value"  value="$!item.value" />
+					 					</div>
+					 					<div class="col-md-8">
+					 						<p  class="text-left text-warning form-control-static" >$!item.descs</p>
+					 					</div>
+					 				</div>
+			 					#elseif($!item.sysValueType == "SELECT")
+			 						<div class="form-group">
+					 					<label class="col-md-3 control-label">$item.display</label>
+					 					<div class="col-md-3">
+					 						<select name="list[$!index].value" class="form-control">
+						 						#foreach($sysOption in $!item.getSysOptionMap().entrySet()) 
+						 							<option  #if($!item.value==$!sysOption.value) selected #end  value="$!sysOption.value">$!sysOption.key </option>
+						 						#end
+					 						</select>
+					 						<input type="hidden" name="list[$!index].sysOption" value=$!item.sysOption>
+					 					</div>
+					 				</div>
+			 					#end
+					 		   <input type="hidden" name="list[$!index].id" value="$!item.id">
+		                       <input type="hidden" name="list[$!index].code" value="$!item.code">
+		                       <input type="hidden" name="list[$!index].descs" value="$!item.descs">
+		                       <input type="hidden" name="list[$!index].sysParamType" value="$!item.sysParamType">
+		                       <input type="hidden" name="list[$!index].sysValueType" value="$!item.sysValueType">
+		              		   <input type="hidden" name="list[$!index].display" value="$!item.display">
+			 				#end
+						</div>
+						<div class="form-actions right">
+				          <div class="row">
+				              <div class="col-md-offset-3 col-md-4">
+				                  <a href="javascript:;" class="btn green " id="submita"><i class="fa fa-save"></i> 保存</a>
+				              </div>
+				          </div>
+				      </div>
+				  </form>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+<script type="text/javascript">
+/**
+ * 表单提交
+ */
+$("#submita").on("click",function(){
+	$.ajax({
+		url : '/orderSetup/edit',
+		type : 'POST',
+		data : $("#fromSerialize").serialize(),
+ 		dataType :"JSON",
+		success : function(data) {
+			 toastr.success(data.msg);
+		},
+		error : function(data) {
+			 toastr.warning(data.msg);
+		}
+	});
+	
+});
+</script>

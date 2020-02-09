@@ -1,0 +1,182 @@
+<style>
+.fancybox-opened{
+	z-index: 999999;
+}
+</style>
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">维保详情</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/service/serviceManageInfo" class="form-horizontal" method="post">
+    		<input value="$!mymaintenance.id" type="hidden" name="id">
+    		<div class="form-body">
+    			<div class="row">
+    				<div class="col-md-4">
+  					 	<div class="form-group">
+  					 		<label class="control-label col-md-4">维保单号：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left"> $!mymaintenance.id </p class="form-control-static">
+		 					</div>
+		 				</div>
+		 				<div class="form-group">
+  					 		<label class="control-label col-md-4">维保会员：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left"> $!mymaintenance.userId </p class="form-control-static">
+		 					</div>
+		 				</div>
+		 				<div class="form-group">
+  					 		<label class="control-label col-md-4">维保联系人：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left"> $!mymaintenance.realName </p class="form-control-static">
+		 					</div>
+		 				</div>
+		 				<div class="form-group">
+  					 		<label class="control-label col-md-4">使用年限：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left">$!mymaintenance.useTime</p class="form-control-static">
+		 					</div>
+		 				</div>
+		 				<div class="form-group">
+  					 		<label class="control-label col-md-4">预约时间：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left">$!mymaintenance.startTime</p class="form-control-static">
+		 					</div>
+		 				</div>
+    				</div>
+    				<div class="col-md-4">
+    				
+    				  <div class="form-group">
+  					 		<label class="control-label col-md-4">状态：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left"> 
+		 							#if($!mymaintenance.state == 0)
+		 								未处理
+		 							#elseif($!mymaintenance.quxiao == 3)
+		 								已取消
+		 						   #else
+		 						        已处理
+		 							#end
+		 						
+		 						 </p class="form-control-static">
+		 					</div>
+		 				</div>
+		 			  <div class="form-group">
+  					 	   <label class="control-label col-md-4">所属企业：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left"> $!mymaintenance.company </p class="form-control-static">
+		 					</div>
+		 				</div>
+		 				<div class="form-group">
+  					 	   <label class="control-label col-md-4">联系电话：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left"> $!mymaintenance.ipohe </p class="form-control-static">
+		 					</div>
+		 				</div>	
+		 				<div class="form-group">
+  					 	   <label class="control-label col-md-4">使用耗材：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left"> $!mymaintenance.usegoods </p class="form-control-static">
+		 					</div>
+		 				</div>
+		 				<div class="form-group">
+  					 	   <label class="control-label col-md-4">处理人：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left"> $!mymaintenance.handlePeople </p class="form-control-static">
+		 					</div>
+		 				</div>
+    				</div>
+    				<div class="col-md-4">
+    				  	<div class="form-group">
+  					 		<label class="control-label col-md-4">维保项目：</label>
+		 					<div class="col-md-8"> 
+		 						<select class="form-control-static" name="maintennanceItem">	
+		 							<option value="$!mymaintenance.maintennanceItem" selected="selected">$!mymaintenance.maintennanceItem</option>
+									<option value="更换组件" >更换组件</option>
+									<option value="更换硒鼓" >更换硒鼓</option>
+									<option value="更换墨盒">更换墨盒</option>	 						
+		 						</select>
+		 					</div>
+		 				</div>
+		 				<div class="form-group">
+  					 		<label class="control-label col-md-4">部门：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left"> $!mymaintenance.companyDepartment </p class="form-control-static">
+		 					</div>
+		 				</div>
+		 				<div class="form-group">
+  					 		<label class="control-label col-md-4">提交时间：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left"> $!mymaintenance.submitTime </p class="form-control-static">
+		 					</div>
+		 				</div>
+		 				<div class="form-group">
+  					 		<label class="control-label col-md-4">耗材品牌：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left"> $!mymaintenance.useBrand </p class="form-control-static">
+		 					</div>
+		 				</div>
+		 				<div class="form-group">
+  					 		<label class="control-label col-md-4">完成时间：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left"> $!mymaintenance.finishTime </p class="form-control-static">
+		 					</div>
+		 				</div>
+    				</div>
+    			</div>
+    			<div class="row">
+    				<div class="col-md-12">
+    					 <div class="form-group">
+  					 		<label class="control-label col-md-2">描述：</label>
+		 					<div class="col-md-8"> 
+		 						<p class="form-control-static" class="　 text-left"> $!mymaintenance.maintennanceDesc</p class="form-control-static">
+		 					</div>
+		 				</div>
+    				</div>
+    			</div>
+    			<div class="row">
+    				<div class="col-md-4">
+    					<a href="$!mymaintenance.image1" class="fancybox-button" data-rel="fancybox-button">
+	                         <img   src="$!mymaintenance.image1" width="194px" height="170px">
+	                     </a>
+    				</div>
+    				<div class="col-md-4">
+    					<a href="$!mymaintenance.image2" class="fancybox-button" data-rel="fancybox-button">
+	                         <img   src="$!mymaintenance.image2" width="194px" height="170px">
+	                     </a>
+    				</div>
+    				<div class="col-md-4" >
+    					<a href="$!mymaintenance.image3" class="fancybox-button" data-rel="fancybox-button">
+	                         <img   src="$!mymaintenance.image3" width="194px" height="170px">
+	                     </a>
+	                </div>
+    			</div>
+    			<div class="row">
+   					<div class="form-group">
+ 					 		<label class="control-label col-md-2">处理结果：</label>
+	 					<div class="col-md-8"> 
+	 						<textarea  name="handlerResult" style="width: 654px;height: 84px;">$!mymaintenance.handlerResult</textarea>
+	 					</div>
+	 				</div>
+    			</div>
+			</div>
+			<div class="form-actions right">
+			      
+			       #if($!mymaintenance.quxiao==1 && $!mymaintenance.state==0)
+						  <a href="javascript:;" thref="/service/list" class="btn green ajax-post"><i class="fa fa-trash"></i>确让取消</a>
+                   #elseif($!mymaintenance.quxiao==3 || $!mymaintenance.state==1)
+ 				     <a href="javascript:;" data-dismiss="modal" class="glyphicon glyphicon-remove-circle btn btn-outline grey-salsa">已处理</a> 
+ 			     #else
+				<a href="javascript:;" thref="/service/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+		       #end
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+$(".fancybox-button").fancybox();
+</script>

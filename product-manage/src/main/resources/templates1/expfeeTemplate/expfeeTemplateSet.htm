@@ -1,0 +1,217 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="portlet light bordered">
+				<div class="portlet-body form">
+					<div class="table-container table-scrollable">
+						<table class="table table-striped table-bordered table-hover" id="tableCategory" >
+							<thead>
+								<tr>
+									<th>省份</th>
+									<th>
+									编码
+									<input type="hidden" name="editId" value="" id="editId" />
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								#foreach ($item in $!citys) 
+								
+								<tr data-tt-id="$!item.id"  data-tt-parent-id="$!item.parentId" id="$!item.id">
+									 <td>
+									
+									 <input type="checkbox"  name="checkboxes" class="icheck" data-name='$!item.name' value="$!item.id" />
+								
+									 $!item.name
+									 </td>
+									 <td>$!item.id</td>
+								</tr>
+								
+								#end
+							</tbody>
+						</table>
+					</div>
+					<div class="form-actions right">
+						<a  href="javascript:;" class="btn green ensure-city">
+							<i class="fa fa-check"></i>
+							确定
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="portlet light bordered">
+	<div class="portlet-title">
+		<div class="caption font-dark">
+			<i class="fa fa-cog font-dark"></i>
+			<span class="caption-subject bold">默认模板设置</span>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form role="form" action="/expfeeTemplate/add" class="form-horizontal" method="post">
+			<div class="form-body">
+				#set($calcType = 0 )
+				#if($!item.calcTye==1)
+				#set($calcType = 1)
+				#end
+				<div class="form-group feeCity_template #if($calcType==0) hidden #end">
+					<label class="control-label col-md-2">模板名称：</label>
+					<div class="col-md-5">
+						<input type="text" class="form-control" name="template.name" value="$!item.name">
+						<input type='hidden' name='lname' id='levelNames' value="$!lvNames" />
+						<input type='hidden' name='template.id'  value="$!item.id" />
+						<input type='hidden' name='template.isDefault'  value="1" />
+						<input type='hidden' name='template.defaultFee'  value="15" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label col-md-2">快递运费计算方式：</label>
+					<div class="col-md-4 radio">
+						<input type="radio" name="template.calcTye" value="0" #if($!calcType==0) checked #end class="calctypechange">
+						按订单金额计费&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="template.calcTye" value="1" #if($!calcType==1) checked #end class="calctypechange">
+						按货品运费模板计费
+					</div>
+				</div>
+			     <div class="form-group feeCity_template #if($calcType==0) hidden #end">
+					<label class="control-label col-md-2">默认运费</label>
+					<div class="col-md-5 radio">
+						<input type="radio" name="template.isOpen" value="1" #if($!item.isOpen) checked #end>
+						开启&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="template.isOpen" value="0" #if(!$!item.isOpen) checked #end>
+						关闭
+					</div>
+				</div> 
+				<div class="form-group feeCity_template #if($calcType==0) hidden #end">
+					<label class="control-label col-md-2">默认运费</label>
+					<div class="col-md-1">
+						<input type="text" name="template.fquality" value="$!item.fquality" class="form-control positiveFloatNum"/>
+					</div>
+					<label class="control-label col-md-1" style="text-align: left;">kg内，运费</label>
+					<div class="col-md-1">
+						<input type="text" name="template.fqFee"  value="$!item.fqFee" class="form-control positiveFloatNum"/>
+					</div>
+					<label class="control-label col-md-1" style="text-align: left;">元，每增加</label>
+					<div class="col-md-1">
+						<input type="text" name="template.conHeavy"  value="$!item.conHeavy" class="form-control positiveFloatNum"/>
+					</div>
+					<label class="control-label col-md-1" style="text-align: left;">kg，增加运费</label>
+					<div class="col-md-1">
+						<input type="text" name="template.conFee"   value="$!item.conFee" class="form-control positiveFloatNum" />
+					</div>
+					<label class="control-label col-md-1" style="text-align: left;">元</label>
+				</div>
+				<div class="row feeCity_template #if($calcType==0) hidden #end">
+					<div class="form-group">
+						<label class="control-label col-md-2">体重系数</label>
+						<div class="col-md-1">
+							<input type="text" name="template.coefficient" value="$!item.coefficient" class="form-control"/>
+						</div>
+						<div class="col-md-9">
+							<p style="line-height: 34px;margin-bottom: 0;">（货品按照重量和体积，选择价格高德计算。体积换算体重公式：长（m）X宽（m）X高（m）/体积重量系数=货品重量（KG））</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="row feeOrder_template #if($calcType==1) hidden #end ">
+					<div class="form-group">
+						<div class="col-md-5">
+							<a href="javascript:;" class="btn white addFeeOrder" id="addFeeOrder"><i class="fa fa-plus"></i>新增订单金额计费设置</a>
+						</div>
+					</div>
+					<script>
+                        MyTouchSpin.init1() ;
+					</script>
+					<div class="form-group">
+						<table class="table table-striped table-bordered table-hover addFeeOrderTable">
+							<tr>
+			   		 			<td>会员等级</td>
+			   		 			<td>订单金额</td>
+			   		 			<td>运费(¥)</td>
+			   		 			<td>操作</td>
+							</tr>
+							#set($idx = 0)
+							#foreach($feeOrder in $orderFees)
+								<tr>
+									<td width="55%"><div class="form-group"><input type="text" name="feeOrder[$idx].userLevel" value="$!feeOrder.userLevel" class="level_range col-md-4" /></div></td>
+									<td><input type="text" name="feeOrder[$idx].orderFee" value="$!feeOrder.orderFee" class="input-small  positiveFloatNum2"/></td>
+									<td><input type="text" name="feeOrder[$idx].expFee" value="$!feeOrder.expFee" class="input-small  positiveFloatNum2"/></td>
+									<td>
+										<a  href="javascript:;" thref="/expfeeTemplate/deleteFeeOrder?id=$!feeOrder.id" class="ajax-delete">×</a>
+										<input type='hidden' name='feeOrder[$idx].id'  value="$!feeOrder.id" />
+									</td>
+								</tr>
+								#set($idx = $idx+1)
+							#end
+						</table>
+					</div>
+				</div>
+
+				
+				<div class="row feeCity_template #if($calcType==0) hidden #end ">
+					<!--<div class="form-group">-->
+						<!--<label class="control-label col-md-2">计价方式</label>-->
+						<!--<div class="col-md-5">-->
+							<!--<input type="radio" name="template.valuationEnum" value="BYQUALITY" checked>-->
+							<!--按重量计算运费-->
+							<!--<input type="radio" name="template.valuationEnum" value="BYITEMS">-->
+							<!--按件数计算运费-->
+						<!--</div>-->
+					<!--</div>-->
+					<script>
+                        MyTouchSpin.init1() ;
+					</script>
+					<div class="form-group">
+						<div class="col-md-5">
+							<a href="javascript:;" class="btn white addFeeCity" id="addFeeCity"><i class="fa fa-plus"></i> 添加指定区域 </a>
+						</div>
+					</div>
+					<div class="form-group">
+						<table class="table table-striped table-bordered table-hover addFeeCityTable">
+							<tr>
+			   		 			<td>配送地区</td>
+			   		 			<td>首重(kg)</td>
+			   		 			<td>运费(¥)</td>
+			   		 			<td>续重(kg)</td>
+			   		 			<td>续重运费（¥）</td>
+			   		 			<td>操作</td>
+							</tr>
+							#set($idxc = 0)
+							#foreach($feeCity in $cityFees)
+							<tr role="row" class="odd">
+			   		 			<td><span>$feeCity.cIds &nbsp;</span><a href="javascript:;" class="edcity" id="tr$idxc">编辑</a><input type='hidden' name="feeCity[$idxc].cIds" value='$!feeCity.cIds'/></td>
+			   		 			<td><input type="text" name="feeCity[$idxc].fquality" value="$!feeCity.fquality" class="form-control input-small positiveFloatNum2"/></td>
+			   		 			<td><input type="text" name="feeCity[$idxc].fqFee" value="$!feeCity.fqFee" class="form-control input-small positiveFloatNum2"/></td>
+			   		 			<td><input type="text" name="feeCity[$idxc].conHeavy" value="$!feeCity.conHeavy" class="form-control input-small positiveFloatNum2"/></td>
+			   		 			<td><input type="text" name="feeCity[$idxc].conFee" value="$!feeCity.conFee" class="form-control input-small positiveFloatNum2"/></td>
+			   		 			<td>
+				   		 			<a  href="javascript:;" thref="/expfeeTemplate/deleteFeeCity?id=$!feeCity.id" class="ajax-delete">×</a>
+									<input type='hidden' name='feeCity[$idxc].id'  value="$!feeCity.id" />
+								</td>
+							</tr>
+							#set($idxc = $idxc+1)
+							#end
+						</table>
+					</div>
+				</div>
+				
+			</div>
+			<div class="form-actions right">
+				<a  thref="/expfeeTemplate/list?$!queryReturn" class="btn green ajax-post">
+					<i class="fa fa-check"></i>
+					提交
+				</a>
+				<a href="/expfeeTemplate/list?$!queryReturn" class="btn btn-outline grey-salsa ajaxify">返回</a>
+			</div>
+		</form>
+	</div>
+</div>
+<style>
+	.input-group-addon, .input-group-btn{
+		width:22% ;
+	}
+</style>
+<script type="text/javascript" src="/assets/scripts/views-expFee-template.js"></script>

@@ -1,0 +1,223 @@
+<div id="modelContent" class="modal fade bs-modal-lg">
+	<div class="modal-dialog modal-lg" >
+		<div class="modal-content resultsTable" style="width:1224px;margin-left:-300px;margin-top:75px;"></div>
+	</div>
+</div>
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-search"></i>查询内容
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+		</div>
+		<div class="actions">
+			<a href="javascript:;" class="btn white btn-sm ajax-search"><i class="fa fa-search"></i>查询 </a> 
+			<a href="javascript:;" class="btn white btn-sm search-reset"><i class="fa fa-eraser"></i>清除 </a>
+		</div>
+	</div>
+	<div class="portlet-body form" style="display: block;">
+		<form action="/productScore/list" class="form-horizontal" method="get" id="searchForm">
+			<div class="form-body">
+				<div class="row ">
+					<div class="col-md-3">
+						<label class="control-label col-md-4">赠品编号：</label>
+						<div class="col-md-8">
+							<input class="form-control" type="text" name="code" maxlength="10" value="$!code">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<label class="control-label col-md-4">赠品名称：</label>
+						<div class="col-md-8">
+							<input class="form-control" type="text" name="name" maxlength="10" value="$!name">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<label class="control-label col-md-4">是否上架：</label>
+						<div class="col-md-8">
+							<select name="flag" class="form-control">
+								<option value="">全部</option>
+		                    	<option value="1" #if($!flag==1) selected #end>是</option>
+		                        <option value="0" #if($!flag==0) selected #end>否</option>
+		                    </select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cogs"></i>全部赠品列表
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+		</div>
+		<div class="actions">
+		<a href="/productScore/toAdd/Step1?$!queryReturn" class="btn white btn-sm ajaxify"><i class="fa fa-plus"></i> 新增 </a>
+		<a href="#modelContent" thref="/productScore/addFromPro" class="btn white btn-sm ajax-model-get  " data-toggle="modal"><i class="fa fa-plus"></i> 添加 </a>
+		<a href="#modelContent" thref="/productScore/list"  class="btn white btn-sm delete-tab" ><i class="fa fa-trash"></i>批量删除</a>
+		<a href="#modelContent" thref="/productScore/list" class="btn white btn-sm soldUp-tab"> 上架 </a>
+		<a href="#modelContent" thref="/productScore/list" class="btn white btn-sm soldOut-tab"> 下架 </a>
+		</div>
+		
+	</div>
+	<div class="portlet-body">
+		<div class="table-container table-scrollable">
+			<table class="table table-bordered table-hover icheck-table" id="productTable">
+				<thead>
+					<tr>
+					    <th style="width: 20px">
+							<input type="checkbox" class="icheck group-icheck"/>
+						</th>
+						<th>序号</th>
+						<th>赠品名称</th>
+						<th>类别</th>
+						<th>规格</th>
+						<th>品牌</th>
+						<th>售价</th>
+						<th>库存</th>
+						<th>可兑换量</th>
+						<th>兑换积分</th>
+						<th>所需金额</th>
+						<th>状态</th>
+						<th class="col-md-1">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					#foreach ($!item in $!pageProduct.result)
+					#set($prodImage = $!prodImageMap.get($!item).imageUrl)
+					<tr class="odd gradeX">
+					    <td>
+							<input type="checkbox" name="checkboxes" class="icheck" value="$!item.id" />
+						</td>
+						<td>
+						<p style="margin: 0">$!velocityCount</p>
+						</td>
+						<td>
+							<div style="display: inline-block">
+								<a href="javascript:;">
+									<img alt="" src="$!prodImage" title="$item.name" style="width: 60px; height: 60px">
+								</a>
+							</div>
+							<div style="display: inline-block;margin-left: 10px">
+								<p style="margin: 0"><a href="/productScore/preview?id=$!item.id" title="/productScore/preview?id=$!item.id" target="_blank">$item.productScore.name</a></p>
+							</div>
+						</td>
+						<td>$!item.productScore.category.name</td>
+						<td>$!item.attrValueNames</td>
+						<td>$!item.productScore.brandName</td>
+						<td>$!item.productScore.salesPrice</td>
+						<td>$!item.inventory</td>
+						<td>$!item.exchangeAmout</td>
+						<td>$!item.score</td>
+						<td>$!item.skuPrice</td>
+						<td>
+							#if($!item.flag)
+								销售中
+							#else
+								下架
+							#end
+						</td>
+						<td>
+							<a class="btn green btn-outline btn-sm ajaxify" code="product.edit" href="/productScore/edit?psid=$!item.productScore.id&ssid=$!item.id&resultUrl=$!resultUrl"> 
+								<i class="fa fa-edit"></i>	修改
+							</a>
+						</td>
+					</tr>
+					#end
+				</tbody>
+			</table>
+		</div>
+		#set($page=$pageProduct)
+		#set($pageUrl="/productScore/list.do?$!queryString&pageNo=")
+		#parse("_page.htm")
+	</div>
+</div>
+<script type="text/javascript">
+function getcbvalue(){
+		var array = new Array()
+		var target= $("input[name='checkboxes']");
+		//循环加入数组
+		
+			$.each(target,function(i,v){
+				if(v.checked){
+					array.push($(v).val());
+				}
+			});
+	 	return array; 
+  }
+
+/**
+ * 批量删除
+ */
+$(".delete-tab").click(function(){
+	  var pIdArray= getcbvalue();
+	  if(pIdArray.length>0){
+ 		bootbox.setLocale("zh_CN");
+		bootbox.confirm("确定删除这些赠品吗？", function(state) {
+			if(state){
+			   	 $.post("/productScore/deleteProductScore",{"pIdArray":pIdArray},function(result){
+		        	if(result.code==0){
+		        		toastr.success(result.msg);
+		       			pageContentBody.load("/productScore/list");
+		       		}else {
+		       			toastr.warning(result.msg);
+		       		}
+			   },"json");
+			}
+		});
+	  }
+})
+/**
+ * 批量下架
+ */
+$(".soldOut-tab").click(function(){
+	var pIdArray= getcbvalue();
+	if(pIdArray.length>0){
+		bootbox.setLocale("zh_CN");
+		bootbox.confirm("确定下架这些商品吗？", function(state) {
+			if(state){
+			   	 $.post("/productScore/soldOutProductScore",{"pIdArray":pIdArray},function(result){
+			        	if(result.code==0){
+			        		toastr.success(result.msg);
+			       			pageContentBody.load("/productScore/list");
+			       		}else {
+			       			toastr.warning(result.msg);
+			       		}
+				   },"json");
+			}
+		});
+		}else{
+			toastr.warning("请勾选需要下架的商品！");
+		}
+})
+
+/**
+ * 批量上架
+ */
+$(".soldUp-tab").click(function(){
+	var pIdArray= getcbvalue();
+	if(pIdArray.length>0){
+		bootbox.setLocale("zh_CN");
+		bootbox.confirm("确定上架这些商品吗？", function(state) {
+			if(state){
+			   	 $.post("/productScore/soldUpProductScore",{"pIdArray":pIdArray},function(result){
+			        	if(result.code==0){
+			        		toastr.success(result.msg);
+			       			pageContentBody.load("/productScore/list");
+			       		}else {
+			       			toastr.warning(result.msg);
+			       		}
+				   },"json");
+			}
+		});
+		}else{
+			toastr.warning("请勾选需要下架的商品！");
+		}
+})
+</script>
+<script type="text/javascript" src="/assets/scripts/views-permission.js"></script>
+<script type="text/javascript" src="/assets/scripts/views-icheck.js"></script>

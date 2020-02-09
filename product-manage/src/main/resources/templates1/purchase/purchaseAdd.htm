@@ -1,0 +1,174 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">库存管理 > 采购管理 > 采购入库单 </span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/purchase/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+        		<div class="row">
+                 <div class="form-group">
+                     <label class="control-label col-md-1">仓库：</label>
+                     <div class="col-md-2">
+                         <select class="js-data-wareHouse-ajax form-control" name="purchase.wareHouseId" required id="wareHouseId">
+						 </select>
+						 <input type="hidden" name="purchase.wareHouseName" id="wareHouseName" />
+                     </div>
+                     
+                     <label class="control-label col-md-1">供应商：</label>
+                     <div class="col-md-3">
+                         <select class="js-data-supplierName-ajax form-control" name="purchase.supplierId" required>
+						 </select>
+						 <input type="hidden" name="purchase.supplierName" id="supplierName" />
+                     </div>
+                     
+                     <label class="control-label col-md-1">备注：</label>
+                     <div class="col-md-4">
+                         <input type="text" class="form-control" name="purchase.mark" maxlength="40">
+                     </div>
+                 </div>
+                 </div>
+                 <div class="row">
+                 	<div class="col-md-12">
+                 		<div class="table-scrollable">
+                 			<table class="table table-bordered table-hover data-tr">
+                 				<thead>
+                 				<tr>
+									<th class="text-center">条形码</th>
+									<th class="text-center">货品编码</th>
+									<th class="text-center">货品名称</th>
+									<th class="text-center">规格</th>
+									<th class="text-center">分类</th>
+									<th class="text-center">库位</th>
+									<th class="text-center">单位</th>
+									<th class="text-center">数量</th>
+									<th class="text-center">售价</th>
+									<th class="text-center">标准进价</th>
+									<th class="text-center">实际进价</th>
+									<th class="text-center">操作</th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="col-md-2"><select  name="item[0].barCode"  class="form-control sku-barCode "></select></td>
+										<td class="col-md-2"><select  name="item[0].skuCode"  class="form-control sku-skuCode "></select></td>
+										<td class="col-md-2"><select name="item[0].productName"  class="form-control productName "></select><input type="hidden" name="item[0].skuId" class="skuId"></td>
+										<td><span class="attrName_Span"></span><input type="hidden"   name="item[0].attrName" class="attrName" ></td>
+										<td><span class="categoryName_Span"></span><input type="hidden"   name="item[0].categoryName" class="categoryName" ></td>
+										<td><span class="wareLocation_Span"></span><input type="hidden"   name="item[0].wareLocation" class="wareLocation" ></td>
+										<td><span class="unitName_Span"></span><input type="hidden"   name="item[0].unitName" class="unitName" ></td>
+										<td><input type="text"   name="item[0].quantity"  class="form-control quantity input-xsmall positiveIntegerNum2"></td>
+										<td><span class="salePrice_Span"></span><input type="hidden" name="item[0].salePrice" class="salePrice" ></td>
+										<td><input type="text"   name="item[0].costPrice"  class="form-control costPrice input-xsmall positiveFloatNum2"></td>
+										<td><input type="text"   name="item[0].factPrice"  class="form-control factPrice input-xsmall positiveFloatNum2"></td>
+										<td>
+											<a href="javascript:;" class="add-purchase-item">新增</a>
+										</td>
+									</tr>
+								</tbody>
+                 			</table>
+                 		</div>
+                 	</div>
+                 </div>
+                 
+                 
+            </div>
+            <div class="form-actions right">
+            	 <span class="btn white btn-file">
+			   	 	<span class=" green fileinput-new "><i class="fa fa-cloud-upload"></i>导入采购单</span>
+			    	<input type="file" class="file import-tab" name="" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+		    	</span>
+				<a thref="/purchase/list?$!queryReturn" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="/purchase/list?$!queryReturn" class="btn btn-outline grey-salsa ajaxify">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-purchaseAdd.js"></script>
+<script type="text/javascript">
+MyTouchSpin.init1() ;
+
+
+/**
+*
+* 导入excel 
+*/
+$(".import-tab").change(function(){
+	 var source=$(this);
+	 var file = source.context.files[0];
+	 var formdata = new FormData();  
+	 formdata.append('file',file);
+	 $.ajax({
+		url : '/purchase/parseExcel',
+		type : 'POST',
+		data : formdata,
+		async : false,
+		cache : false,
+		contentType : false,
+		processData : false,
+		dataType :"JSON",
+		success : function(result) {
+			var data = result.data;
+			console.log(result);
+			$.each(data,function(i,k){
+				parseDate(k);
+			});
+		} 
+	});
+	 
+})
+	function parseDate(k) {
+		var itemTable = $(".add-purchase-item").parents('.data-tr');
+		var len = itemTable.find('tr').length - 1;
+		var htmlList = '<tr>';
+		htmlList += '<td>'
+				+ '<select name="item['+ len+ '].barCode"  class="form-control sku-barCode ">'
+				+ '<option>' + k.barCode + '</option>' + '</select></td>';
+		htmlList += '<td>'
+				+ '<select name="item['+ len+ '].skuCode"  class="form-control sku-skuCode ">'
+				+ '<option>' + k.skuCode + '</option>' + '</select></td>';
+		htmlList += '<td>'
+				+ '<select name="item['+ len+ '].productName"  class="form-control productName ">'
+				+ '<option>'
+				+ k.product.name
+				+ '</option>'
+				+ '</select>'
+				+ '<input type="hidden" name="item['+ len+ '].skuId" value="'+k.sku.id+'" class="skuId"></td>';
+		htmlList += '<td class="col-md-2">'
+				+ '<span class="attrName_Span">"'
+				+ k.AttrAndAttrValues
+				+ '"</span>'
+				+ '<input type="hidden"   name="item['+ len + '].attrName" value="'+k.AttrAndAttrValues+'" class="attrName" >'
+				+ '</td>';
+		htmlList += '<td>'
+				+ '<span class="categoryName_Span">'
+				+ k.product.categoryName
+				+ '</span>'
+				+ '<input type="hidden"   name="item['+ len+ '].categoryName" value="'+k.product.categoryName +'" class="categoryName" >'
+				+ '</td>';
+		htmlList += '<td><span class="wareLocation_Span">'
+				+ k.wareLocation
+				+ '</span>'
+				+ '<input type="hidden"   name="item['+ len+ '].wareLocation" value="'+k.wareLocation +'" class="wareLocation" >'
+				+ '</td>';
+		htmlList += '<td><span class="unitName_Span">'
+				+ k.product.unitName
+				+ '</span><input type="hidden"  value="'+k.product.unitName+'"  name="item['+ len + '].unitName" class="unitName" ></td>';
+		htmlList += '<td><input type="text"   name="item['+ len+ '].quantity"  value="'+k.quantity+'"  class="input-sm quantity input-xsmall positiveIntegerNum2"></td>';
+		htmlList += '<td><span class="salePrice_Span">'
+				+ k.vipPrice
+				+ '</span><input type="hidden" value="'+k.vipPrice+'" name="item['+ len + '].salePrice" class="salePrice" ></td>';
+		htmlList += '<td><input type="text"   name="item['+ len+ '].costPrice"  value="'+k.totalPrice+'"  class="input-sm costPrice input-xsmall positiveFloatNum2"></td>';
+		htmlList += '<td><input type="text"   name="item['+ len+ '].factPrice" value="'+k.totalPrice+'"   class="input-sm factPrice input-xsmall positiveFloatNum2"></td>';
+		htmlList += '<td>';
+		htmlList += '	<a href="javascript:;" onclick="$(this).parents(\'tr\').remove();">删除</a>';
+		htmlList += '</td>';
+		htmlList += '</tr>';
+		$(".data-tr tr:last").after(htmlList);
+		
+		MyTouchSpin.init1();
+		initComponent();
+	}
+</script>

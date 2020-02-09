@@ -1,0 +1,395 @@
+<style>
+   .dtext {
+	border: 1.2px dashed #F2784B;
+	margin: 10px !important;
+	display: inline-block;
+	
+}
+
+.coord {
+	font-size: xx-small;
+	text-align: right;
+	display: none;
+}
+.newtext{
+ 	display: none;
+}
+</style>
+		<div class="portlet box green">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-cogs"></i>数据列表
+					
+				</div>
+				<div class="tools">
+				   
+					<a href="javascript:;" class="collapse" data-original-title=""
+						title=""> </a>
+				</div>
+			
+			</div>
+			<div class="portlet-body" style="height: auto !important;">
+			 <!-- <div class="row" style="float: right;font: 1.5em">新增模板<select  id="addTemplate" class="fa fa-cogs" style="z-index: 999;height: 35px" >
+                 <option>请选择</option>
+				<option>模板三</option>
+				</select>
+			</div> -->
+				<div class="tab-content" >
+					<div class="portlet-body form" >
+						<form action="printOrder/OrderTemplatesModify" method="post"  class="form-horizontal">
+							<div class="row">
+								<div class="col-md-4" id="printTemplate1" >#parse("\basicSetup\printOrder\printTemplate\printTemplate1.htm")</div>
+								<div class="col-md-offset-1 col-md-7" id="printTemplate1" >#parse("\basicSetup\printOrder\printTemplate\printTemplate2.htm")</div>
+							</div>
+							
+							<!-- <div class="row " id="chooseTamplate"   >
+	                            <textarea id="textContent" class="form-control" name="prodInfo.description" style="width:100%;min-height:400px;"></textarea>    
+							</div> -->
+					   <!-- <div id="tfoot" class="row">
+					        		
+							<div class="col-md-6 exparams">
+								<h4 style="border-bottom: 1px dashed;" >寄件人</h4>
+								<ul class="list-unstyled">
+									
+									<li><label><input name="senderUnitName" t_data="delivery.corporateName" type="checkbox" id="droppable">寄件人单位名称</label></li>
+									<li><label><input name="senderName" t_data="sendGoods.sender"  type="checkbox">寄件人姓名</label></li>
+									<li><label><input name="senderAddress" t_data="site"  type="checkbox">寄件人地址</label></li>
+									<li><label><input name="senderPhone" t_data="delivery.mobilePhone"  type="checkbox">寄件人手机</label></li>
+									<li><label><input name="senderLandline" t_data="delivery.landlinePhone"  type="checkbox">寄件人固话</label></li>
+									<li><label><input name="senderCode" t_data="delivery.regionCode"  type="checkbox">寄件人邮编</label></li>
+									<li><label><input name="originatingSite" t_data="delivery.city"  type="checkbox">始发地</label></li>
+									<li><label><input name="issueTime" t_data="delivery.sendTime"  type="checkbox">发件日期</label></li>
+									
+								</ul>
+							</div>
+							
+							<div class="col-md-6 exparams">
+								<h4 style="border-bottom: 1px dashed;">其他</h4>
+								<ul class="list-unstyled">
+									<li><label><input name="userDefined1" type="checkbox"><input type="text" placeholder="用户自定义1"></label></li>
+									<li><label><input name="userDefined2" type="checkbox"><input type="text" placeholder="用户自定义2"></label></li>
+									<li><label><input name="userDefined3" type="checkbox"><input type="text" placeholder="用户自定义3"></label></li>
+									<li><label><input name="userDefined4" type="checkbox"><input type="text" placeholder="用户自定义4"></label></li>
+								</ul>
+							</div>
+					</div>	 -->
+							<div class="row">
+								<div class="col-md-4">
+									
+									<label class="mt-radio mt-radio-outline">模板一
+										 <input  type="radio" #if($!templatePrint.templateChoose == 1) checked  #end value="1" name="templateChoose"> <span></span>
+									</label>
+	 								<a href="javascript:;" class="btn green print" id="print1" >打印预览</a>	
+	 								
+								</div>
+								<div class="col-md-4 ">
+									<label>
+										<input type="checkbox" #if($!templatePrint.printImageState) checked #end name="pimages" value="true">打印图片
+									</label>
+									 <label>
+									 	<input type="checkbox" #if($!templatePrint.barcodesState)  checked  #end name="barcodes" value="true">打印订单条形码
+									 </label>
+									 <label>
+									 	<input type="checkbox" #if($!templatePrint.qRcodeState) checked #end name="qRcode" value="true">打印订单二维码
+									 </label> 
+									 <label>
+										 <input type="checkbox" #if($!templatePrint.orderIdState) checked #end name="orderId" value="true">打印订单编号
+									</label>
+								</div>
+								<div class="col-md-4">
+								
+									<label class="mt-radio mt-radio-outline">模板二
+											 <input  type="radio" #if($!templatePrint.templateChoose == 2) checked  #end   value="2" name="templateChoose"> <span></span>
+									</label>
+	 								<a href="javascript:;"  class="btn green print" id="print2" >打印预览</a>
+									<input type="hidden" name="templatePrintType" value="PRINT_COLLECTION_LIST">
+
+							</div>
+							<!-- <div class="col-md-3" >
+								
+									<label class="mt-radio mt-radio-outline">模板三
+											 <input  type="radio" #if($!templatePrint.templateChoose == 5) checked  #end   value="5" name="templateChoose"> <span></span>
+									</label>
+	 								<a href="javascript:;"  class="btn green print" id="print2" >打印预览</a>
+									<input type="hidden" name="templatePrintType" value="PRINT_SHOPPING_LIST">
+
+							</div> -->
+							</div>
+							<div class="form-actions right">
+								<a href="javascript:;" thref="printOrder/CollectionList" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a> 
+								<!-- <a href="javascript:;" data-dismiss="modal"  class="btn btn-outline grey-salsa">返回</a> -->
+								
+								<a href="javascript:;" data-dismiss="modal" thref="printOrder/setup"  class="btn btn-outline grey-salsa">返回</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+<script src="/assets/plugins/jquery-ui/jquery-ui.js"></script>
+
+<!-- <script type="text/javascript" src="/assets/scripts/views-kindeditor.js"></script> -->
+<script type="text/javascript">
+     $(function(){
+
+  		MyTouchSpin.init() ;
+  		
+  		KindEditor.ready(function(K) {
+  			 editor1 = K.create('textarea[id="textContent"]', {
+  				items : [ 'source', '|', 'undo', 'redo', '|', 'preview',
+  						'template', '|', 'justifyleft', 'justifycenter',
+  						'justifyright', 'justifyfull', 'insertorderedlist',
+  						'insertunorderedlist', 'indent', 'outdent', 'subscript',
+  						'superscript', 'clearhtml', 'quickformat', 'selectall',
+  						'|', 'fullscreen', '/', 'formatblock', 'fontname',
+  						'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+  						'italic', 'underline', 'strikethrough', 'lineheight',
+  						'removeformat', '|', 'image', 'table', 'hr', 'emoticons',
+  						'pagebreak', 'link', 'unlink', '|', 'print', 'about' ],
+  				cssPath : '/kindeditor/plugins/code/prettify.css',
+  				uploadJson : '/upload-json.do',
+  				allowFileManager : false,
+  				
+  				// allowImageRemote : false,//设置为不能上传网络图片
+  				afterBlur : function() {
+  					this.sync();
+  				}
+  			});
+  			
+  			
+  			// prettyPrint();
+  		});
+  		
+
+  	
+    	 
+    	 
+    	 $("#addTemplate").click(function(){
+    		var valueTmeplate=$(this).val();
+    	
+    		if(valueTmeplate == '模板三'){
+    			$("#chooseTamplate").show();
+    		}else{
+    			$("#chooseTamplate").hide();
+    		}
+    	 });
+    	 /**
+    		 * 提交 点击事件
+    		 */
+    		$(".ajax-post").click(function() {
+    			var expressHtml = $("#textContent").html();
+    		
+    			$("input[name='expressTemplate']").val(expressHtml);
+    			return true;
+    		})
+    		
+    		
+    			   //$( "#set div" ).draggable({ stack: "#set div" });
+    		
+    	 /**
+    		 * 添加可以移动DIV 与删除
+    		 */
+    		function draggableAdd(elem) {
+                 
+    			elem.draggable({
+    				containment : "#textContent",
+    				 //cancel：".col-md-5";
+    				scroll : false,
+    				stop : function(event, ui) {//拖拽stop
+    					var left = ui.position.left;
+    					var top = ui.position.top;
+    					$(this).children(".coord").children(".left").text(left);
+    					$(this).children(".coord").children(".top").text(top);
+    				}
+
+    			});
+    			$('#textContent').append(elem);
+    		}
+
+    		$(".exparams input[type='checkbox']").click(function() {
+    					var target = $(this);
+    					var name = target.attr("name");
+    					var text = target.parent().text();
+    					var encode = target.attr("t_data");
+    				
+    					if(encode == undefined || encode == ""){
+    						encode = target.parent().children("input[type='text']").val();
+    						text = encode;
+    					}else{
+    					encode = "$" + "!" + encode;
+    					}
+    					if (target.is(':checked')) {
+    						//elem = $('<div class="'+name+' draggable"/>');
+    						
+    						//elem.append('<span class="dtext">' + text + '</span>');
+    						elem=$('<span class="dtext '+ name +' draggable">' + text + '</span>');
+    					   
+    						/*  if (name == "barCode") {
+    							
+    							elem.append('<image class="newtext" src="'+encode+'"></p>');
+    						} else {
+    							elem.append('<p class="newtext">' + encode+ '</p>');
+    						}  */
+    						//child = $("<div/>").addClass("coord").append("X:<span class='left'>5</span>Y:<span class='top'>0</span>");
+    						//elem.append(child);
+    						//添加拖拽元素
+    						draggableAdd(elem);
+    					} else {
+    						
+    						$("."+name).remove();
+    						
+    					}
+    			});
+
+    		$(".draggable").mouseenter(function() {
+    			$(this).children(".coord").show(500);
+    		});
+    		$(".draggable").mouseleave(function() {
+    			$(this).children(".coord").hide(500);
+    		})
+     })
+	var imageState = $!templatePrint.printImageState;
+	var barcodesState = $!templatePrint.barcodesState;
+	var qRcodeState = $!templatePrint.qRcodeState;
+	var orderIdState  = $!templatePrint.orderIdState;
+	var choose = $!templatePrint.templateChoose;
+	if(choose==1){
+		$("input[name='barcodes']").parent().hide();
+		$("input[name='pimages']").parent().hide();
+	}
+	if(choose==2){
+		$("input[name='barcodes']").parent().show();
+		$("input[name='pimages']").parent().show();
+	}
+	
+	//console.log(imageState);
+	if(imageState==false){
+		$(".productImage").hide();
+	}else{
+		$(".productImage").show();
+	}
+	if(barcodesState==false){
+		$("#barcodes").hide();
+	}else{
+		$("#barcodes").show();
+	}
+	if(qRcodeState==false){
+		$(".orderQR").hide();
+	}else{
+		$(".orderQR").show();
+	}
+	if(orderIdState==false){
+		$(".orderId").hide();
+	}else{
+		$(".orderId").show();
+	}
+	
+ 	$("input[name='qRcode']").click(function(){
+		if($(this).is(':checked')){
+			$(".orderQR").show();
+		}else{
+			$(".orderQR").hide();
+		}
+ 	});
+ 	$("input[name='orderId']").click(function(){
+			if($(this).is(':checked')){
+				$(".orderId").show();
+			}else{
+				$(".orderId").hide();
+			}
+ 	});
+ 	$("input[name='pimages']").click(function(){
+			if($(this).is(':checked')){
+				$(".productImage").show();
+			}else{
+				$(".productImage").hide();
+			}
+ 	});
+ 	 $("input[name='barcodes']").click(function(){
+			if($(this).is(':checked')){
+				$("#barcodes").show();
+			}else{
+				$("#barcodes").hide();
+			}
+ 	});
+ 	 
+ 	$("input[name='templateChoose']").change(function(){
+			if($(this).val()==1){
+				$("input[name='barcodes']").parent().hide();
+				$("input[name='pimages']").parent().hide();
+			}
+			if($(this).val()==2){
+				$("input[name='barcodes']").parent().show();
+				$("input[name='pimages']").parent().show();
+			}
+ 	});
+ 	$("#print1").on('click',function(){
+ 		$("#printTemplate1").printThis({
+ 	        debug: false,
+ 	        importCSS: true,
+ 	        importStyle: true,
+ 	        printContainer: true,
+ 	        pageTitle: "打印",
+ 	        removeInline: false,
+ 	        printDelay: 333,
+ 	        header: null,
+ 	        formValues: true,
+ 	    });
+ 	});
+ 	$("#print2").on('click',function(){
+ 		$("#printTemplate2").printThis({
+ 	        debug: false,
+ 	        importCSS: true,
+ 	        importStyle: true,
+ 	        printContainer: true,
+ 	        pageTitle: "打印",
+ 	        removeInline: false,
+ 	        printDelay: 333,
+ 	        header: null,
+ 	        formValues: true,
+ 	    });
+ 	})
+ 	    
+ 	
+
+ 	    //返回
+ 		    $('.page-content').off('click','.form .grey-salsa').on('click', '.form .grey-salsa', function (e) {
+	    	var toUrl = $(this).attr("thref");
+		        var pageContent = $('.page-content');
+		        var pageContentBody = $('.page-content .page-content-body');
+		       
+		        //App.startPageLoading();
+		        $.ajax({
+		        	type: "POST",
+		            cache: false,
+		            url: "printOrder/allfan",
+		            dataType: "json",
+		          
+		            success: function (res) {
+	            			$('#modelContent').modal("hide");
+                            $('.modal-backdrop').hide();
+		            		pageContentBody.load(toUrl);
+		            },
+		            error: function (xhr, ajaxOptions, thrownError) {
+		                pageContentBody.html('<h4>服务器异常，请与管理员联系.</h4>');
+		                App.stopPageLoading();
+		            }
+		        });
+	      
+	    });
+ 	
+ 	
+ 	
+	
+ 	$(".portlet-body  div").draggable({cursor : 'move',revert : true,stop : function(event,ui){  
+ 		$(this).css("border-bottom",'1px solid').css('width','100%');
+ 		var left = ui.position.left;
+		var top = ui.position.top;
+    	var htmlval=$(this).parent().html();
+    		
+         editor1.html(htmlval);
+                 
+                
+            }});
+ 
+</script>

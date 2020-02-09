@@ -1,0 +1,108 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+		<div class="caption font-dark">
+			<i class="fa fa-cog font-dark"></i>
+			<span class="caption-subject bold">系统管理 > 接口管理> SQL控制台 </span>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form role="form" action="/sqlConsole/executeSql" class="form-horizontal" method="post">
+			<div class="form-actions right">
+				<a thref="#" class="btn green ajax-postss">
+					<i class="fa fa-check"></i>
+					执行
+				</a>
+			</div>
+			
+			<div class="form-body">
+				<div class="form-group">
+					<label class="control-label col-md-1">ERP数据源：</label>
+					<div class="col-md-1">
+						<select name="erpId" class="form-control" id="erpId" onchange="erpDataSourceChange(this) ;" required>
+							<option value="">--请选择--</option>
+							#foreach($erpLink in $erpLinks)
+							<option value="$!erpLink.id" data-name="$!erpLink.sourceName">$!erpLink.sourceName</option>
+							#end
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
+						<textarea rows="" cols="" name="sql"style="width: 100%;height: 300px ;resize:none" ></textarea>
+					</div>
+				</div>
+				<h3 class="form-section">输出信息</h3>
+				<div class="row" >
+						<div class="form-group" id="console-log">
+						</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+function erpDataSourceChange(obj) {
+	var erpId = $(obj).val();
+	if (erpId != "") {
+		$.get("/sqlConsole/testLink", { "id" : erpId }, function(result) {
+ 				if(result.code == 0){
+ 					toastr.success(result.msg);
+ 				}else if(result.code == 1){
+ 					toastr.warning(result.msg);
+ 				}
+		},"json");
+	}
+};
+
+
+$('.page-content').off('click','.form .ajax-postss').on('click', '.form .ajax-postss', function (e) {
+	if(!$("#erpId").val()){
+		toastr.warning("请选择数据源！");
+		return ;
+	}
+	var form = $(".form form[method=post]");
+    var url = form.attr("action");
+     $.ajax({
+     	type: "POST",
+         cache: false,
+         url: url,
+         dataType: "json",
+         data: form.serialize(),
+         success: function (res) {
+        	 $("#console-log").html("");
+        	 var resultData=res.data;
+        	 if(resultData){
+				 var table =$("<table id='console-table'></table>");   
+				 $.each(resultData,function(i,json){
+	        		 var late ="<tr class='console-tr'>";
+	        		 var head ;
+	        		 for (var ob in json) {
+	        			 if(i == 0 ){
+	        				 head = head +"<th>"+ob+"</th>";
+	        			 }
+	        			 late =late+"<td>"+json[ob]+"</td>";
+	        		 }
+	        		 late = late+"</tr>";
+	        		 if(head){
+	        			 head = "<tr class='console-tr'>"+head+"</tr>";
+	        			 late = head+late;
+	        		 }
+	        		 table.append(late);
+	        	 });
+	        	 $("#console-log").append(table);
+        	 }
+        	 if(res.executeResult){
+        		 for ( var test in res.executeResult) {
+        			 $("#console-log").append("<p>"+res.executeResult[test]+"</p>");
+				}
+        	 }
+        	 $("#console-log").append("<p>"+res.msg+"</p>");
+         },
+         error: function (xhr, ajaxOptions, thrownError) {
+             pageContentBody.html('<h4>服务器异常，请与管理员联系.</h4>');
+             App.stopPageLoading();
+         }
+     });
+});
+</script>
+<script src="/assets/plugins/bootstrap-select/js/components-bootstrap-select.js" type="text/javascript"></script>

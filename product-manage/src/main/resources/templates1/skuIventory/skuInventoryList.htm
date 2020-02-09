@@ -1,0 +1,239 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-search"></i>货品 > 库存管理 > 货品库存
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+		</div>
+		<div class="actions">
+			<a href="javascript:;" class="btn white btn-sm ajax-search"><i class="fa fa-search"></i>查询 </a> 
+			<a href="javascript:;" class="btn white btn-sm search-reset"><i class="fa fa-eraser"></i>清除 </a>
+		</div>
+	</div>
+	<div class="portlet-body form" style="display: block;">
+		<form action="/skuInventory/list" class="form-horizontal" method="get" id="searchForm" onsubmit="return false"> 
+			<div class="form-body">
+				<div class="row ">
+					<div class="col-md-3">
+						<label class="col-md-4 control-label">仓库</label>
+						<div class="col-md-8">
+					    	<select id="wareHId" name="wareHouseId" data-live-search="true" data-size="8"  class=" form-control" required>
+	                    		<option value="">--请选择--</option>
+	                    		#foreach($wareHouse in $!wareHouses)
+	                    		<option value="$!wareHouse.id" #if($wareHouseId == $!wareHouse.id) selected #end >$!wareHouse.corporateName</option>
+	                    		#end
+	                    	</select>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<label class="control-label col-md-4">货品名称：</label>
+						<div class="col-md-8">
+							<input class="form-control" id="nm" type="text" name="name" maxlength="10" value="$!name">
+						</div>
+					</div>
+					 
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cogs"></i>货品库存
+		</div>
+		
+		<div class="tools">
+			<a href="javascript:;" class="collapse" data-original-title="" title=""></a>
+		</div>
+		
+		<div class="actions">
+		<div class="btn-group " >
+				<button type="button" class="btn white btn-sm " data-toggle="dropdown"> 
+					<i class="fa fa-cloud-download"></i> 导出
+				</button>
+				<ul class="dropdown-menu pull-right" role="menu">
+					<li>
+						<a href="javascript:;" class="export-tab"> <i class="fa fa-cube"></i> 指定商品</a>
+					</li>
+					<li>
+						<a href="javascript:;" class="export-all"> <i class="fa fa-cubes"></i> 全部商品</a>
+					</li>
+				</ul>
+			</div>
+			<a href="#modelContent" thref="/skuInventory/editScore" class="btn white btn-sm  edit-model"  data-toggle="modal"><i class="fa fa-edit"></i>批量修改积分百分比</a>
+			<a href="#modelContent" thref="/skuInventory/editInventory" class="btn white btn-sm edit-model" data-toggle="modal"><i class="fa fa-edit"></i>批量修改库存</a>
+			<a href="#modelContent" thref="/skuInventory/editPrice" class="btn white btn-sm  edit-model"  data-toggle="modal"><i class="fa fa-edit"></i>批量修改价格</a>
+			<a href="#modelContent" thref="/skuInventory/editInventoryHint" class="btn white btn-sm  edit-model"  data-toggle="modal"><i class="fa fa-edit"></i>批量修改库存预警</a>
+		</div>
+	</div>
+	<div class="portlet-body">
+		<div class="table-container table-scrollable">
+			<table class="table table-bordered table-hover icheck-table" >
+				<thead>
+					<tr>
+					 	<th style="width: 20px">
+							<input type="checkbox" class="icheck group-icheck"/>
+						</th>
+						<th>货品编码</th>
+						<th>货品名称</th>
+						<th>分类</th>
+						<th>品牌</th>
+						<th>售价</th>
+						<th>积分</th>
+						<th>库存量</th>
+						<th>预警量</th>
+						<th>仓库</th>
+					</tr>
+				</thead>
+				<tbody>
+					#foreach ($!item in $!pageSku.result)
+					#set($prod = $!item.product)
+					#set($wareHouse = $!wareHouseMap.get($!item))
+					#set($quantity = $!inventoryMap.get($!item))
+					<tr class="odd gradeX">
+						<td>
+							<input type="checkbox" name="checkboxes" class="icheck" value="$!item.id" />
+						</td>
+						<td>
+						<p style="margin: 0">$!item.code</p>
+						</td>
+						<td>$!prod.name</td>
+						<td>$!prod.category.name</td>
+						<td>$!prod.brand.name</td>
+						<td>$!item.skuPrice</td>
+						<td>$!item.score</td>
+						<td>$!quantity</td>
+						<td>$!prod.inventoryHint</td>
+						<td>$!wareHouse</td>
+					</tr>
+					#end
+				</tbody>
+			</table>
+		</div>
+		#set($page=$pageSku)
+		#set($pageUrl="/skuInventory/list.do?$!queryString&pageNo=")
+		#parse("_page.htm")
+	</div>
+	<form id="downfile" action="" class="hide" method="POST">
+		<input type="hidden" name="name" id="name" value="">
+		<input type="hidden" name="wareHouseId" id="wareHouseId" value="$!wareHouseId">
+		<button type="submit"></button>
+	</form>
+</div>
+<script type="text/javascript">
+
+
+     $("input[name=code]").focus();
+     
+     
+     
+     function getcbvalue(){
+ 		var array = new Array()
+ 		var target= $("input[name='checkboxes']");
+ 		//循环加入数组
+ 		
+ 			$.each(target,function(i,v){
+ 				if(v.checked){
+ 					array.push($(v).val());
+ 				}
+ 			});
+		 	return array; 
+	  }
+     
+     
+     $(".edit-model").click(function(e){
+    	 var pageContentBody = $($(this).attr("href")).find(".modal-content");
+     	var pIdArray= getcbvalue();
+    	if(pIdArray.length>0){
+    	    e.preventDefault();
+	        var url = $(this).attr("thref");
+	        App.startPageLoading();
+	        $.ajax({
+	            type: "GET",
+	            cache: false,
+	            url: url,
+	            dataType: "html",
+	            data:{"id":pIdArray},
+	            success: function (res) {
+	                App.stopPageLoading();
+	                pageContentBody.html(res);
+	                Layout.fixContentHeight(); // 修复内容高度
+	            },
+	            error: function (xhr, ajaxOptions, thrownError) {
+	                pageContentBody.html('<h4>服务器异常!</h4>');
+	                App.stopPageLoading();
+	            }
+	        });
+    	}else{
+    		pageContentBody.html('<h4>请选择商品 ！</h4>');
+    	}
+     })
+         /**
+      *
+      * excel 导出
+      */
+     $(".export-tab").click(function(){
+    	 var wareHId = $("#wareHId").val();
+    	   $("#name").val($("#nm").val());
+    	 if(wareHId!=""){
+    		$("#wareHouseId").val(wareHId);
+   		    $("#downfile").attr("action","/skuInventory/downloadExcel");
+   			$("#downfile").submit();
+    	 }else{
+    		 toastr.warning("请选择仓库");
+    	 }
+     })
+     
+     
+ 	/**
+      *
+      * 导入excel 
+      */
+     $(".import-tab").change(function(){
+    	 var source=$(this);
+    	 var file = source.context.files[0];
+    	 var formdata = new FormData();  
+    	 formdata.append('file',file);
+ 	 	 formdata.append('flag',$("#flag").val());
+    	 $.ajax({
+ 			url : '/productSale/importExcel',
+ 			type : 'POST',
+ 			data : formdata,
+ 			async : false,
+ 			cache : false,
+ 			contentType : false,
+ 			processData : false,
+ 			dataType :"JSON",
+ 			success : function(data) {
+ 				if(data.code == 0){
+ 					toastr.success(data.msg);
+ 					pageContentBody.load("/productWarehouse/list");
+ 				}else{
+ 					 $.each(data,function(i,v){
+ 						 toastr.warning(v);
+ 					 })
+ 				}
+ 			} 
+ 		});
+    	 
+     })
+     /*
+      *  excel 导出全部
+      */
+     $(".export-all").click(function(){
+    	 	$("#name").val("");
+	    	$("#wareHouseId").val(0);
+  		    $("#downfile").attr("action","/skuInventory/downloadExcel");
+  			$("#downfile").submit();
+     })  
+     
+</script>
+<script type="text/javascript" src="/assets/scripts/views-permission.js"></script>
+<script type="text/javascript" src="/assets/scripts/views-icheck.js"></script>

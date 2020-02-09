@@ -1,0 +1,46 @@
+<div class="portlet light bordered">
+	<div class="portlet-body form resultsTable">
+		<form action="/productRecommend/add" class="form-horizontal" method="post">
+			<div class="table-container table-scrollable">
+				<table class="table table-bordered table-hover icheck-table">
+					<thead>
+						<tr>
+							<th style="width: 20px"><input type="checkbox" class="icheck group-icheck"></th>
+							<th>货品SKU编号</th>
+							<th>规格</th>
+							<th>货品名称</th>
+							<th>货品价格</th>
+							<th>当前库存</th>
+							<th>上下架</th>
+						</tr>
+					</thead>
+					<tbody>
+						#foreach ($!item in $!skus)
+						<tr class="odd gradeX">
+							<td>
+								<input type="checkbox" class="icheck" name="productId" value="$!item.id">
+							</td>
+							
+							<td>$!item.code</td>
+							<td>$!item.attrAndAttrValues</td>
+							<td>$!prod.name</td>
+							<td>$!item.skuPrice</td>
+							<td>$!item.inventory</td>
+							<td>
+							<input type='checkbox' #if($!item.flag=='true') checked #end data-size='small' class='make-switch'  sendid="$!{item.id}" data-on-color='success' data-off-color='warning' />
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="form-actions right">
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-icheck.js"></script>
+<script type="text/javascript">
+	bootstrapSwitch.init({url:"product/switchSkuFlag",ontext:"√",offtext:"×"});
+</script>

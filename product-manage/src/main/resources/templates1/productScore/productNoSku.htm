@@ -1,0 +1,89 @@
+<label class="control-label col-md-2">货品SKU：</label>
+<div class="col-md-10">
+	<div class="table-scrollable">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+				 
+					<th class="text-center">Sku-ERP编码</th>
+					<th class="text-center">兑换积分</th>
+					<th class="text-center">所需金额</th>
+					<th class="text-center">可兑换数量</th>
+					<th class="text-center">条形码</th>
+					<th class="text-center">体积(m³)</th>
+					<th class="text-center">重量(kg)</th>
+					<th class="text-center">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				#foreach($sku in $!skus)
+				#set($temp = $velocityCount - 1)
+				<tr>
+					<td>
+					    <input type="hidden" name="skus[$!temp].productId" value="$!sku.productId">
+					    <input type="hidden" name="skus[$!temp].taxId" value="$!sku.taxId">
+					    <input type="hidden" name="skus[$!temp].tax" value="$!sku.tax">
+						<input type="hidden" name="skus[$!temp].id" value="$!sku.id">
+						<input type="hidden" name="skus[$!temp].attrValues" value="$!sku.attrValues">
+						<input type="hidden" name="skus[$!temp].attrAndAttrValues" value="$!sku.attrAndAttrValues">
+						<input type="text" name="skus[$!temp].code" value="$!sku.code" class="input-sm input-xsmall">
+						<input type="hidden" name="skuAttrs[$!temp][0].attrId" value="0">
+						<input type="hidden" name="skuAttrs[$!temp][0].attrValueId" value="0">
+						<input type="hidden" name="skus[$!temp].auxUnitName" value="" class="auxUnitName">
+						<input type="hidden" name="skus[$!temp].storageLocation" value="$!sku.storageLocation">
+						<input type="hidden" name="skus[$!temp].name" value="$!sku.name">
+						<input type="hidden"   name="skus[$!temp].erpCode" value="$!sku.erpCode" class="input-sm sku-code input-xsmall">
+						<input type="hidden" name="skus[$!temp].imageUrl" value="$!sku.imageUrl">
+					</td>
+					<td>
+						<input class="input-sm input-xsmall" type="text" name="skus[$!temp].score" value="$!sku.score">
+					</td>
+					<td>
+						<input type="text" name="skus[$!temp].skuPrice" value="$!sku.skuPrice" class="input-sm input-xsmall positiveFloatNum2" required>
+					</td>
+					<td>
+						<input type="text" name="skus[$!temp].exchangeAmout" value="$!sku.exchangeAmout" class="input-sm input-xsmall" required>
+					</td>
+					<td>
+						<input class="input-sm input-xsmall" type="text" name="skus[$!temp].barCode" value="$!sku.barCode">
+					</td>
+					<td>
+						<input type="text" name="skus[$!temp].volume" value="$!sku.volume" class="input-sm input-xsmall positiveFloatNum2" required>
+					</td>
+					<td>
+						<input type="text" name="skus[$!temp].weight" value="$!sku.weight" class="input-sm input-xsmall positiveFloatNum2" required>
+						<input type="hidden" value='1' name="skus[$temp].flag" />
+					</td>
+					<td>
+					
+                   	</td>
+				</tr>
+				#end
+			</tbody>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+	MyTouchSpin.init1()
+	function uploadSkuImage(obj) {
+		var formData = new FormData();
+        formData.append("file", obj.files[0]);   
+		$.ajax({
+			url: "/uploadSkuImage.do",
+			type: "post",
+			data: formData,
+			contentType: false,
+			processData: false,
+			dataType: "json",
+			success: function(res) {
+				$(obj).next().val(res.skuImage)
+			}
+		})
+	}
+	
+	function unitName(){
+    	var unitName = $("form .unitName option:selected").text();
+    	$(".auxUnitName").val(unitName);
+	}
+	unitName();
+</script>

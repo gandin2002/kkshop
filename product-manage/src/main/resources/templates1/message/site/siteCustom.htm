@@ -1,0 +1,208 @@
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="tabbable-line ">
+			<ul class="nav nav-tabs ">
+				<li><a href="/messageSite/siteTemplates" class="ajaxify">站内消息模板</a></li>
+				<li class="active"><a href="/messageSite/custom" class="ajaxify">自定义消息</a></li>
+				<li><a href="/messageSite/sendBox" class="ajaxify">发件箱</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="portlet-body form">
+					<form role="form" action="/messageSite/sendMsg" class="form-horizontal" method="post" enctype="multipart/form-data">
+			        	<div class="form-body">
+			        		<div class="form-group"> 
+			        			<label class="col-md-3 control-label">收信用户类型:</label>
+			        			 <div class="col-md-7 form-control-static">
+			        			 	<label class="mt-radio mt-radio-outline">会员:<input  type="radio" name="userType" value="true" checked ><span></span></label>
+			        			 	<label class="mt-radio mt-radio-outline" >企业:<input type="radio" name="userType" value="false"  ><span></span></label>
+			        			 </div>
+			        		</div>
+				            <div class="form-group" id="user" >
+				                <label class="col-md-3 control-label">收信会员ID：</label>
+				                <div class="col-md-7">
+				                	<select class="js-data-user-ajax form-control" name="userId">
+									  
+									</select>
+				                </div>
+				            </div>
+				            <div class="form-group" id="company" style="display: none;" >
+				                <label class="col-md-3 control-label">收信企业ID：</label>
+				                <div class="col-md-7">
+				                	<select class="js-data-company-ajax form-control" name="companyId">
+									  
+									</select>
+				                </div>
+				            </div> 
+				            <div class="form-group">
+				            	 <label class="col-md-3 control-label">消息标题：</label>
+				            	 <div class="col-md-7">
+				            	 	<input type="text" class="form-control" name="title">
+				            	 </div>
+				            </div>
+				            <div class="form-group">
+				            	<label class="col-md-3 control-label">消息内容类型：</label>
+				            	<div class="col-md-7 form-control-static">
+				            		<label class="mt-radio mt-radio-outline">活动公告:<input type="radio" value="NEWS" name="messageContentType" checked><span></span></label>
+				            		<label class="mt-radio mt-radio-outline">通知消息:<input type="radio" value="INFORM" name="messageContentType" ><span></span></label>
+				            	</div>
+				            </div>
+				            <div class="form-group">
+				            	<label class="col-md-3 control-label">消息内容：</label>
+				            	<div class="col-md-7">
+				            		<textarea class="form-control" name="content" id="textContent" style="width:100%;height:400px;"></textarea>
+				            	</div>
+				            </div>
+				       </div>
+						<div class="form-actions right">
+				          <div class="row">
+				              <div class="col-md-offset-3 col-md-4">
+				                  <a href="javascript:;" class="btn green ajax-post"><i class="fa fa-save"></i> 保存</a>
+				              </div>
+				          </div>
+				      </div>
+				  </form>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-kindeditor.js"></script>
+<script type="text/javascript">
+var url = "userInfo/getAllUser";
+$("input[name='userType']").on("click",function(){
+	var  state= $(this).val();
+	if(state =="false"){
+		$('#user').hide();
+		$("#company").show();
+	}else{
+		$('#user').show();
+		$("#company").hide();
+	}
+})
+function formatCompany(repo){
+	  if (repo.loading) {
+		    return repo.text;
+	  }
+	  var markup = "<div class='select2-result-repository clearfix'>"
+					    + "<div class='select2-result-repository__avatar'><img src= 'assets/images/default.png' /></div>"
+		 			 	+ "<div class='select2-result-repository__meta'>"
+		 			 		+ "<div class='select2-result-repository__title'>" + repo.name+"</div>"
+		 			 		+ "<div class='select2-result-repository__description'>等级："+ repo.level + "</div>"
+		 			 		+ "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i>  专管员  ："+ repo.specialManager+ "</div>"
+		 			 		+ "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i>企业地址："+repo.city + repo.address+ " Watchers</div>"
+		 			 	+ "</div>"
+		 			+"</div>";
+	  return markup;
+}
+
+function formatUser(repo) {
+	  if (repo.loading) {
+		    return repo.text;
+	  }
+	var markup = "<div class='select2-result-repository clearfix'>"
+					+ "<div class='select2-result-repository__avatar'><img src= '"+repo.imageUrl+"' /></div>"
+					+ "<div class='select2-result-repository__meta'>"
+							+ "<div class='select2-result-repository__title'>" + repo.id+"</div>"
+							+ "<div class='select2-result-repository__description'>"+ repo.realname + "</div>"
+							+ "<div class='select2-result-repository__statistics'>"
+							+ "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i>手机号 ： "+ repo.phone+ "</div>"
+							+ "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i>  昵称  ："+ repo.nickname+ "</div>"
+							+ "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i>最后登录时间："+ repo.lastLoginTime + " Watchers</div>"
+							+"</div>"
+						+"</div>"
+					+"</div>";
+	return markup;
+}
+
+function formatRepoSelection(repo) {
+	return   repo.id;
+}
+
+$(' .js-data-user-ajax').select2({
+	ajax : {
+		url : "userInfo/getAllUser",
+		 dataType: 'json',
+		delay : 250,
+		async : false,
+		data : function(params) {
+			var term= params.term ; 
+			var map = {};
+			if(!isNaN(term)&&term.length != 0){
+				map["id"] = parseInt(term); 
+				map["phone"] = term; 
+				if(parseInt(term) > 2147483647){
+					delete va["id"];
+				}
+			}else{
+				map["str"] = term; 
+			}
+			return {
+				id: map["id"], 
+				phone: map["phone"], 
+				str:map["str"] ,
+				pageNo : params.page||1
+			};
+		},
+		processResults: function (data, params) {
+		    params.page = params.page || 1;
+
+		    return {
+		        results: data.result,
+		        pagination: {
+		            more: (params.page * 10) < data.totalCount
+		        }
+		    };
+		},
+		cache : true
+	},
+	width : "off",
+	escapeMarkup : function(markup) {
+		return markup;
+	},
+	placeholder:'请选择',
+	minimumInputLength : 1,
+	language: "zh-CN",  
+	templateResult : formatUser,
+	templateSelection : formatRepoSelection
+});
+$(".js-data-company-ajax").select2({
+	ajax : {
+		url : "companyMember/getCompany",
+		 dataType: 'json',
+		delay : 250,
+		async : false,
+		data : function(params) {
+			return {
+				str:params.term,
+				pageNo : params.page||1
+			};
+		},
+		processResults: function (data, params) {
+		    params.page = params.page || 1;
+
+		    return {
+		        results: data.result,
+		        pagination: {
+		            more: (params.page * 10) < data.totalCount
+		        }
+		    };
+		},
+		cache : true
+	},
+	width : "off",
+	escapeMarkup : function(markup) {
+		return markup;
+	},
+	placeholder:'请选择',
+	minimumInputLength : 1,
+	language: "zh-CN",  
+	templateResult : formatCompany,
+	templateSelection : formatRepoSelection
+});
+
+</script>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 ,maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/weui.min.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/jquery-weui.min.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/css/common.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/css/member.css">
+    <script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/plugins/fancybox/lib/jquery-1.10.1.min.js"></script>
+    <script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/jquery-weui.min.js"></script>
+</head>
+<body class="view-container">
+<div class="header bar-positive">
+    <a href="" class="left"><img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/blockr.png"/></a>
+    <h1>创建企业会员</h1>
+    <a href="" class="right"><img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/more.png"/></a>
+</div>
+<div class="contanen examine_con">
+    <h2>负责人信息</h2>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cells add_botm">
+            <a class="weui-cell weui-cell_access popup_wu" href="../personIn/charge.html">
+                <div class="weui-cell__hd"><label class="weui-label">手机号</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" placeholder="请选择/填写负责人手机号(必填)" required>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+        </div>
+    </div>
+        <h2>基本信息</h2>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请填写企业名称（必填）" required>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="date" class="weui-label">地区选择</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" id="end" type="text" placeholder="请选择地区（必填）">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">订单审核</label></div>
+            <div class="weui-cell__bd">
+                <input type="radio" value="" id="item1" name="sex" class="radio_ch" checked><label for="item1" class="redio redio1"></label><span>审核</span>
+                <input type="radio" name="sex" id="item2" value="" class="radio_ch"><label for="item2" class="redio"></label><span>免审核</span>
+            </div>
+        </div>
+        <div class="weui-cells add_botm">
+            <a class="weui-cell weui-cell_access popup_wu" href="../personIn/specialist.html">
+                <div class="weui-cell__hd"><label class="weui-label">专营员</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" placeholder="超级管理员（必填）" required>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+        </div>
+    </div>
+        <h2>账户额度</h2>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">信用额度</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="10000.00" required>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">账单日</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" id="job" placeholder="15" required>
+            </div>
+        </div>
+        <div class="weui-cells add_botm">
+            <a class="weui-cell weui-cell_access popup_wu" href="../member/business.html">
+                <div class="weui-cell__hd"><label class="weui-label">营业执照信息</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" placeholder="请填写或选择营业执照信息（必填）" required>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="deliver-list">
+        <div class="weui-cells">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <h2>更多信息</h2>
+                </div>
+                <div class="weui-cell__ft">
+                    点击折叠
+                    <i class="icon icon-top"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="deliver-lists">
+        <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">企业详细地址</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请填写企业详细地址">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">地区右边</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="number" placeholder="请填写企业地区邮编">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">企业电话</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请填写企业电话" id="city" />
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">企业传真</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="number" placeholder="请填写企业传真电话">
+            </div>
+        </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">企业网址</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" placeholder="请填写企业网址">
+                </div>
+            </div>
+        </div>
+            <div class="examine">
+                <h2>企业规模</h2>
+                <div class="exam">
+                <input type="radio" value="" id="item3"  name="examine" class="radio_ch" checked /><label for="item3">20人以下</label>
+                <input type="radio" value="" id="item4"  name="examine" class="radio_ch" /><label for="item4">20-99人</label>
+                <input type="radio" value="" id="item5"  name="examine" class="radio_ch" /><label for="item5">100-300人</label>
+                <input type="radio" value="" id="item6" name="examine" class="radio_ch" /><label for="item6">300-500人</label>
+                <input type="radio" value="" id="item7" name="examine" class="radio_ch" /><label for="item7">500-1000人</label>
+                <input type="radio" value="" id="item8" name="examine" class="radio_ch" /><label for="item8">1000人以上</label>
+                </div>
+                <h2>企业性质</h2>
+                <div class="exam">
+                    <input type="radio" value="" id="item9"  name="nature" class="radio_ch" checked /><label for="item9">民营企业</label>
+                    <input type="radio" value="" id="item10"  name="nature" class="radio_ch" /><label for="item10">上市公司</label>
+                    <input type="radio" value="" id="item11"  name="nature" class="radio_ch" /><label for="item11">国企</label>
+                    <input type="radio" value="" id="item12" name="nature" class="radio_ch" /><label for="item12">国有控股</label>
+                    <input type="radio" value="" id="item13" name="nature" class="radio_ch" /><label for="item13">上市公司</label>
+                    <input type="radio" value="" id="item14" name="nature" class="radio_ch" /><label for="item14">私企</label>
+                </div>
+                <h2>行业分类</h2>
+                <div class="exam">
+                    <input type="radio" value="" id="item15"  name="classification" class="radio_ch" checked /><label for="item15">软件行业</label>
+                    <input type="radio" value="" id="item16"  name="classification" class="radio_ch" /><label for="item16">汽车行业</label>
+                    <input type="radio" value="" id="item17"  name="classification" class="radio_ch" /><label for="item17">制造行业</label>
+                    <input type="radio" value="" id="item18" name="classification" class="radio_ch" /><label for="item18">软件行业</label>
+                    <input type="radio" value="" id="item19" name="classification" class="radio_ch" /><label for="item19">制造行业</label>
+                    <input type="radio" value="" id="item20" name="classification" class="radio_ch" /><label for="item20">汽车行业</label>
+                </div>
+                <h2>企业等级</h2>
+                <div class="exam">
+                    <input type="radio" value="" id="item21"  name="grade" class="radio_ch" checked /><label for="item21">一级会员</label>
+                    <input type="radio" value="" id="item22"  name="grade" class="radio_ch" /><label for="item22">二级会员</label>
+                    <input type="radio" value="" id="item23"  name="grade" class="radio_ch" /><label for="item23">三级会员</label>
+                    <input type="radio" value="" id="item24" name="grade" class="radio_ch" /><label for="item24">四级会员</label>
+                    <input type="radio" value="" id="item25" name="grade" class="radio_ch" /><label for="item25">五级会员</label>
+                    <input type="radio" value="" id="item26" name="grade" class="radio_ch" /><label for="item26">六级会员</label>
+                </div>
+            </div>
+
+
+    </div>
+</div>
+<div class="check bu_examine">
+    <button class="no-button">提交</button>
+</div>
+</body>
+<script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/city/city-data.js"></script>
+<script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/city/city-picker.js"></script>
+<script>
+    $("#end").cityPicker({});
+    $(".deliver-list .weui-cell__ft").on('click',function(){
+        console.log(1);
+        var That = $(this).find("i");
+        if(That.hasClass("icon-bottom")){
+            That.removeClass("icon-bottom");
+            $(".deliver-lists").css("display","block")
+        }else{
+            That.addClass("icon-bottom");
+            $(".deliver-lists").css("display","none")
+        }
+    })
+    $("#job").select({
+        title: "选择账单日",
+        items: ["1", "2", "3", "4", "5", "6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28"]
+    });
+</script>
+</html>

@@ -1,0 +1,245 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">编辑信息</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/skuWareLocation/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+        			
+                 <div class="form-group">
+                     <label class="control-label col-md-3">*货品信息：</label>
+                     <div class="col-md-5">
+                         <select class="js-data-sku-ajax form-control" name="skuId" required>
+                         	<option value="$!item.skuId" selected>$!item.skuName</option>
+						 </select>
+						 <input type="hidden" name="id" id="id" value="$!item.id"/>
+						 <input type="hidden" name="skuName" id="skuName" value="$!item.skuName"/>
+						 <input type="hidden" name="skuCode" id="skuCode" value="$!item.skuCode"/>
+						 <input type="hidden" name="barCode" id="barCode" value="$!item.barCode"/>
+						 <input type="hidden" name="attrName" id="attrName" value="$!item.attrName"/>
+                     </div>
+                 </div>
+                 
+                 <div class="form-group">
+                     <label class="control-label col-md-3">*仓库名称：</label>
+                     <div class="col-md-5">
+                         <select class="js-data-wareHouse-ajax form-control" name="wareHouseId" required>
+                         	<option value="$!item.wareHouseId" selected>$!item.wareHouseName</option>
+						 </select>
+						 <input type="hidden" name="wareHouseName" id="wareHouseName" value="$!item.wareHouseName"/>
+                     </div>
+                 </div>
+
+                 <div class="form-group">
+                     <label class="control-label col-md-3">*库位：</label>
+                     <div class="col-md-5">
+                         <select class="form-control locationId-select" name="locationId" required>
+                         	<option value="">--请选择--</option>
+                         	<option value="$!item.locationId" selected>$!item.localtionName</option>
+						 </select>
+						 <input type="hidden" name="localtionName" id="localtionName" value="$!item.localtionName"/>
+                     </div>
+                     <script type="text/javascript">
+                     $("form").on("change",".locationId-select",function(){
+							var localtionName = $(this).find("option:selected").text()
+							$("#localtionName").val(localtionName);
+						})
+                     </script>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">是否默认：</label>
+                     <div class="col-md-5">
+						<div class="mt-radio-inline">
+	                        <label class="mt-radio">
+	                           <input type="radio" name="isDefault"  value="1" #if($item.isDefault) checked #end >是
+	                           <span></span>  
+	                       </label>
+							<label class="mt-radio">
+							<input type="radio" name="isDefault"  value="0" #if(!$item.isDefault) checked #end  >否
+                          <span></span>
+                        </label>
+						</div>
+						
+                     </div> 
+                 </div>	
+                 <div class="form-group">
+                     <label class="control-label col-md-3">状态：</label>
+                     <div class="col-md-5">
+						<div class="mt-radio-inline">
+							<label class="mt-radio">
+							<input type="radio" name="status"  value="0" #if(!$item.status) checked #end>停用
+                          <span></span>
+                        </label>
+                        <label class="mt-radio">
+                           <input type="radio" name="status"  value="1" #if($item.status) checked #end >启用
+                           <span></span>  
+                       </label>
+						</div>
+						
+                     </div> 
+                 </div>	
+                 
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/skuWareLocation/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" >
+
+
+function formatSkuInfo(repo) {
+	if (repo.loading) {
+	   return repo.text;
+	}
+	var markup = "<div class='select2-result-repository clearfix'>"
+					+ "<div class='select2-result-repository__avatar'><img src= '"+repo.imageUrl+"' /></div>"
+					+ "<div class='select2-result-repository__meta'>"
+							+ "<div class='select2-result-repository__title'>" + repo.name+"</div>"
+							+ "<div class='select2-result-repository__description'>"+ repo.barCode + "</div>"
+							+ "<div class='select2-result-repository__statistics'>"
+							+ "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i>规格 ： "+ repo.attrName+ "</div>"
+							+ "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i>  商城价格  ："+ repo.skuPrice+ "</div>"
+							+"</div>"
+						+"</div>"
+					+"</div>";
+	return markup;
+}
+
+function formatSkuSelection(repo) {
+	
+	if(repo.name && repo.code) {
+		$('#skuName').val(repo.name);
+		$('#skuCode').val(repo.code);
+		$('#barCode').val(repo.barCode);
+		$('#attrName').val(repo.attrName);
+		
+	}
+	return   repo.name || repo.text ;
+}
+
+$(' .js-data-sku-ajax').select2({
+	ajax : {
+		url : "skuWareLocation/getSkuInfo",
+		dataType: 'json',
+		delay : 250,
+		async : false,
+		data : function(params) {
+			var term= params.term ; 
+			var map = {};
+			if( term.length != 0){
+				map["code"] = term ; 
+				map["name"] = term; 
+				
+			} 
+			return {
+				code: map["code"], 
+				name: map["name"], 
+				pageNo : params.page||1
+			};
+		},
+		processResults: function (data, params) {
+		    params.page = params.page || 1;
+		    return {
+		        results: data.result,
+		        pagination: {
+		            more: (params.page * 10) < data.totalCount
+		        }
+		    };
+		},
+		cache : true
+	},
+	width : "off",
+	escapeMarkup : function(markup) {
+		return markup;
+	},
+	placeholder:'请选择',
+	minimumInputLength : 1,
+	language: "zh-CN",
+	templateResult : formatSkuInfo,
+	templateSelection : formatSkuSelection
+});
+
+$('.js-data-wareHouse-ajax').select2({
+	ajax : {
+		url : "skuWareLocation/getWareHouseSearch",
+		dataType: 'json',
+		delay : 250,
+		async : false,
+		data : function(params) {
+			var term= params.term ; 
+			var map = {};
+			if( term.length != 0){
+				map["name"] = term; 
+				
+			} 
+			return {
+				name: map["name"], 
+				pageNo : params.page||1
+			};
+		},
+		processResults: function (data, params) {
+		    params.page = params.page || 1;
+		    return {
+		        results: data.result,
+		        pagination: {
+		            more: (params.page * 10) < data.totalCount
+		        }
+		    };
+		},
+		cache : false
+	},
+	width : "off",
+	escapeMarkup : function(markup) {
+		return markup;
+	},
+	placeholder:'请选择',
+	minimumInputLength : 1,
+	language: "zh-CN",
+	templateResult : formatWareHouseInfo,
+	templateSelection : formatWareHouseSelection
+});
+function formatWareHouseInfo(repo) {
+	if (repo.loading) {
+	   return repo.text;
+	}
+	var markup = "<div class='select2-result-repository clearfix'>"
+					+ "<div class='select2-result-repository__meta'>"
+							+ "<div class='select2-result-repository__title'>" + repo.name+"</div>"
+							+ "<div class='select2-result-repository__description'>"+ repo.adress + "</div>"
+							+ "<div class='select2-result-repository__statistics'>"
+							+ "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i>类型 ： "+ repo.typeName+ "</div>"
+							+ "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i>  联系人  ："+ repo.linkMan+ "</div>"
+							+"</div>"
+						+"</div>"
+					+"</div>";
+	return markup;
+}
+
+function formatWareHouseSelection(repo) {
+	if(repo.name) {
+		$('#wareHouseName').val(repo.name);
+	}
+	return   repo.name || repo.text ;
+}
+
+$('.js-data-wareHouse-ajax').change(function(){
+	var wareHouseId = $(this).val() ;
+	if(wareHouseId != '') {
+		$.getJSON('/skuWareLocation/getLocationsByWareId',{wareHouseId:wareHouseId},function(res){
+			var locations = res.data ;
+			var sel = $('.locationId-select');
+			$(".locationId-select option:not(:first)").remove();
+			$.each(locations, function(index, obj) {
+				var opt = "<option value='"+obj.id+"' >" + obj.name + "</option>";
+				sel.append(opt);
+			});
+		}) ;
+	}
+});
+</script>

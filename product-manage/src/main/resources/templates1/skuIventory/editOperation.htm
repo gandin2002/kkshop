@@ -1,0 +1,95 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">修改$!name</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="$!formUrl" class="form-horizontal" method="post">
+        	<div class="form-body">
+				<input type="hidden" value="$!id" name="idArray"/>
+				<div class="form-group">
+					<label class="control-label col-md-3">*操作类型: </label>
+					<div class="col-md-8 form-control-static">
+						#if($!name != "积分百分比")
+			    		<label class="mt-radio mt-radio-outline">增加$!name <input type="radio" value="MANUALLY_ADD" name="type" checked>
+							<span></span>
+						</label>
+						<label class="mt-radio mt-radio-outline">减少$!name
+						<input type="radio" value="MANUALLY_SUB" name="type">
+							<span></span>
+						</label>
+						#end
+						<label class="mt-radio mt-radio-outline">设置新$!name
+							<input type="radio" value="MANUALLY_NEW" name="type" #if($!name == "积分百分比") checked #end />
+							<span></span>
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">*#if($!name == "积分百分比") 修改积分百分比 #else 修改数量: #end </label>
+					<div class="col-md-8">
+						 <input type="number" #if($!name == "积分百分比") class="form-control " #else class="form-control positiveIntegerNum"  #end  name="number" id="number">
+					</div>
+				</div>
+<!--                  <div class="form-group"> -->
+<!--  					<div class="col-md-10">  -->
+<!--  						<h5 class="text-success text-right"><strong>注：所需经验值为0，视为新会员默认等级</strong></h5> -->
+<!--  					</div> -->
+<!--  				</div> -->
+            </div>
+            <div class="form-actions right">
+            	<!--  <a href="javascript:;"   class="btn green print"> 打印</a>-->
+				<a href="javascript:;" thref="/skuInventory/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	
+	$("#number").keyup(function(){
+		
+	 if ("$!name" == "积分百分比"){
+
+        	var value=parseInt($(this).val());
+		 
+        	
+        	if (/\b(0+)[0-9]+/.test($(this).val())){
+        		
+        		var s = $(this).val().replace("0",'');
+        		$(this).val(s);
+        		return ;
+        	}
+        	
+        
+        	
+        	
+        	
+        if(/[^\d]/.test($(this).val())){
+		
+		 var s = $(this).val().replace(/[^\d]/g,'');
+			 $(this).val(s);
+			 value = parseInt($(this).val());
+		 }
+        
+        if(isNaN(value) || value < 0 ){// 如果输入框没有值或小于1时，默认为1
+             $(this).val(0);
+         }else if(value > 100){// 如果输入框大于100时，默认为100
+         	$(this).val(100);
+         }
+		 
+	} 
+		
+	})
+	
+})
+
+<!--
+
+//-->
+MyTouchSpin.init();
+</script>

@@ -1,0 +1,49 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cogs"></i>已保存的银行账户：
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+		</div>
+		<div class="actions">
+			<a  href="#modelContent" thref="/bankSetup/add" data-toggle="modal"   class="btn white  ajax-model-get btn-sm" ><i class="fa fa-plus"></i>新增银行</a>
+		</div>
+	</div>
+	<div class="portlet-body">
+		<div class="table-container table-scrollable">
+			<table class="table table-bordered table-hover" id="productTable">
+				<thead>
+					<tr>
+						<th>银行</th>
+						<th>开户地区</th>
+						<th>开户支行</th>
+						<th>银行账号</th>
+						<th>启用状态</th>
+						<th class="col-md-2">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				#foreach($bankMap in $!sysParam.getSysListMap())
+ 					<tr>
+ 						<td>$!bankMap.bankName</td>
+ 						<td>$!bankMap.address</td>
+ 						<td>$!bankMap.openingBank</td>
+ 						<td>$!bankMap.cardBank</td>
+ 						<td>#if($!bankMap.display) 启用 #else 禁用 #end</td>
+ 						<td>
+ 							<a href="#modelContent" data-toggle="modal"  thref="/bankSetup/edit?id=$!bankMap.id" class="btn  btn-outline green btn-sm ajax-model-get " ><i class="fa fa-edit"></i>编辑</a>
+ 							<button t_msg="确定删除该银行账号吗？" thref="/bankSetup/delete?id=$!bankMap.id"  t_href="/bankSetup/display"  class="btn btn-outline green btn-sm ajax-update" ><i class="fa fa-expand"></i>删除</button>
+ 						</td>
+ 					</tr>
+ 				#end
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

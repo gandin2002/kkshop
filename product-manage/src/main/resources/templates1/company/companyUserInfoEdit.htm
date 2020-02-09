@@ -1,0 +1,168 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md" style="width: 800px;">
+		<div class="modal-content"></div>
+	</div>
+</div>
+
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cogs"></i>企业管理&gt; 负责人信息&gt; 编辑
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse" data-original-title=""
+				title=""> </a>
+		</div>
+	</div>
+	<div class="portlet-body">
+		<div class="tabbable-line ">
+			<ul class="nav nav-tabs">
+	            <li class="">
+	            <a href="/company/edit?id=$!companyId" class="ajaxify" ><font style="vertical-align: inherit;"><font
+				   style="vertical-align: inherit;"> 企业信息编辑 </font></font></a></li>
+	            <li class="active">
+	            <a href="/company/userinfoEdit?companyId=$!companyId" class="ajaxify" ><font style="vertical-align: inherit;"><font
+				    style="vertical-align: inherit;"> 负责人信息编辑</font></font></a></li>
+	            <li class="">
+	            <a href="/company/licenseEdit?companyid=$!companyId" class="ajaxify" ><font style="vertical-align: inherit;"><font
+				    style="vertical-align: inherit;"> 营业执照信息编辑</font></font></a></li>
+            </ul>
+			
+		</div>
+		<span></span>
+	 </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/company/userinfoEdit" class="form-horizontal" method="post">
+    	
+             <div class="form-body">
+             #if($item == "")
+             	<div class="form-group">
+					<div class="alert alert-warning">
+						<strong> 注：</strong>
+							该公司还没有负责人
+					</div>
+				</div>
+			#else		
+                 <div class="form-group">
+                	<label class="control-label col-md-3">会员号/昵称(非数字)：</label>
+                    <div class="col-md-5">
+                    	<input type="hidden" class="form-control" name="companyId" value="$!companyId">	
+                     	
+                    		<select class="js-data-user-ajax form-control" name="id" required>
+                     			<option value="$!item.id" selected>$!item.nickname</option> 
+						 	</select>
+                    	
+<!--                          <input type="number" max="2147483647" class="form-control typeahead" placeholder="请输入手机号" name="id" value="$!item.id" autocomplete="off"  required> 
+ -->                      
+                    </div>
+                </div>
+                
+                
+                 <div class="form-group">
+                     <label class="control-label col-md-3">昵称：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="nickname" id="nickname" value="$!item.nickname">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">*姓名：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="realname" id="realname" value="$!item.realname" required>
+                     </div>
+                 </div>
+			</div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/company/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="/company/list" class="btn btn-outline grey-salsa ajaxify">返回</a>
+            </div>
+                #end
+        </form>   
+    </div>
+</div>
+<script type="text/javascript">
+$('#element_id').cxSelect({
+  url: '/assets/plugins/cxSelect-master/js/cityData.min.json',               // 如果服务器不支持 .json 类型文件，请将文件改为 .js 文件
+  selects: ['province', 'city', 'area'],  // 数组，请注意顺序
+  emptyStyle: 'none'
+});
+
+
+
+function formatUser(repo) {
+	  if (repo.loading) {
+		    return repo.text;
+	  }
+	var markup = "<div class='select2-result-repository clearfix'>"
+					+ "<div class='select2-result-repository__avatar'><img src= '"+repo.imageUrl+"' /></div>"
+					+ "<div class='select2-result-repository__meta'>"
+							+ "<div class='select2-result-repository__title'>" + repo.id+"</div>"
+							+ "<div class='select2-result-repository__description'>"+ repo.realname + "</div>"
+							+ "<div class='select2-result-repository__statistics'>"
+							+ "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i>手机号 ： "+ repo.phone+ "</div>"
+							+ "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i>  昵称  ："+ repo.nickname+ "</div>"
+							+ "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i>最后登录时间："+(repo.lastLoginTime || "无记录时间 ") + "</div>"
+							+"</div>"
+						+"</div>"
+					+"</div>";
+	return markup;
+}
+
+function formatRepoSelection(repo) {
+	if(repo.realname) {
+		$('#realname').val(repo.realname) ;
+	}
+	if(repo.nickname) {
+		$('#nickname').val(repo.nickname) ;
+	}
+	return   repo.id;
+}
+
+$(' .js-data-user-ajax').select2({
+	ajax : {
+		url : "userInfo/getUser?companyId=$!companyId",
+		 dataType: 'json',
+		delay : 250,
+		async : false,
+		data : function(params) {
+			var term= params.term ; 
+			var map = {};
+			if(!isNaN(term)&&term.length != 0){
+				map["id"] = parseInt(term); 
+				map["phone"] = term; 
+				if(parseInt(term) > 2147483647){
+					delete va["id"];
+				}
+			}else{
+				map["str"] = term; 
+			}
+			return {
+				id: map["id"], 
+				phone: map["phone"], 
+				str:map["str"] ,
+				pageNo : params.page||1
+			};
+		},
+		processResults: function (data, params) {
+		    params.page = params.page || 1;
+
+		    return {
+		        results: data.result,
+		        pagination: {
+		            more: (params.page * 10) < data.totalCount
+		        }
+		    };
+		},
+		cache : true
+	},
+	width : "off",
+	escapeMarkup : function(markup) {
+		return markup;
+	},
+	placeholder:'请选择',
+	minimumInputLength : 1,
+	language: "zh-CN",
+	templateResult : formatUser,
+	templateSelection : formatRepoSelection
+});
+
+</script>

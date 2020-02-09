@@ -1,0 +1,303 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">编辑</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/wareHouse/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+        		<div class="form-group">
+                     <label class="control-label col-md-3">联系人：</label>
+                     <div class="col-md-5">
+                         <input type="hidden" class="form-control" name="id" value="$!item.id">
+                         <input type="text" class="form-control" name="linkman" value="$!item.linkman">
+                     </div>
+                 </div>
+        			
+                 <div class="form-group">
+                     <label class="control-label col-md-3">仓库名称：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="corporateName" value="$!item.corporateName">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                	 <label class="control-label col-md-3">*仓库类型：</label>
+	                    <div class="col-md-5">
+	                    	<select name="typeId"   data-live-search="true" data-size="8"  class=" form-control wareHouseType" required>
+	                    		<option value="">--请选择--</option>
+	                    		#foreach($wareHouseType in $!typeList)
+	                    		<option value="$!wareHouseType.id" #if($item.typeId == $wareHouseType.id ) selected #end >$!wareHouseType.name</option>
+	                    		#end
+	                    	</select>
+	                    	<input type="hidden" id="typeName" name="typeName" value="$!item.typeName">
+	                    </div>
+	                    <script type="text/javascript">
+							$("form").on("change",".wareHouseType",function(){
+								var typeName = $(this).find("option:selected").text()
+								$("#typeName").val(typeName);
+							})
+						</script>
+                 </div>
+                  <div class="form-group">
+                	 <label class="control-label col-md-3">仓库管理员：</label>
+	                    <div class="col-md-5">
+	                    	<select name="operId" multiple="multiple"  data-live-search="true" data-size="8"  class=" form-control houseName" required>
+	                    		<option value="">--请选择--</option>
+	                    		#foreach($operator in $!operatorlist)
+	                    		 #set($index=($velocityCount +(-1)))
+				     	         #set($index2=$velocityCount)
+	                    		<option value="$!operator.id" #if($!operator.multiSelected==2) selected="selected" #end>$!operator.username</option>
+	                    		#end
+ 	                    	</select>
+      
+               
+                       <input type="hidden" id="houseName" name="houseName" value="$!item.houseName">  
+                       <input type="hidden" id="operatorId" name="operatorId" value="$!item.operatorId">  
+                     </div>
+	                     <script type="text/javascript">
+	                     /* function getcbvalue(){
+	                    		var array = new Array()
+	                    		var target= $("input[name='checkboxes']");
+	                    		//循环加入数组
+	                    		
+	                    			$.each(target,function(i,v){
+	                    				if(v.checked){
+	                    					array.push($(v).val());
+	                    				}
+	                    			});
+	                    		 	return array; 
+	                    	 } */
+	                     
+	                        
+							$("form").on("change",".houseName",function(){
+								
+							    var houseName = $(this).find("option:selected").text();
+								$("#houseName").val(houseName);
+							
+								
+
+							})
+						</script> -
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">发货地址：</label>
+                     <div class="col-md-5">
+						<div class="mt-radio-inline">
+							<label class="mt-radio">
+							<input type="radio" name="shipAddress"  value="0"   #if($!item.shipAddress==0) checked #end>否
+                          <span></span>
+                        </label>
+                        <label class="mt-radio">
+                           <input type="radio" name="shipAddress"  value="1"  #if($!item.shipAddress==1) checked #end >是
+                           <span></span>  
+                       </label>
+						</div>
+						
+                     </div> 
+                 </div>	
+                 
+                 
+                 <div class="form-group">
+                     <label class="control-label col-md-3">门店显示状态：</label>
+                     <div class="col-md-5">
+						<div class="mt-radio-inline">
+							<label class="mt-radio">
+							<input type="radio" name="status"  value="0"   #if(!$!item.status) checked #end>否
+                          <span></span>
+                        </label>
+                        <label class="mt-radio">
+                           <input type="radio" name="status"  value="1"  #if($!item.status) checked #end >是
+                           <span></span>  
+                       </label>
+						</div>
+						
+                     </div> 
+                 </div>	
+                 
+                 
+                 
+                 
+                 
+                 <div class="form-group">
+                     <label class="control-label col-md-3">退货地址：</label>
+                     <div class="col-md-5">
+						<div class="mt-radio-inline">
+							<label class="mt-radio">
+							<input type="radio" name="withdrawAddress"  value="0"   #if($!item.withdrawAddress==0) checked #end>否
+                          <span></span>
+                        </label>
+                        <label class="mt-radio">
+                           <input type="radio" name="withdrawAddress"  value="1"  #if($!item.withdrawAddress==1) checked #end >是
+                           <span></span>  
+                       </label>
+						</div>
+						
+                     </div> 
+                 </div>	
+                 
+                 <div class="form-group">
+                     <label class="control-label col-md-3">地区邮编：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="regionCode" value="$!item.regionCode">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">座机号码：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="landlinePhone" value="$!item.landlinePhone">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">手机号码：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="mobilePhone" value="$!item.mobilePhone">
+                     </div>
+                 </div>
+               <div class="form-group">
+        				<label class="control-label col-md-3" style="margin-top: 0">东经：</label>
+        				<div class="col-md-5">
+        					<input type="number"  class="form-control"   name="eastLongitude" value="$!item.eastLongitude">
+        				</div>
+        		</div>
+        		<div class="form-group">
+        				<label class="control-label col-md-3" style="margin-top: 0">北纬：</label>
+        				<div class="col-md-5">
+        					<input type="number"  class="form-control"  name="northernLatitude" value="$!item.northernLatitude">
+        				</div>
+        		</div>
+        		<div class="form-group">
+ 					<label class="control-label col-md-3">所在地区:</label>
+ 					<div class="col-md-9">
+ 						<div id="element_id" class="row">
+ 						  <div class="col-md-4">
+						  	<select name="province" class=" form-control  province" >
+						  		<option value="$!item.province" selected = "selected">$!item.province</option>
+						  	</select>
+						  </div>
+						  <div class="col-md-4">
+						  	<select name="city"  class=" form-control  city">
+						  		<option value="$!item.city" selected = "selected">$!item.city</option>
+						  	</select>
+						  </div>
+						  <div class="col-md-4">
+						  	<select name="county"   class=" form-control  area">
+						  		<option value="$!item.county" selected = "selected">$!item.county</option>
+						  	</select>
+						  </div>
+						</div>
+ 					</div>
+ 				 </div>
+ 				 
+ 				 <div class="form-group">
+                     <label class="control-label col-md-3">是否默认仓库：</label>
+                     <div class="col-md-5">
+						<div class="mt-radio-inline">
+							<label class="mt-radio">
+							<input type="radio" name="isDefault"  value="0" #if(!$item.isDefault) checked #end>否
+                          <span></span>
+                        </label>
+                        <label class="mt-radio">
+                           <input type="radio" name="isDefault"  value="1" #if($item.isDefault) checked #end>是
+                           <span></span>  
+                       </label>
+						</div>
+						
+                     </div> 
+                 </div>	
+                 
+ 				  <div class="form-group">
+                     <label class="control-label col-md-3">详细地址：</label>
+                     <div class="col-md-9">
+                         <input type="text" class="form-control" name="address" value="$!item.address">
+                     </div>
+                 </div>
+                
+                 <div class="form-group">
+                     <label class="control-label col-md-3">备注：</label>
+                     <div class="col-md-9">
+                         <textarea  id="description" name="intro" style="width: 100%;height: 400px;">$!item.intro</textarea>
+                     </div>
+                 </div>
+             
+			     <div class="row">
+	        		<div class="form-group">
+	        			<label class="control-label col-md-3" style="margin-top: 0">图册：</label>
+	        			<div class="col-md-9">
+	        				<input type="file" class="uploadProdImage" multiple accept=".jpg,.bmp,.jpeg,.png">
+	        				<span>（最大1M，支持格式：jpg、bmp、png、jpeg） </span>
+	        			</div>
+	        		</div>
+	        	</div>
+	        	<div class="row wareHourseImage">
+	        		<div class="form-group">
+						<label class="control-label col-md-2"></label>
+						<div class="col-md-10 images">
+							 #foreach($prodImage in $!lsProdImage)
+							<div class="col-md-2 image" id="$!prodImage.id">
+								<div>
+									<img alt="" src="$!prodImage.imageUrl" width="100%" height="150px">
+									<input type="hidden" name="prodImage.imageUrl" value="$!prodImage.imageUrl">
+								</div>
+								<div class="btn-group btn-group-justified">
+									<a href="javascript:;" class="btn default moveLeft"><i class="fa fa-arrow-left"></i></a>
+									<a href="javascript:;" class="btn default moveRight"><i class="fa fa-arrow-right"></i></a>
+									<a href="javascript:;" class="btn default moveTrash"><i class="fa fa-trash"></i></a>
+								</div>
+							</div>
+							#end 
+						</div>
+					</div>
+	        	</div>
+        		  
+                
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/wareHouse/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript" src="/assets/scripts/views-wareHouse.js"></script>
+
+
+
+<script type="text/javascript">
+$('#element_id').cxSelect({
+  url: '/assets/plugins/cxSelect-master/js/cityData.min.json',               // 如果服务器不支持 .json 类型文件，请将文件改为 .js 文件
+  selects: ['province', 'city', 'area'],  // 数组，请注意顺序
+  emptyStyle: 'none'
+});
+
+
+
+	
+
+/**
+ * 上传图片
+
+$(".file").change(function(){
+	 var target=$(this);
+	 var file = target.context.files[0];
+	 var formdata = new FormData();  
+	 formdata.append('file',file); 
+	 
+	 	$.ajax({
+		url : '/platform/uploadImg',
+		type : 'POST',
+		data : formdata,
+		async : false,
+		cache : false,
+		contentType : false,
+		processData : false,
+		dataType :"JSON",
+		success : function(data) {
+			target.next().val(data.msg);
+		} 
+	});
+	 	 */ 	
+// });
+</script>

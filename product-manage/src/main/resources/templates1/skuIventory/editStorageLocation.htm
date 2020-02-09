@@ -1,0 +1,25 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">修改库存位</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="" class="form-horizontal" method="post">
+        	<div class="form-body">
+				<input type="hidden" value="$!id" name="idArray"/>
+				<div class="form-group">
+					<label class="control-label col-md-3">*修改后库位：</label>
+					<div class="col-md-8">
+						 <input type="text" class="form-control" name="storageLocation">
+					</div>
+				</div>
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/skuInventory/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="portlet box green">
+	<div class="portlet-title">
+	    <div class="caption"><i class="fa fa-cog"></i>页面设置 &gt; 商城自定义功能 &gt; 商城友情链接</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+    	</div>
+	</div>
+</div>
+
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"><a href="/bottomLink/add?loc=friend" class="btn white btn-sm ajaxify"><i class="fa fa-plus"></i>新增分组</a></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="dataTables_wrapper no-footer">
+			    <table class="table table-striped table-bordered table-hover" id="tableCategory">
+				  	<thead>
+						<tr>
+		   		 			<th>链接名称</th>
+		   		 			<th>图标</th>
+		   		 			<th>启用状态</th>
+		   		 			<th>类型</th>
+		   		 			<th>序号</th>
+							<th class="col-md-2">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					#foreach($item in $links)
+		  				<tr data-tt-id="$!item.id"  status='$!item.status' data-tt-parent-id="$!item.pid" id="$!item.id">  
+						    <td>$!item.name</td>
+						    <td><img alt="" src="$!imageUploadUrl$!item.image" width="25px" height="25px"></td>
+						    <td>#if($!item.status)√#else × #end</td>
+						    <td>$!item.loc.name</td>
+						    <td>$!item.sort</td>
+			    			<td nowrap>
+						    	<a class="btn green btn-outline btn-sm ajaxify"  href="/bottomLink/edit?id=$!item.id"> 
+									<i class="fa fa-edit"></i>修改
+								</a>
+								#if($!item.pid == 0 )
+								<a  href="/bottomLink/add?pid=$!item.id&loc=$!item.loc" class="btn green btn-outline btn-sm ajaxify" >
+								<i class="fa fa-edit"></i>新增链接</a>
+	    						#end
+								<a class="btn green btn-outline btn-sm ajax-delete" href="javascript:;" thref="/bottomLink/delete?id=$!item.id">
+									<i class="fa fa-trash"></i>删除
+								</a>
+						    </td>		  			
+		  				</tr>
+					#end
+					</tbody>
+				</table>
+			</div>
+		</div>
+    </div>
+<script type="text/javascript">
+
+$("#tableCategory").treetable({
+	expandable : true,
+	onInitialized : function(){
+		 
+	},
+	onNodeExpand: function(){
+		 
+	},
+});
+
+</script>
+

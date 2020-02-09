@@ -1,0 +1,141 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+		<div class="caption font-dark">
+			<i class="fa fa-cog font-dark"></i>
+			<span class="caption-subject bold">添加</span>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form role="form" action="/definePage/add" class="form-horizontal" method="post">
+			<div class="form-body">
+				<div class="form-group">
+					<label class="control-label col-md-2">页面名称：</label>
+					<div class="col-md-2">
+						<input type="text" class="form-control" name="name" maxlength="32">
+						<input type="hidden" class="form-control" name="quotes" value="0">
+						<input type="hidden" class="form-control" name="views" value="0">
+					</div>
+				</div>
+				
+				
+				<div class="form-group">
+					<label class="control-label col-md-2">页面类型：</label>
+					<div class="col-md-2" style="vertical-align: middle; margin-top: 7px;">
+						<input type="radio" name="types" value="2">
+						移动端
+						<input type="radio" name="types" value="1" checked>
+						PC端
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label col-md-2">所属模板：</label>
+					<div class="col-md-2" style="vertical-align: middle; margin-top: 7px;">
+						 <select name="templateId" class="form-control bs-select templateName"  data-size="8" >
+	                    	<option value="">请选择</option>
+	                    	#foreach($template in $!templates)
+		                    	<option value="$!template.id" >$!template.name</option>
+	                        #end
+	                    </select>
+	                    <input type="hidden" id="templateName" name="templateName" >
+					</div>
+					<script type="text/javascript">
+						$("form").on("change",".templateName",function(){
+							var templateName = $(this).find("option:selected").text()
+							$("#templateName").val(templateName);
+						})
+					</script>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label col-md-2">页面标题：</label>
+					<div class="col-md-3">
+						<input type="text" class="form-control" name="title">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">页面简介：</label>
+					<div class="col-md-5">
+						<textarea class="form-control" name="synopsis"></textarea>
+					</div>
+				</div>
+				<div class="form-group" style="height: 45px !important;">
+				    <label class="control-label col-md-2">文件上传:</label>
+				    <div class="col-md-5" style="vertical-align: middle;">
+				       	<input type="file" class="form-control col-md-5" style="height:auto !important;" name="uploadPath1">
+				    </div>
+				</div>
+				<div class="form-group" style="height: 45px !important;">
+				    <label class="control-label col-md-2">实际网址:</label>
+				    <div class="col-md-5" style="vertical-align: middle;">
+				       	<input type="text" class="form-control col-md-5 showPath" readonly="readonly"  style="height:auto !important;border: none !important;" >
+				    </div>
+				</div>
+				<div class="form-group" style="height: 45px !important">
+					<label class="control-label col-md-2">页面内容：</label>
+					<div class="col-md-10">
+						<textarea class="form-control" name="content" id="textContent"   style="width: 100%; height: 400px;"></textarea>
+					</div>
+				</div>
+
+			</div>
+			<div class="form-actions right">
+				<a href="javascript:;" thref="/definePage/list" class="btn green ajax-post">
+					<i class="fa fa-check"></i>
+					提交
+				</a>
+				<a href="/definePage/list" class="btn btn-outline grey-salsa ajaxify">返回</a>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+$(function() {
+	ComponentsSelect2.init() ;
+	
+	$("input[name='uploadPath1']").on("change",function(){
+		var path=$(this).val();
+		
+		var _this = $(this);
+		
+		files = this.files;
+		formData = new FormData();
+
+        for(var i=0; i<files.length;i++){
+        	/* var fileSize = parseInt(files[i].size / 1024).toFixed(0);
+     	    if (fileSize > 1024) {
+				showToolips("单张图片大小不要超过1M");
+     	        return false;
+     	    } */
+        	formData.append("file", files[i]);
+        };
+		
+	/* 	var form = new FormData(document.getElementById("formId")); */
+
+	    	//formData.append("file",files);
+	       
+        
+		if(path){
+			  $.ajax({
+			         type: "post",
+			         url: "/definePage/uploadPath1",
+			         contentType: false,
+					processData: false,
+					dataType: "json",
+			         data:formData,
+			         success: function (res) {
+			        	
+			        	 $(".showPath").val(res);
+			        	
+			        	 toastr.success("上传成功");
+			            
+			         },
+			         error: function (xhr, ajaxOptions, thrownError) {
+			        	 toastr.warning("请输入正确地址");
+			             App.stopPageLoading();
+			         }
+			     });
+		}
+	})
+})
+</script>

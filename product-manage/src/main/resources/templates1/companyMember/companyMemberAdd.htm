@@ -1,0 +1,118 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">添加</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/companyMember/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+				<div class="form-group">
+					#if($!company)
+                	<label class="control-label col-md-3">所属企业：</label>
+                    <div class="col-md-7">
+                    	<p class="form-control-static">$!company.name</p>
+                    	<input type="hidden" name="companyId" value="$!company.id">
+                    </div>
+                    #else
+                    <label class="control-label col-md-3">所属企业：</label>
+                    <div class="col-md-7">
+ 						<select class="form-control" name="companyId">
+ 							#foreach($company in $!listCompany)
+ 								<option value="$!company.id">$!company.name</option>
+ 							#end
+						</select>	
+                    </div>
+                    #end
+                </div>
+                <div class="form-group">
+                	<label class="control-label col-md-3">会员号：</label>
+                    <div class="col-md-7">
+						<select class="js-data-user-ajax form-control" name="userId">
+						</select>
+					</div>
+                </div>
+           	</div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/companyMember/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+ComponentsSelect2.initWithSearch();
+
+function formatUser(repo) {
+	  if (repo.loading) {
+		    return repo.text;
+	  }
+	 var authState = (repo.idCardAuthState=="AUTH_PASS")?"实名认证通过":"没有实名认证";
+	var markup = "<div class='select2-result-repository clearfix'>"
+					+ "<div class='select2-result-repository__avatar'><img src= '"+repo.imageUrl+"' /></div>"
+					+ "<div class='select2-result-repository__meta'>"
+							+ "<div class='select2-result-repository__title'>" + repo.id+"</div>"
+							+ "<div class='select2-result-repository__description'>"+ repo.realname + " &nbsp;&nbsp;&nbsp; 是否实名："+authState+"</div>"
+							+ "<div class='select2-result-repository__statistics'>"
+							+ "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i>手机号 ： "+ repo.phone+ "</div>"
+							+ "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i>  昵称  ："+ repo.nickname+ "</div>"
+							+ "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i>最后登录时间："+ (repo.lastLoginTime || "无记录时间 ")+ "</div>"
+							+"</div>"
+						+"</div>"
+					+"</div>";
+	return markup;
+}
+
+function formatRepoSelection(repo) {
+	return   repo.id;
+}
+
+$(' .js-data-user-ajax').select2({
+	ajax : {
+		url : "userInfo/getAllUser",
+		 dataType: 'json',
+		delay : 250,
+		async : false,
+		data : function(params) {
+			var term= params.term ; 
+			var map = {};
+			if(!isNaN(term)&&term.length != 0){
+				map["id"] = parseInt(term); 
+				map["phone"] = term; 
+				if(parseInt(term) > 2147483647){
+					delete va["id"];
+				}
+			}else{
+				map["str"] = term; 
+			}
+			return {
+				id: map["id"], 
+				phone: map["phone"], 
+				str:map["str"] ,
+				pageNo : params.page||1
+			};
+		},
+		processResults: function (data, params) {
+		    params.page = params.page || 1;
+
+		    return {
+		        results: data.result,
+		        pagination: {
+		            more: (params.page * 10) < data.totalCount
+		        }
+		    };
+		},
+		cache : true
+	},
+	width : "off",
+	escapeMarkup : function(markup) {
+		return markup;
+	},
+	placeholder:'请选择',
+	minimumInputLength : 1,
+	language: "zh-CN",
+	templateResult : formatUser,
+	templateSelection : formatRepoSelection
+});
+</script>

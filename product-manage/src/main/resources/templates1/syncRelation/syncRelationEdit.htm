@@ -1,0 +1,129 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+		<div class="caption font-dark">
+			<i class="fa fa-cog font-dark"></i>
+			<span class="caption-subject bold">系统管理 > 接口管理> ERP数据源>数据关系管理>编辑 </span>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form role="form" action="/syncRelation/add" class="form-horizontal" method="post">
+			<div class="form-body">
+				<div class="form-group">
+
+					<label class="control-label col-md-1">是否关联比较字段：</label>
+					<div class="col-md-1" style="vertical-align: middle; margin-top: 7px;">
+						<input type="radio" name="isLink" value="true" #if($item.isLink) checked #end>
+						是
+						<input type="radio" name="isLink" value="false" #if(!$item.isLink) checked #end>
+						否
+						
+						<input type="hidden" name="id" value="$item.id" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-6">商城表信息</label>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">表信息：</label>
+							<div class="col-md-5">
+								<select name="mallTable" class="form-control attr-select" size="15">
+									<option value="$!mallTable" data-name="$!mallTable" selected="selected">$!mallTable</option>
+								</select>
+							</div>
+							<div class="col-md-5">
+								<select name="mallColType" id="mallColType" class="form-control attr-select" size="15" onchange="mallColTypeChange(this) ;">
+									<option value="">--请选择--</option>
+									#foreach($mallColMap in $mallCols) #foreach($member in $mallColMap.entrySet())
+									<option value="$!member.value" #if($!member.key==$item.mallColName) selected #end>$!member.key</option>
+									#end #end
+								</select>
+								<input type="hidden" name="mallColName" id="mallColName" value="$item.mallColName" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-6">对接平台表信息</label>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">表信息：</label>
+							<div class="col-md-5">
+								<select name="erpTable" class="form-control attr-select" id="erpTable" size="15">
+									<option value="$!erpTable" data-name="$!erpTable" selected="selected">$!erpTable</option>
+								</select>
+							</div>
+							<div class="col-md-5">
+								<select name="erpColType" class="form-control attr-select" id="erpColType" size="15" onchange="erpTypeChange(this) ;">
+									<option value="">--请选择--</option>
+									#foreach($erpColMap in $erpCols) #foreach($member in $erpColMap.entrySet())
+									<option value="$!member.value" #if($member.key==$item.erpColName) selected #end>$!member.key</option>
+									#end #end
+								</select>
+								<input type="hidden" name="erpColName" id="erpColName" value="$item.erpColName" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-2">商城字段默认值：</label>
+							<div class="col-md-5">
+								<input type="text" name="mallValue" value="$item.mallValue" class="form-control">
+								<input type="hidden" name="groupId" value="$groupId" class="form-control">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-2">对接平台默认值：</label>
+							<div class="col-md-5">
+								<input type="text" name="thirdValue" value="$item.thirdValue" class="form-control">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-2">输入说明：</label>
+							<div class="col-md-5 font-red-flamingo">
+								当前日期：DATE，自动生成ID：UUID，密码：PASSWORD（默认密码填充123456），
+								其他可以根据实际情况输入
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-2">输入说明：</label>
+							<div class="col-md-5 font-red-flamingo">
+								非空字段可以给定默认值
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-actions right">
+				<a thref="/syncRelation/list?groupId=$groupId&$!queryReturn" class="btn green ajax-post">
+					<i class="fa fa-check"></i>
+					提交
+				</a>
+				<a href="/syncRelation/list?groupId=$groupId&$!queryReturn" class="btn btn-outline grey-salsa ajaxify">返回</a>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+	function mallColTypeChange(obj) {
+		var txt = $(obj).find("option:selected").text();
+		$('#mallColName').val(txt);
+	}
+
+	function erpTypeChange(obj) {
+		var txt = $(obj).find("option:selected").text();
+		$('#erpColName').val(txt);
+	}
+</script>
+<script src="/assets/plugins/bootstrap-select/js/components-bootstrap-select.js" type="text/javascript"></script>

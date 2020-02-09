@@ -1,0 +1,609 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content resultsTable" style="width:1224px;margin-left:-300px;margin-top:125px;"></div>
+	</div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-main-charts.js"></script>
+
+<div class="">
+	
+	<div align="right">
+		<a data-toggle="modal" href="#modelContent" thref="/company/helpOrder" class="btn btn-primary ajax-model-get">
+			<font style="vertical-align: inherit;"> 代客下单</font>
+		</a>
+		<a href="/product/toAdd/Step1" class="btn btn-primary ajaxify">
+			<font style="vertical-align: inherit;">
+				<font style="vertical-align: inherit;"> 新建货品 </font>
+			</font>
+		</a>
+		
+		<br><br>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class=" portlet box green">
+				<!-- <div style="background-color: #F2F2F2">
+					<span>处理事项</span>
+				</div> -->
+				<div class="portlet-title">
+					<div class="caption">
+					<i class="fa fa-cog"></i>处理事项 </div>
+					<div class="tools">
+						<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+					</div>
+				</div>
+				<div class="portlet-body">
+					<table class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr style="text-align:center;">
+								<th>待审核企业</th>
+								<th>待确认订单</th>
+								<th>待发货订单</th>
+								<th>待审核取消订单</th>
+								<th>待审核议价</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr style="text-align:center;">
+								<td style="font-size: 24px"><a href="companyCheck/list?type=INIT" class="ajaxify">$!auditCompanys</a></td>
+								<td style="font-size: 24px"><a href="/order/list?orderState=INIT_STATE" class="ajaxify">$!initOrders</a></td>
+								<td style="font-size: 24px"><a href="/order/list?orderState=WAIT_DELIVERY" class="ajaxify">$!waitDeliveryOrders</a></td>
+								<td style="font-size: 24px"><a href="/cancelOrder/list"class="ajaxify">$!waitReturnMoney</a></td>
+								<td style="font-size: 24px"><a href="/quotation/checkList" class="ajaxify">$!quotationItemSum</a></td> 
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<!-- <div style="background-color: #F2F2F2">
+					<span>今日重要概况</span>
+				</div> -->
+			<div class=" portlet box green">
+				<div class="portlet-title">
+					<div class="caption">
+					<i class="fa fa-cog"></i>今日重要概况 </div>
+					<div class="tools">
+						<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+					</div>	
+				</div>
+				<div class="portlet-body">
+					<table class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr style="text-align:center;">
+								<th>新增企业</th>
+								<th>新增会员</th>
+								<th>下单付款额</th>
+								<th>发货货品</th>
+								<th>累计收款金额</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr style="text-align:center;">
+								<td style="font-size: 24px"><a href="/company/list" class="ajaxify">$!dayAddCompanys</a></td>
+								<td style="font-size: 24px"><a href="/userInfo/list" class="ajaxify">$!dayAddUsers</a></td>
+								<td style="font-size: 24px"><a href="orderSalesSum/dayList" class="ajaxify">#if($!dayOrderMoney) $!dayOrderMoney #else 0 #end </a></td>
+								<td style="font-size: 24px"><a href="/sendGoods/list?createStartTime=$!now&createEndTime=$!now" class="ajaxify">#if($!daySendTotals) $!daySendTotals #else 0 #end </a></td>
+								<td style="font-size: 24px"><a href="/orderReceipt/list?startTime=$!now&endTime=$!now" class="ajaxify">#if($!dayReviceMoney) $!dayReviceMoney #else 0 #end </a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-12">
+		<div class=" portlet box green">
+			<div class="portlet-title">
+				<div class="caption">
+				<i class="fa fa-cog"></i>概况一览表</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<table class="table table-striped table-bordered table-hover">
+					<tbody>
+						<tr>
+							<td rowspan="2" style="background-color: #FF9966">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 其他待处理事项 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFCC99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 待审核评价 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFCC99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 待处理售后单 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFCC99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 待审核实名会员 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFCC99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 库存预警货品 </font>
+								</font>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 0 </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 0 </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> $!idCard </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> $!inventoryHintSum </font>
+								</font>
+							</td>
+						</tr>
+		
+						<tr>
+							<td rowspan="2" style="background-color: #FF9966">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 今日概况 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 新增企业 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 新增会员 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 微信取消关注会员 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 下单付款额 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 发货货品数量 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 退货货品 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 售后退款 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 送出积分总数 </font>
+								</font>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 
+									#if($!dayAddCompanys)
+									$!dayAddCompanys
+									#else
+									0
+									#end </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> $!dayAddUsers </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 0 </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 
+									#if($!dayOrderMoney)
+									$!dayOrderMoney 
+									#else
+									0
+									#end
+									</font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">#if($!daySendTotals) $!daySendTotals #else 0 #end  </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 0 </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 0 </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> #if($!scoreTotal) $!scoreTotal #else 0 #end </font>
+								</font>
+							</td>
+						</tr>
+		
+						<tr>
+							<td rowspan="2" style="background-color: #FF9966">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 昨日概况 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 昨日新增企业 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 昨日新增会员 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 昨日微信取消关注会员 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 昨日下单付款额 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 昨日发货货品数量 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 昨日退货货品 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 昨日售后退款额 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFF99">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 昨日终送出积分 </font>
+								</font>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> $!ydayAddCompanys </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> $!ydayAddUsers </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">  0</font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">  #if($!ydayOrderMoney) $!ydayOrderMoney #else 0 #end  </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> #if($!ydaySendTotals) $!ydaySendTotals #else 0 #end   </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 0</font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">0 </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> #if($!yscoreTotal) $!yscoreTotal #else 0 #end   </font>
+								</font>
+							</td>
+						</tr>
+		
+						<tr>
+							<td rowspan="2" style="background-color: #FF9966">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 整体概况 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFFCC">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 累计增加企业 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFFCC">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 累计增加会员 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFFCC">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 累计微信取消关注会员 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFFCC">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 累计付款金额 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFFCC">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 累计发货 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFFCC">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 累计退货货品 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFFCC">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 累计售后退款 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFFCC">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 累计送出积分 </font>
+								</font>
+							</td>
+							<td style="background-color: #FFFFCC">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 在售货品种类 </font>
+								</font>
+							</td>
+							<!-- <td style="background-color: #FFFFCC">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 门店总数 </font>
+								</font>
+							</td> -->
+						</tr>
+						<tr>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> #if($!SumAddCompanys) $!SumAddCompanys #else 0 #end  </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">  #if($!SumdayAddUsers) $!SumdayAddUsers #else 0 #end  </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 0 </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> #if($!SumdayOrderMoney) $!SumdayOrderMoney #else 0 #end  </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">#if($!SumdaySendTotals) $!SumdaySendTotals #else 0 #end   </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">0</font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">  0  </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">#if($!SumscoreTotal) $!SumscoreTotal #else 0 #end  </font>
+								</font>
+							</td>
+							<td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">#if($!SumSort) $!SumSort #else 0 #end  </font>
+								</font>
+							</td>
+							<!-- <td>
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;"> 0 </font>
+								</font>
+							</td> -->
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+	</div>
+
+	<div class="row">
+				<!-- 注释的部分后期需要在做 -->
+		<div class="col-md-6">
+			<!--<div class=" portlet box green">
+				<div class="portlet-title">
+					 <div class="caption">
+					<i class="fa fa-cog"></i>昨日运营数据 </div>
+					<div class="tools">
+						<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+					</div> 
+				</div>
+				
+				<div class="portlet-body">
+					 <table class="table table-striped table-bordered table-hover">
+						<div style="background-color: #F2F2F2">
+							<span>昨日运营数据</span>
+						</div>
+						<tbody>
+							<tr style="height: 200px">
+								<td style="text-align: center;">
+									<span>首页浏览PV</span>
+									<br>
+									<span></span>
+									<br>
+									<span>30000</span>
+								</td>
+								<td style="text-align: center;">
+									<span>首页浏览UV</span>
+									<br>
+									<span></span>
+									<br>
+									<span>25000</span>
+								</td>
+								<td style="text-align: center;">
+									<span>货品浏览PV</span>
+									<br>
+									<span></span>
+									<br>
+									<span>1000</span>
+								</td>
+								<td style="text-align: center;">
+									<span>货品浏览UV</span>
+									<br>
+									<span></span>
+									<br>
+									<span>2000</span>
+								</td>
+							</tr>
+							<tr style="height: 200px">
+								<td style="text-align: center;">
+									<span>访问人数</span>
+									<br>
+									<span></span>
+									<br>
+									<span>5000</span>
+								</td>
+								<td style="text-align: center;">
+									<span>下单付款笔数</span>
+									<br>
+									<span></span>
+									<br>
+									<span>25000</span>
+								</td>
+								<td style="text-align: center;">
+									<span>售后退款笔数</span>
+									<br>
+									<span></span>
+									<br>
+									<span>30000</span>
+								</td>
+								<td style="text-align: center;">
+									<span>净增加会员数</span>
+									<br>
+									<span></span>
+									<br>
+									<span>25000</span>
+								</td>
+							</tr>
+						</tbody>
+					</table> 
+				</div>
+				
+			</div>
+			-->
+		</div>
+		<div class="col-md-6">
+			
+			<!--
+			<div class=" portlet box green">
+				<div class="portlet-title">
+					 <div class="caption">
+					<i class="fa fa-cog"></i>日常访问量</div>
+					<div class="tools">
+						<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+					</div> -->
+				</div>
+				<!-- <div class="portlet-body">
+					<div id="container" style="min-width: 400px; height: 407px"></div>
+				</div> 
+			</div>
+				-->
+		</div>
+		<!-- <div class="col-md-6" id="container" style="min-width: 400px; height: 430px"></div> -->
+		<div class="message"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class=" portlet box green">
+				<div class="portlet-title">
+					<div class="caption">
+					<i class="fa fa-cog"></i>增加会员趋势</div>
+					<div class="tools">
+						<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+					</div>
+				</div>
+				<div class="portlet-body">
+					<div id="container1" style="min-width: 400px; height: 400px"></div>
+				</div>
+			</div>
+			<!-- <div id="container1" style="min-width: 400px; height: 400px"></div> -->
+		</div>
+		<div class="col-md-6">
+			<div class=" portlet box green">
+				<div class="portlet-title">
+					<div class="caption">
+					<i class="fa fa-cog"></i>日交易趋势</div>
+					<div class="tools">
+						<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+					</div>
+				</div>
+				<div class="portlet-body">
+					<div id="container2" style="min-width: 400px; height: 400px"></div>
+				</div>
+			</div>
+			<!-- <div id="container2" style="min-width: 400px; height: 400px"></div> -->
+		</div>
+	</div>
+	
+</div>
+
+
+

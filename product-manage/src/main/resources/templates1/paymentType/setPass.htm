@@ -1,0 +1,50 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">设置支付密码</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/paymentType/setPass" class="form-horizontal" method="post">
+        	<div class="form-body">
+        		 <div class="form-group">
+                     <label class="control-label col-md-3">名称类型：</label>
+                     <div class="col-md-9">
+                     	 <input type="hidden" name="id" value="$!item.id"/>
+                     	 <input type="hidden" name="code" value="$!item.code"/>
+                         <input type="text" class="form-control" name="name" value="$!item.name" readonly>
+                     </div>
+                 </div>
+                 #if($item.reFundPwd)
+                 <div class="form-group">
+                     <label class="control-label col-md-3">旧退款密码：</label>
+                     <div class="col-md-9">
+                         <input type="text" class="form-control" name="oldPassword" value="" required>
+                     </div>
+                 </div>
+                 #end
+                 <div class="form-group">
+                     <label class="control-label col-md-3">新退款密码：</label>
+                     <div class="col-md-9">
+                         <input type="text" class="form-control" name="reFundPwd" value="" required>
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">确认新退款密码：</label>
+                     <div class="col-md-9">
+                         <input type="text" class="form-control" name="sureReFundPwd" value="" required>
+                     </div>
+                 </div>
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/paymentType/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+	bootstrapSwitch.init({url:"promotion/modifiedStatus",ontext:"启用",offtext:"禁用"});
+</script>
+

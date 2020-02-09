@@ -1,0 +1,51 @@
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="tabbable-line ">
+			<ul class="nav nav-tabs ">
+				<li ><a href="/messageSms/smsTemplates" class="ajaxify">短信模板</a></li>
+				<li ><a href="/messageSms/sendBox" class="ajaxify">发件箱</a></li>
+				<li  class="active"><a href="/messageSms/smsConfig"  class="ajaxify">短信配置</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="portlet-body form">
+					<form action="/messageSms/smsConfig" class="form-horizontal form-row-seperated" method="post">
+                        <div class="form-body">
+                        	<div class="form-group">
+                                <label class="control-label col-md-3  ">URL：</label>
+                                <div class="col-md-9">
+                                	<input type="hidden" name="id" value="$!messageConfig.id" class="form-control">
+                                	#set($smsConfig = $messageConfig.smsConfig())
+                                    <input type="text"  name="url"  value="$!smsConfig.url"  class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3  ">account：</label>
+                                <div class="col-md-9">
+                                    <input type="text"  name="account"  value="$!smsConfig.account" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3  ">token：</label>
+                                <div class="col-md-9">
+                                    <input type="text"  name="token" value="$!smsConfig.token" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <a href="javascript:;" class="btn green ajax-post"><i class="fa fa-save"></i> 保存</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>

@@ -1,0 +1,252 @@
+<div class="portlet light bordered" >
+	<div class="portlet-title">
+       <!--  <div class="caption font-dark">
+              <div style="display: inline-block;text-align: center;">
+								<p style="text-align: center;">$product.name</p>
+			  </div> --><br>
+           <p align="center" style="font-size:1.5em">$product.name</p><br> 
+           <span ><font style="font-family: 宋体;">货品编码:$!productCode</span> <span>库存:$!skuCode</span>  <span>总售量:$!product.salesNum</span> <span>标签:$!product.lables</span></font>
+           <!--  <span class="caption-subject bold" >添加</span> -->
+        </div>
+    </div>
+    
+    <div class="portlet-body form" >
+    	<form role="form" class="form-horizontal"  method="post" id="formId" action="/clientprice/TieredPrice/Save" style="margin-left:26px;margin-top:-26px" >
+        	<div class="form-body">
+        	  
+				<table border="2" style="text-align: center;">
+				     <tr align="center">
+				          <th style="width:100px;text-align: center;">序号</th>
+				          <th style="width:100px;text-align: center;">起始数量</th>
+				          <th style="width:100px;text-align: center;">结束数量</th>
+				          <th style="width:100px;text-align: center;">协议价</th>
+				          <th style="width:100px;text-align: center;">备注</th>
+				     </tr>
+				   <!--  #if($!list.size()>0) -->
+				    	 #foreach($!price in $!list)
+				     	 #set($index=($velocityCount +(-1)))
+				     	 #set($index2=$velocityCount)
+				     <tr align="center"> 
+				          <input  type="hidden"  name="list[$!index].id" value="$!price.id"  />
+				          <input  type="hidden"    name="list[$!index].companyId" value="$!companyId"/>
+				          <input  type="hidden"    name="list[$!index].productCode" value="$!productCode"/>
+				          <td  style="background-color:#EEF1F5;"><input class="inputgray"   type="text" style="width:100px;outline: none;border: 0;text-align: center;background-color:#EEF1F5;" value="$index2" readonly="readonly"/></td>
+				          <td id="ids" style="background-color: #EEF1F5"><input   id="startNums" style="width:90px;outline: none;border: 0;text-align:center;background-color: #EEF1F5;"  class="inputgray" readonly="readonly"  name="list[$!index].startNum"  type="text" value="$!price.startNum"/></td>
+				          <td ><input style="width:90px;" id="endNums"  class="form-control2 input-small2"  name="list[$!index].endNum" type="text" value="$!price.endNum"/></td>
+				          #if($!index==0)
+				           <td style="background-color:#EEF1F5;"><input style="width:90px;outline: none;border:0;text-align:center;background-color:#EEF1F5;"  class="inputgray" readonly="readonly" name="list[$!index].customerPrice" type="text" value="$!companyVipPrice"/></td>
+				          #else
+				            <td ><input style="width:90px;text-align: center;" class="form-control2 input-small2"   name="list[$!index].customerPrice" type="text" value="$!price.customerPrice"/></td>
+				          #end
+				            <td ><input style="width:90px;"  class="form-control2 input-small2"  name="list[$!index].remark" type="text" value="$!price.remark"/></td>   
+				     </tr>
+				     #end
+				     
+				     
+				 <!--   #else -->
+				 <!--   <tr>
+				         <input  type="hidden"  name="list[0].id" value="$!price.id"  />
+				          <input  type="hidden"    name="list[0].companyId" value="$!companyId"/>
+				          <input  type="hidden"    name="list[0].productCode" value="$!productCode"/>
+				          <td><input  type="text" style="width:100px;" value="0" readonly="readonly"/></td>
+				          <td ><input style="width:100px;"  name="list[0].startNum"  type="text" value="$!price.startNum"/></td>
+				          <td ><input style="width:100px;" name="list[0].endNum" type="text" value="$!price.endNum"/></td>
+				         #if($!companyVipPrice>0)
+				           <td ><input style="width:100px;"  name="list[0].customerPrice" type="text" value="$!companyVipPrice"/></td>
+				        #else
+				            <td ><input style="width:100px;"  name="list[0].customerPrice" type="text" value="$!companyVipPrice"/></td>
+		                #end
+				          <td ><input style="width:100px;"   name="list[0].remark" type="text" value="$!price.remark"/></td>   
+				          
+				     </tr> 
+				  <tr id="secondTr">
+				         <input  type="hidden"  name="list[1].id" value="$!price.id"  />
+				          <input  type="hidden"    name="list[1].companyId" value="$!companyId"/>
+				          <input  type="hidden"    name="list[1].productCode" value="$!productCode"/>
+				          <td><input  type="text" style="width:100px;" value="1" readonly="readonly"/></td>
+				          <td ><input style="width:100px;"  name="list[1].startNum"  type="text" value="$!price.startNum"/></td>
+				          <td ><input style="width:100px;" name="list[1].endNum" type="text" value="$!price.endNum"/></td>
+				 
+				            <td ><input style="width:100px;" name="list[1].customerPrice" type="text" value="$!price.customerPrice"/></td>
+				        
+				          <td ><input style="width:100px;"   name="list[1].remark" type="text" value="$!price.remark"/></td>   
+				          
+				     </tr> 
+				     <tr>
+				         <input  type="hidden"  name="list[2].id" value="$!price.id"  />
+				          <input  type="hidden"    name="list[2].companyId" value="$!companyId"/>
+				          <input  type="hidden"    name="list[2].productCode" value="$!productCode"/>
+				          <td><input  type="text" style="width:100px;" value="2" readonly="readonly"/></td>
+				          <td ><input style="width:100px;"  name="list[2].startNum"  type="text" value="$!price.startNum"/></td>
+				          <td ><input style="width:100px;" name="list[2].endNum" type="text" value="$!price.endNum"/></td>
+				   
+				            <td ><input style="width:100px;" name="list[2].customerPrice" type="text" value="$!price.customerPrice"/></td>
+				          
+				          <td ><input style="width:100px;"   name="list[2].remark" type="text" value="$!price.remark"/></td>     
+				     </tr> 
+				 #end -->
+				  
+				</table>
+              
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;"  class="btn green ajax-post" id="TieSave"><i class="fa fa-check"></i>保存</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">取消</a>
+		
+            </div>
+        </form>
+    </div>
+</div>
+<<style>
+   td .input-small2 {
+	width: 90px !important;
+	
+}
+ input .inputgray{
+     text-align: center;
+     border-radius:18px;
+     border: 1px solid gray;
+     outline: none;
+ }
+ .myred{
+    color: red;
+    
+ }
+.form-control2{
+    width: 100%;
+    height: 30px;
+    padding: 6px 12px;
+    background-color: #fff;
+    border: 1px solid #c2cad8;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+
+</style>
+<script type="text/javascript">
+/**
+ * 表单提交
+ */
+ 
+var tijoa=$("#TieSave").on("click",function(){
+
+	$.ajax({
+	
+		type : 'POST',
+		data : $("#formId").serialize(),
+ 		dataType :"JSON",
+		success : function(data) {
+			 toastr.success(data.msg);
+		},
+		error : function(data) {
+			 toastr.warning(data.msg);
+		}
+	});
+	
+});
+
+ $(function(){
+	$("input[id='endNums']").on("change",function(){
+		var thisEle=$(this);
+		
+		var endNumval=$(this).val();
+		var numval=parseInt(endNumval)+1;
+		  $(this).removeClass("myred");
+		  
+      var preNum=$(this).parent().prev().find("input")
+         if("输入错误"==$(this).val()){
+        	 $(this).val(" ");
+        	 $(this).click(function(){
+        		
+           	     $(this).focus();
+           	     $(this).val(" ");
+        	 });
+        	
+         }
+    
+            var preNums=preNum.val();
+      if(parseInt(preNums)>parseInt(thisEle.val())||isNaN(thisEle.val())){
+    	  $(this).attr("class","myred");
+    	 $(this).val("输入错误");
+    	  $(this).focus();
+    	 
+    	  return;
+      }
+    
+      if(parseInt(endNumval)>0){
+			var startNumval=$(this).parent().parent().next("tr").find("#startNums").val(numval);
+		}
+    	  
+	});
+	  var num=0;
+	$("body").on("keyup",function(event){
+	 
+	  
+		if(event.keyCode == "13"){
+	    	num=num+1;
+	    	if(num=1||num==0){
+	    	 	$("#TieSave").click();
+	    	 	return;
+	    	}
+	    	//$("#formId").submit();
+	    	//$("#TieSave").click();
+	   
+	 
+	    
+	    	
+	    }
+	});  
+	
+	 $("input[id='endNums']").on("click",function(){
+		$("input[id='endNums']").each(function(){
+			if("输入错误"==$(this).val()){
+				$(this).val(" ");
+			}
+		});
+	})  
+	 $("#TieSave").on("click",function(){
+		$("input[id='endNums']").each(function(){
+			if("输入错误"==$(this).val()){
+				$(this).val(" ");
+			}
+		});
+	})  
+	
+	/* $(document).on("keyup",function(e){
+		if(e.keyCode===13){
+			$("input[id='endNums']").click(function(){
+			     if(""!=$(this).val()||null!=$(this).val()){
+			    	  var preNum=$(this).parent().prev().find("input")
+			    		var thisEle=$(this);
+			    		var endNumval=$(this).val();
+			    		var numval=parseInt(endNumval)+1;
+			    		preNum.val(numval);
+			     }
+				
+			});
+		
+	
+	})  */
+	/* $(document).on("keyup",function(e){
+		if(e.keyCode===13){
+			$("input[id='endNums']").click(function(){
+			     if(""!=$(this).val()||null!=$(this).val()){
+			    	  var preNum=$(this).parent().prev().find("input")
+			    		var thisEle=$(this);
+			    		var endNumval=$(this).val();
+			    		var numval=parseInt(endNumval)+1;
+			    		preNum.val(numval);
+			     }
+				
+			});
+		}
+	}); */
+	 
+ });
+
+</script>
+

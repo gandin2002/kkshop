@@ -1,0 +1,61 @@
+<div class="portlet box green">
+	<div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i> 地区管理 > 添加地区</div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/city/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+        		     <div class="form-group">
+                     <div class="col-md-5">
+                             #if($!item.type==1)
+                             <input type="hidden" class="form-control" name="type" value="2">
+                             #end
+                             #if($!item.type==2)
+                             <input type="hidden" class="form-control" name="type" value="3">
+                             #end
+                             #if($!item.type==3)
+                             <input type="hidden" class="form-control" name="type" value="4">
+                             #end
+                     </div>
+                 </div>
+        		 <div class="form-group">
+                     <label class="control-label col-md-3">上级地区：</label>
+                     <div class="col-md-5">
+                     	 <input type="hidden" class="form-control" name="parentId" value="$!item.cityCode" readonly>
+                         <input type="text" class="form-control" value="$!item.name" readonly>
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">地区缩写：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="first" onKeyUp="value=value.replace(/[^a-zA-Z]/g,'')" placeholder="请输入首字母">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">*地区名称：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="name" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
+                                 onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\u4E00-\u9FA5]/g,''))" required  placeholder="请输入中文名称">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">地区英文：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="spelling" onKeyUp="value=value.replace(/[^a-zA-Z]/g,'')" placeholder="请输入英文名称(或地区拼音)">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">*地区邮编：</label>
+                     <div class="col-md-5">
+                         <input type="number" class="form-control" name="cityCode" required placeholder="请输入行政编码">
+                     </div>
+                 </div>
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/city/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="/city/list" class="btn btn-outline grey-salsa ajaxify">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+

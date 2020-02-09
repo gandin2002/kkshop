@@ -1,0 +1,215 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content"></div>
+	</div>
+</div>
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions">
+			<button type="button" thref="/wxMpCustomMenu/menuGet" t_href="/wxMpCustomMenu/list" t_msg="确定更新菜单吗？"  class="btn white btn-sm ajax-update" data-style="expand-down">
+				<span class="ladda-label">更新菜单</span>
+			</button>
+			<button type="button" thref="/wxMpCustomMenu/updateMenu" t_href="/wxMpCustomMenu/list" t_msg="确定上传菜单吗？"  class="btn white btn-sm ajax-update" data-style="expand-down">
+				<span class="ladda-label">上传菜单</span>
+			</button>
+			<a href="#modelContent" thref="/wxMpCustomMenu/addButton" class="btn white   btn-sm ajax-model-get"   data-toggle="modal">
+				 新增子菜单
+			</a>
+<!-- 			<a href="#modelContent" thref="/category/add" class="btn white btn-sm ajax-model-get" code="category.add1" data-toggle="modal"><i class="fa fa-plus"></i> 新增一级分类 </a> -->
+			<a class="btn white btn-sm  using-tg"  href="javascript:;" ><i class="fa fa-check-square-o"></i>启用</a>
+			<a class="btn white btn-sm  forbid-tg"  href="javascript:;" > <i class="fa fa-square-o"></i>禁用</a>
+			<a class="btn white btn-sm  "  href="javascript:;" onclick="jQuery('#tableCategory').treetable('expandAll'); return false;"><i class="fa fa-expand"></i>展开</a>
+       	 	<a  class="btn white btn-sm  " href="javascript:;" onclick="jQuery('#tableCategory').treetable('collapseAll'); return false;"><i class="fa fa-compress"></i>折叠</a>
+		</div>
+	</div>
+	<div class="portlet-body">
+		<div >
+			<table class="table table-striped table-bordered table-hover icheck-table" id="tableCategory">
+				<thead>
+					<tr>
+						<th style="text-indent: 1em;">菜单名称</th>
+						<th>类型</th>
+						<th>排序</th>
+						<th style="width: 24%;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+ 					 #foreach($wxButtion  in $!buttonList)
+ 					 	#set($id =  $!velocityCount)
+					 	<tr data-tt-id="$id" id="$id">
+					 		<td>$!wxButtion.name</td>
+					 		<td> 
+					 			 #if($!wxSubButton.type)
+	 					 			#foreach($BnType in $!sysParamBnType.getSysListMap())
+						 					#if($!BnType.type == $!wxButtion.type )
+						 						$!BnType.name
+						 					#end 
+						 			 #end
+					 			 #else 
+					 			  	点击事件
+					 			 #end
+					 		</td>
+					 		<td>
+					 		<a href="javascript:;" thref="/wxMpCustomMenu/rmoveMenu?state=true&key=$!wxButtion.key" t_href="/wxMpCustomMenu/list" t_msg="确定向上移动菜单吗？"    class=" ajax-update"> <i class="fa fa-arrow-up"></i></a>
+					 		<a href="javascript:;" thref="/wxMpCustomMenu/rmoveMenu?state=false&key=$!wxButtion.key" t_href="/wxMpCustomMenu/list" t_msg="确定向下移动菜单吗？"    class=" ajax-update"> <i class="fa fa-arrow-down"></i> </a>
+					 		</td>
+					 		<td>
+								<a href="#modelContent" thref="/wxMpCustomMenu/edit?key=$!wxButtion.key" class="btn green btn-outline btn-sm ajax-model-get" code="category.edit" data-toggle="modal">
+									<i class="fa fa-edit"></i> 编辑  
+								</a>
+    							<a href="javascript:;" thref="/wxMpCustomMenu/delete?key=$!wxButtion.key" class="btn green btn-outline btn-sm ajax-delete" code="category.delete">
+									<i class="fa fa-trash"></i> 删除  
+								</a>
+								<a href="#modelContent" thref="/wxMpCustomMenu/addButton?key=$!wxButtion.key" class="btn btn-outline green  btn-sm ajax-model-get"   data-toggle="modal">
+									 新增子菜单
+								</a>
+    						</td>
+					 	</tr>
+					 	#foreach($wxSubButton in $!wxButtion.sub_button)
+					 		#set($pid = ($id+"0"+$!velocityCount))
+					 		<tr data-tt-id="$!pid" data-tt-parent-id="$id" id="$!pid">
+					 		<td>$!wxSubButton.name</td>
+					 		<td> 
+					 			 #if($!wxSubButton.type)
+	 					 			#foreach($BnType in $!sysParamBnType.getSysListMap())
+						 					#if($!BnType.type == $!wxSubButton.type )
+						 						$!BnType.name
+						 					#end 
+						 			 #end
+					 			 #else 
+					 			  	点击事件
+					 			 #end
+					 		</td>
+					 		<td>
+								 <a href="javascript:;"  thref="/wxMpCustomMenu/rmoveMenu?state=true&key=$!wxSubButton.key" t_href="/wxMpCustomMenu/list" t_msg="确定向上移动菜单吗？"    class=" ajax-update"> <i class="fa fa-arrow-up"></i></a>
+					 			 <a href="javascript:;"  thref="/wxMpCustomMenu/rmoveMenu?state=false&key=$!wxSubButton.key" t_href="/wxMpCustomMenu/list" t_msg="确定向下移动菜单吗？"    class=" ajax-update"> <i class="fa fa-arrow-down"></i> </a>
+							</td>
+					 		<td>
+					 		
+					 			<a href="#modelContent" thref="/wxMpCustomMenu/edit?key=$!wxSubButton.key" class="btn green btn-outline btn-sm ajax-model-get" code="category.edit" data-toggle="modal">
+									<i class="fa fa-edit"></i> 编辑  
+								</a>
+    							<a href="javascript:;" thref="/wxMpCustomMenu/delete?key=$!wxSubButton.key" class="btn green btn-outline btn-sm ajax-delete" code="category.delete">
+									<i class="fa fa-trash"></i> 删除  
+								</a>
+								
+					 		</td>
+					 	</tr>
+					 	#end
+					 #end
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-permission.js"></script> 
+<script type="text/javascript" src="/assets/scripts/views-icheck.js"></script>
+<script type="text/javascript" src="/assets/scripts/views-date.js" ></script>
+<script type="text/javascript">
+
+$(".updateMenu").on("click",function(){
+	$.post("/wxMpCustomMenu/menuGet",function(result){
+		console.log(result);
+	},"json")
+});
+ 
+
+// ComponentsSelect2.initWithSearch();
+
+$("#tableCategory").treetable({
+	indenterTemplate:"<span class ='indenter'> </ span>",
+	expandable : true,
+});
+
+
+
+// function recursion(tId,state){
+// 	 var child_node= $("[data-tt-parent-id='"+tId+"' ]");
+// 	 child_node.iCheck(state);
+// 	 if(child_node.length != 0){
+// 		 $.each(child_node,function(i,v){
+// 			 var tpi = $(v).attr("data-tt-id");
+// 			 recursion(tpi,state);
+// 		 });
+// 	 }
+// 	 return;
+// }
+
+
+// $('.tric').on('ifChecked', function(){
+// 	 var tId= $(this).val();
+// 	 recursion(tId,"check");
+// })
+
+// $('.tric').on('ifUnchecked', function(){
+// 	var tId= $(this).val();
+// 	recursion(tId,"uncheck");
+	
+// })
+
+// function getValues(){
+// 	var array = new Array()
+// 	var target= $("input[name='checkboxes']");
+// 	//循环加入数组
+	
+// 		$.each(target,function(i,v){
+// 			if(v.checked){
+// 				array.push($(v).val());
+// 			}
+// 		});
+// 	 	return array; 
+//  }
+// //启用
+// $(".using-tg").click(function(){
+// 	var ciArray= getValues();
+// 	if(ciArray.length == 0){
+// 		return toastr.warning("请勾选要启用的分类");
+// 	}
+	
+// 	bootbox.setLocale("zh_CN");
+// 	bootbox.confirm("确定启用这些分类吗？", function(state) {
+// 		if (state) {
+// 			$.post("/category/editState", {
+// 				 ciArray  : ciArray,
+// 				 state :1
+// 			}, function(result) {
+// 				if (result.code == 0) {
+// 					toastr.success(result.msg);
+// 					pageContentBody.load("/category/list");
+// 				} else {
+// 					toastr.warning(result.msg);
+// 				}
+// 			}, "json");
+// 		}
+// 	});
+// });
+// //禁用
+// $(".forbid-tg").click(function(){
+// 	var ciArray= getValues();
+// 	if(ciArray.length == 0){
+// 		return toastr.warning("请勾选要禁用的分类");
+// 	}
+	
+// 	bootbox.setLocale("zh_CN");
+// 	bootbox.confirm("确定禁用这些分类吗？", function(state) {
+// 		if (state) {
+// 			$.post("/category/editState", {
+// 				 ciArray  : ciArray,
+// 				 state :0
+// 			}, function(result) {
+// 				if (result.code == 0) {
+// 					toastr.success(result.msg);
+// 					pageContentBody.load("/category/list");
+// 				} else {
+// 					toastr.warning(result.msg);
+// 				}
+// 			}, "json");
+// 		}
+// 	});
+// });
+
+ 
+
+</script>

@@ -1,0 +1,63 @@
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>订单 &gt; 订单管理 &gt; 换货订单&gt; 订单详情</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="tabbable-line ">
+			<ul class="nav nav-tabs ">
+				<li><a href="/orderRepaire/edit?id=$!orderRepaire.id" class="ajaxify" id="orderInfoLink">订单信息</a></li>
+				<li class="active"><a href="/orderItem/list3?id=$!orderRepaire.id" class="ajaxify">订单货品</a></li>
+				<li><a href="/orderReceipt/orderBills3?id=$!orderRepaire.id" class="ajaxify">单据信息</a></li>
+				<li><a href="/orderLog/orderLogs3?id=$!orderRepaire.id" class="ajaxify">订单日志</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active form">
+					
+				</div>
+			</div>
+		</div>
+		<div class="portlet-body form">
+			 
+		</div>
+		
+    	<div class="dataTables_wrapper no-footer">
+			<div class="table-scrollable">
+			      <table class="table table-striped table-bordered table-hover">
+			      	<tbody>
+				      	<tr>
+				      		<th>货品编码</th>
+				      		<th>货品名称</th>
+				      		<th>规格</th>
+				      		<th>分类</th>
+				      		<th>品牌</th>
+				      		<th>售价</th>
+				      		<th>购买数量</th>
+				      		<th>优惠金额</th>
+				      	</tr>
+			      	</tbody>
+			      	<tbody>
+					#foreach($item in $pageOrderItem.result)
+					#set($product = $productMap.get($item))
+		  				<tr>  
+						    <td>$!item.skuCode</td>
+						    <td>$!item.productName</td>
+						    <td>$!item.attrAndAttrValues</td>
+						    <td>$!product.category.name</td>
+						    <td>$!product.brand.name</td>
+						    <td>$!item.ordinaryPrice</td>
+						    <td>$!item.quantity</td>
+						    <td>$!item.price</td>
+		  				</tr>
+					#end
+					</tbody>
+					
+			      </table>
+			</div>
+			#set($page=$pageOrderItem)
+			#set($pageUrl="/orderItem/list3?orderId=$!orderRepaire.id&pageNo=")
+			#parse("_page.htm")
+			
+		</div>
+    </div>
+</div>

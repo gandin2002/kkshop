@@ -1,0 +1,101 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<div class="portlet box green">
+	<div class="portlet-title">
+	    <div class="caption">
+		<i class="fa fa-cog"></i>查询内容 </div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+    	</div>
+    	<div class="actions">
+			<a href="javascript:;" class="btn white btn-sm ajax-search"><i class="fa fa-search"></i> 查询 </a>
+			<a href="javascript:;" class="btn white btn-sm search-reset"><i class="fa fa-eraser"></i> 清除 </a>
+		</div>
+	</div>
+	<div class="portlet-body form">
+	   	<form action="/brand/list" class="form-horizontal" method="get" id="searchForm" onsubmit="return false">
+			<div class="form-body">
+				<div class="row">
+					<div class="col-md-3">
+						<label class="col-md-4 control-label">品牌名称：</label>
+						<div class="col-md-8">
+					    	<input type="text" class="form-control" name="name" value="$!name" maxlength="10">
+						</div>
+					</div>
+	    		</div>
+	    		<input type="text" style="display: none;">
+			</div>
+		</form>
+	</div>
+</div>
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions">
+			<a href="#modelContent" thref="/brand/add" class="btn white btn-sm ajax-model-get  " code="brand.add" data-toggle="modal"><i class="fa fa-plus"></i> 新增 </a>
+		</div>
+    </div>
+    <div class="portlet-body">
+    	<div class="dataTables_wrapper no-footer">
+			<div class="table-scrollable">
+			    <table class="table table-striped table-bordered table-hover">
+					<thead>
+					    <tr>
+		                    <th>品牌名称</th>
+		                    <th>品牌LOGO</th>
+		                    <th> 创建时间 </th>
+		                    <th>前台显示</th>
+		                    <th> 排序 </th>
+		                    <th class="col-md-2">操作</th>
+		                </tr>
+					</thead>
+					<tbody>
+					    #foreach ($!item in $!pageBrand.result)
+		                 <tr>
+		                     <td class="branch">
+		                     	<font>$!item.name</font>
+		                     </td>
+		                     <td>
+		                     	#if($!item.image)
+	                     		 <a href="$!item.image" class="fancybox-button" data-rel="fancybox-button">
+	                               <img title="$!item.name" src="$!item.image" width="42px" height="25px">
+	                             </a>
+								#end
+							</td>
+		                     <td>$!item.createDate</td>
+		                     <td nowrap>
+							 	<input type='checkbox' #if($!item.status=='true') checked #end data-size='small' class='make-switch'  sendid="$!{item.id}" data-on-color='success' data-off-color='warning' />
+		                     </td>
+ 							 <td>$!item.sort</td>
+		                     <td>
+		                        <a class="btn green btn-outline btn-sm ajax-model-get  " data-toggle="modal"
+									code="brand.edit" href="#modelContent" thref="/brand/edit?id=$!item.id&$!queryReturn"> 
+									<i class="fa fa-edit"></i>	修改
+								</a>
+								<a class="btn green btn-outline btn-sm ajax-delete  " code="brand.delete" href="javascript:;" thref="/brand/delete?id=$!item.id"> 
+									<i class="fa fa-trash"></i>	删除
+								</a>
+		                     </td>
+		                 </tr>
+		                #end
+					</tbody>
+			    </table>
+			</div>
+			#set($page=$pageBrand)
+			#set($pageUrl="/brand/list?$!queryString&pageNo=")
+			#parse("_page.htm")
+		</div>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-permission.js"></script>
+<script type="text/javascript">
+	bootstrapSwitch.init({url:"brand/switchStatus",ontext:"是",offtext:"否"});
+</script>
+<script type="text/javascript">
+     $("input[name=name]").focus();
+ 	$(".fancybox-button").fancybox();
+</script>

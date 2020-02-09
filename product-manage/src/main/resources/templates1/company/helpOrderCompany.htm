@@ -1,0 +1,96 @@
+<form action="/company/helpOrder" class="form-horizontal" method="get" id="searchForm" onsubmit="return false">
+<div class="portlet box green">
+	<div class="portlet-body form">
+		<div class="form-body">
+			<div class="row">
+               	<label class="control-label col-md-1">企业名称：</label>
+               	<div class="col-md-3">
+               		<input type="text" class="form-control"  name= "name" value="$!search.name"/>
+                </div>
+                <div class="col-md-1"><a class="btn green  btn-md searchSub">提交</a></div>
+                <div class="col-md-8"></div>
+	   		</div>
+		</div>
+	</div>
+</div>
+
+<div class="portlet box green">
+    <div class="portlet-body">
+    	<div class="dataTables_wrapper no-footer">
+			<div class="table-scrollable">
+			    <table class="table table-striped table-bordered table-hover">
+				  	<thead>
+						<tr>
+		   		 			<th>企业编号</th>
+		   		 			<th>企业名称</th>
+		   		 			<th>企业分类</th>
+		   		 			<th>企业会员等级</th>
+		   		 			<th>所属行业</th>
+		   		 			<th>信用额度</th>
+		   		 			<th>信用余额</th>
+		   		 			<th>负责人姓名</th>
+		   		 			<th>负责人会员号</th>
+		   		 			<th>注册日期</th>
+		   		 			<th class="col-md-2">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					#foreach($item in $pageCompany.result)
+					#set($cata=$!cataMap.get($item))
+					#set($industry=$!industryMap.get($item))
+					#set($level=$!levelMap.get($item))
+		  			#set($user=$!userMap.get($!item))
+		  				<tr>  
+						    <td>$!item.id</td>
+						    <td>$!item.name</td>
+						    <td>$!cata.name</td>
+						    <td>$!level.name</td>
+						    <td>$!industry.name</td>
+						    <td>$!item.credits</td>
+						    <td>$!item.creditOver</td>
+						    <td>$!user.realname</td>
+						    <td>$!item.userId</td>
+						    <td>$!item.regtime</td>
+						    <td>
+						    	<a class="btn green btn-outline btn-sm" href="/link/orderHandleOrderOrdinary?id=$!item.userId"  target="_blank"> 
+									<i class="fa fa-plus"></i>下单
+								</a>
+						    </td>		
+		  				</tr>
+					#end
+					</tbody>
+				</table>
+			</div>
+			#set($page=$pageCompany)
+			#set($pageUrl="/company/helpOrder?&pageNo=")
+			#parse("_pageModel.htm")
+		</div>
+    </div>
+</div>
+</form>
+<!-- <script type="text/javascript" src="/assets/scripts/views-search-model.js"></script> -->
+<script type="text/javascript" src="/assets/scripts/views-icheck.js"></script>
+<script type="text/javascript">
+$("input[name= name]").focus();
+
+
+$(".searchSub").on("click",function(){
+	var form = $!("#searchForm");
+	var url = form.attr("action");
+	$.ajax({
+		url:url,
+		type: "get",
+		data:form.serialize(),
+		dataType: "html",
+		success: function(res){
+			$(".resultsTable").html(res)
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+            pageContentBody.html('<h4>服务器异常，请与管理员联系.</h4>');
+            App.stopPageLoading();
+        }
+		
+	})
+})
+
+</script>

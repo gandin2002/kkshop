@@ -1,0 +1,164 @@
+#if($flag)
+<div class="form-group">
+	<label class="control-label col-md-2">货品分类：</label>
+	 <div class="col-md-6">
+        <div class="portlet light ">
+            <div class="portlet-body">
+                <div id="tree_2" class="tree-demo"></div>
+                #foreach($categoryId in $!category)
+                <input type='hidden' name="chkCategoryEle" value="$!categoryId"/>
+                #end
+                
+                
+                <input type='hidden' name="categoryId" id="categoryId" />
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+var arrayObj = new Array();　
+$(":input[name=chkCategoryEle]").each(function(){
+	arrayObj.push($(this).val());
+});
+
+var getJson = function(url, cb) {
+	$.getJSON(url, {}, function(result) {
+		if (cb != null) {
+			dataProcessing(result, cb);
+		}
+	});
+};
+
+var dataProcessing = function(result, cb) {
+	var mycars = new Array();
+	$.each(result, function(index, content) {
+		if (content.level == 1) {
+			var mycars1 = new Array();
+			$.each(result, function(index2, content2) {
+				if (content2.pid == content.id) {
+					var mycars2 = new Array();
+					$.each(result, function(index3, content3) {
+						if (content3.pid == content2.id) {
+							var mycars3 = new Array() ;
+							$.each(result, function(index4, content4) {
+								if (content4.pid == content3.id && content4.level == 4) {
+									var chkstatus = false ;
+									if($.inArray(content4.id, arrayObj) != -1) {
+										chkstatus = true 
+									}
+									var data = {
+										id : content4.id,
+										text : content4.name,
+										"state": {
+			                                "selected": chkstatus
+			                            }
+									};
+
+									mycars3.push(data);
+
+								}
+							}) ;
+							var chkstatus = false ;
+							if($.inArray(content3.id, arrayObj) != -1) {
+								chkstatus = true 
+							}
+							var data = {
+								id : content3.id,
+								text : content3.name,
+								"state": {
+	                                "selected": chkstatus
+	                            },
+								children : mycars3
+							};
+							mycars2.push(data);
+						}
+					});
+					var chkstatus = false ;
+					if($.inArray(content2.id, arrayObj) != -1) {
+						chkstatus = true 
+					}
+					var data = {
+						id : content2.id,
+						text : content2.name,
+						"state": {
+                            "selected": chkstatus
+                        },
+						children : mycars2
+					};
+					mycars1.push(data);
+				}
+			});
+			var chkstatus = false ;
+			if($.inArray(content.id, arrayObj) != -1) {
+				chkstatus = true 
+			}
+			var data = {
+				id : content.id,
+				text : content.name,
+				children : mycars1,
+				state: {
+					"opened": true,
+					"selected": chkstatus
+				}
+			};
+			mycars.push(data);
+		}
+	})
+	var data = {
+		id : '888888',
+		text : '分类列表',
+		children : mycars,
+		state: {
+			"opened": true,
+			"disabled" : true
+		}
+	};
+	cb(data);
+}
+
+$('#tree_2').jstree({
+	'core' : {
+		data : function(node, cb) {
+			var url = "pageNavigation/getTree";
+			getJson(url, cb);
+		},
+		"themes" : {
+			"responsive" : false
+		},
+		"check_callback" :true, // 拖动时 重新排序
+	},
+	'plugins': ["wholerow", "checkbox", "types"]
+});
+ 
+	        
+</script>
+#end
+#if($flagtag)
+<div class="form-group">
+	<label class="control-label col-md-2">货品标签：</label>
+	<div class="col-md-10" style="vertical-align: middle; margin-top: 7px;">
+		#foreach($label in $labels)
+		<input type="checkbox" name="chktags" value="$!label.name" #foreach($tag in $tags) #if($!tag == $!label.name) checked #end #end >
+		$!label.name
+		#end
+		<input type="hidden" name="tags" id="goodtags" />
+	</div>
+</div>
+#end
+#if($flagprice)
+<div class="form-group">
+	<label class="control-label col-md-2">售价：</label>
+	<div class="col-md-8">
+		<div class="col-md-3">
+		<input type="text" class="form-control positiveFloatNum" name="minPrice" value="$!price.start">
+		</div>
+		<div class="col-md-3">
+		<input type="text" class="form-control positiveFloatNum" name="maxPrice" value="$!price.end">
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+MyTouchSpin.init() ;
+</script>
+#end

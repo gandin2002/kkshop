@@ -1,0 +1,278 @@
+<div class="portlet box green form">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cogs"></i>
+			账房 &gt; 退货单 &gt; 退货单明细
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+		</div>
+	</div>
+	<div class="portlet-body">
+		<div class="tabbable-line ">
+			<div class="tab-content">
+				<div class="tab-pane active form">
+					<div class="form-body">
+						<h3 class="form-section">退货单明细</h3>
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">售后单号：</label>
+									<div class="col-md-9">
+										<p>$!amOrder.id</p>
+									</div>
+								</div>
+							</div>
+							<!--/span-->
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">订单号：</label>
+									<div class="col-md-9">
+										<p>$!amOrder.orderId</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">退货方式：</label>
+									<div class="col-md-9">
+										<p>物流</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">退货时间：</label>
+									<div class="col-md-9">
+										<p>$!amOrder.createDate</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/row-->
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">物流公司：</label>
+									<div class="col-md-9">
+										<p>$!amOrder.transCompany</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">物流单号：</label>
+									<div class="col-md-9">
+										<p>$!amOrder.transNum</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">退货会员：</label>
+									<div class="col-md-9">
+										<p>$!amOrder.userId</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">所属企业：</label>
+									<div class="col-md-9">
+										<p>$!amOrder.company</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/row-->
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">退货人：</label>
+									<div class="col-md-9">
+										<p>$!userInfoList[0]</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">退货电话：</label>
+									<div class="col-md-9">
+										<p>$!shippingInfo.phone</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">退货地区：</label>
+									<div class="col-md-9">
+										<p>$!shippingInfo.county</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">详细地址：</label>
+									<div class="col-md-9">
+										<p>$!shippingInfo.address</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/row-->
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">售后类型：</label>
+									<div class="col-md-9">
+										<p>$!amOrder.reOrderType.name</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">售后状态：</label>
+									<div class="col-md-9">
+										<p>$!amOrder.orderState.name</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">售后涉及金额：</label>
+									<div class="col-md-9">
+										<p>$!order.total</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/row-->
+						<div class="row">
+						    <div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">退货种类：</label>
+									<div class="col-md-9">
+										<p>$!amOrder.reOrderReason.name</p>
+									</div>
+								</div>
+							</div>
+							
+							
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">购买数量：</label>
+									<div class="col-md-9">
+										<p>$!orderItem.quantity</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">退货数量：</label>
+									<div class="col-md-9">
+										<p>$!amOrder.quantity</p>
+									</div>
+								</div>
+							</div>
+							
+							
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">退货金额：</label>
+									<div class="col-md-9">
+										<p>$!order.totalNum</p>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!--/row-->
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">退货收货人：</label>
+									<div class="col-md-9">
+										<p>admin</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">退货收货时间：</label>
+									<div class="col-md-9">
+										<p>$!amOrder.createDate</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label col-md-3">备注：</label>
+									<div class="col-md-9">
+										<p>$!amOrder.reason</p>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+						
+					</div>
+					
+					
+					
+					<div class="form-body">
+						<h3 class="form-section">退货货品信息</h3>
+						<div class="table-container table-scrollable">
+						<table class="table table-bordered table-hover icheck-table" id="productTable">
+							<thead>
+									<tr>
+					  		 			<th>货品编号</th>
+					  		 			<th>货品名称</th>
+					  		 			<th>规格</th>
+					  		 			<th>分类</th>
+					  		 			<th>品牌</th>
+					  		 			<th>售价</th>
+					  		 			<th>优惠金额</th>
+					  		 			<th>购买数量</th>
+					  		 			<th>收货数量</th>
+					  		 			<th>库位</th>
+					  		 			<th>税码</th>
+									</tr>
+								</thead>
+								<tbody>
+								#foreach($item in $aItems)
+							 	#set($Product = $mapop.get($item))
+							 	#set($Sku = $map.get($item))
+							 	#set($numble = ( $!order.otherReduction) + ($!order.promotionsReduction) +($!order.couponReduction) )
+					 				<tr>  
+									    <td>$!item.skuCode</td>
+									    <td>$!item.productName</td>
+									    <td>$!item.attrAndAttrValues</td>
+									    <td>$!Product.Category.name</td>
+									    <td>$!Product.Brand.name</td>
+									    <td>$!item.price</td>
+									    <td>$numble</td>
+									    <td>#set($!item.quantity=$!item.quantity/$!Sku.translateRate)
+									    	$!item.quantity
+									    </td>
+									    <td>
+									    #set($!item.quantity=$!item.quantity/$!Sku.translateRate)
+									    	$!item.quantity
+									    </td>
+									    <td>$!warehLocation.code</td>
+									    <td>$item.tax</td>
+					 				</tr>
+								#end
+								</tbody>
+						</table>
+					 
+						
+					</div>
+					
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+</div>

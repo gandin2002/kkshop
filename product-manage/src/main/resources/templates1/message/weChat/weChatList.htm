@@ -1,0 +1,56 @@
+<div class="modal fade bs-modal-lg" id="modelContent">
+	<div class="modal-dialog modal-lg">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="tabbable-line ">
+			<ul class="nav nav-tabs ">
+				<li class="active"   ><a href="weChatMessage/list" class="ajaxify">微信模板</a></li>
+				<li><a href="weChatMessage/custom" class="ajaxify">自定义消息</a></li>
+				<li><a href="weChatMessage/sendBox"  class="ajaxify">发件箱</a></li>
+				<li><a href="weChatMessage/config"  class="ajaxify">微信配置</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active form">
+					<div class="form-body">
+						<div class="table-scrollable">
+						   <table class="table table-striped table-bordered table-hover" id="tableCategory">
+							  	<thead>
+									<tr>
+										<th>发送项目</th>
+										<th>模板ID</th>
+										<th>启用</th>
+										<th>发送成功数</th>
+										<th>发送失败数</th>
+										<th>设置时间</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									#foreach($item  in $!wxMsgTemplatList)
+									<tr>
+										<td>$item.title</td>
+										<td>$item.template_id</td>
+										<td>#if($item.state) √ #else X #end</td>
+										<td>$!item.succeedNum</td>
+										<td><p class="badge badge-danger">$!item.failureNum</p></td>
+										<td>$!item.setupDate</td>
+										<td><a href="#modelContent" class="btn green btn-outline btn-sm ajax-model-get"  data-toggle="modal"  thref="/weChatMessage/templateDetail?template_id=$item.template_id"><i class="fa fa-edit" ></i>编辑</a></td>
+									</tr>
+									#end
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>

@@ -1,0 +1,169 @@
+<!-- 商品分类 -->
+<div class="row">
+	<div class="col-md-2" id="leftCategoryMenu">
+		<div class="portlet box green">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-comments"></i>
+					商品分类
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div class="table-scrollable">
+					<div id="tree_1"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-10" id="skuSelectMainDiv">
+
+	</div>
+</div>
+<div class="portlet-body form" id="willOrderMain">
+
+</div>
+
+<script type="text/javascript">
+	$('#skuSelectMainDiv').load('/order/selectSku');
+	$('#willOrderMain').load('/order/delSkuCart?skuId=0');
+	
+</script>
+<script type="text/javascript" >
+ 
+
+	var getJson = function(url, id, cb, parent) {
+		$.getJSON(url, {
+			'id' : id,
+			'parent' : parent
+		}, function(result) {
+			if (cb != null) {
+				dataProcessing(result, cb);
+			}
+		});
+	};
+	var dataProcessing = function(result, cb) {
+		var mycars = new Array();
+		$.each(result, function(index, content) {
+			if (content.level == 1) {
+				var mycars1 = new Array();
+				$.each(result, function(index2, content2) {
+					if (content2.pid == content.id) {
+						var mycars2 = new Array();
+						$.each(result, function(index3, content3) {
+							if (content3.pid == content2.id) {
+								var mycars3 = new Array();
+								$.each(result, function(index4, content4) {
+									if (content4.pid == content3.id
+											&& content4.level == 4) {
+										var data = {
+											id : content4.code,
+											text : content4.name,
+											icon : 'fa fa-vimeo'
+										};
+										mycars3.push(data);
+									}
+								});
+								var nodeId = content3.id;
+								var nodeIcon = content3.icon;
+
+								if (nodeId == null || nodeId == '') {
+									nodeId = content3.code;
+									nodeIcon = 'fa fa-vimeo';
+								}
+								var data = {
+									id : nodeId,
+									text : content3.name,
+									icon : nodeIcon,
+									children : mycars3
+								};
+								mycars2.push(data);
+							}
+						});
+						var data = {
+							id : content2.id,
+							text : content2.name,
+							icon : content2.icon,
+							children : mycars2
+						};
+						mycars1.push(data);
+					}
+				});
+				var data = {
+					id : content.id,
+					text : content.name,
+					icon : content.icon,
+					children : mycars1,
+					state : {
+						"opened" : false
+					}
+				};
+				mycars.push(data);
+			}
+		})
+		var data = {
+			id : '000000000000000',
+			text : '分类列表',
+			icon : 'fa fa-home',
+			children : mycars,
+			state : {
+				"opened" : true,
+				"disabled" : false
+			}
+		};
+		cb(data);
+	}
+	$('#tree_1').jstree({'core' : {
+		data : function(node, cb) {
+			var url = "pageNavigation/getTree";
+			getJson(url, node.id, cb, node.parent);
+		},
+		"themes" : {"responsive" : false},
+		"check_callback" : true, // 拖动时 重新排序
+		},
+		"plugins" : [ "contextmenu" ],
+		"contextmenu" : { //自定义contextmenu
+			"items" : {
+				"create" : null,
+				"rename" : null,
+				"remove" : null,
+				"ccp" : null,
+				"add" : null,
+				"delete" : null
+			}
+		},
+	});
+</script>
+
+<script type="text/javascript">
+	/**
+	* 点击树事件
+	*/
+	$('#tree_1').on('activate_node.jstree', function(node, event) {
+		var categoryId = event.node.id ;
+		if(categoryId == '000000000000000') {
+			categoryId = '' ;
+		}
+		$('#categoryId').val(categoryId);
+		$('#divPageNo').val(1);
+		 var url = $("#searchForm").attr("action");
+		 var skuSelectMainDiv = $('#skuSelectMainDiv') ;
+		 $.ajax({
+     		type: "GET",
+     		cache: false,
+     		url: url,
+     		dataType: "html",
+     		data: $("#searchForm").serialize(),
+     		success : function(res) {
+     			skuSelectMainDiv.html('');
+     			skuSelectMainDiv.html(res);
+     		},
+     		error: function (xhr, ajaxOptions, thrownError) {
+     			skuSelectMainDiv.html('<h4>服务器异常，请与管理员联系.</h4>');
+            }
+     	})
+	})
+</script>

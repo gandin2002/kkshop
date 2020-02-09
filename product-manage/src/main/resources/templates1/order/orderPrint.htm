@@ -1,0 +1,66 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">打印单据</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        	<div class="form-body">
+ 				#if($!templatePrint.templateChoose == 1)
+ 					#parse("basicSetup\printOrder\printTemplate\printTemplate1.htm")
+ 				#end
+ 				#if($!templatePrint.templateChoose == 2)
+ 					#parse("basicSetup\printOrder\printTemplate\printTemplate2.htm")
+ 				#end
+ 				#if($!templatePrint.templateChoose == 3)
+ 					#parse("basicSetup\printOrder\printTemplate\printTemplate3.htm")
+ 				#end
+            </div>
+            <div class="form-actions right">
+            	 <a href="javascript:;"   class="btn green print"> 打印</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+    </div>
+</div>
+<script type="text/javascript">
+	var imageState = $!templatePrint.printImageState;
+	var barcodesState = $!templatePrint.barcodesState;
+	var qRcodeState = $!templatePrint.qRcodeState;
+	var orderIdState = $!templatePrint.orderIdState;
+
+	//console.log(imageState);
+	if (imageState == false) {
+		$(".productImage").hide();
+	} else {
+		$(".productImage").show();
+	}
+	if (barcodesState == false) {
+		$("#barcodes").hide();
+	} else {
+		$("#barcodes").show();
+	}
+	if (qRcodeState == false) {
+		$(".orderQR").hide();
+	} else {
+		$(".orderQR").show();
+	}
+	if (orderIdState == false) {
+		$(".orderId").hide();
+	} else {
+		$(".orderId").show();
+	}
+	$(".print").on('click', function() {
+		$(".divTemplate").printThis({
+			debug : false,
+			importCSS : true,
+			importStyle : true,
+			printContainer : true,
+			pageTitle : "打印",
+			removeInline : false,
+			printDelay : 333,
+			header : null,
+			formValues : true,
+		});
+	})
+</script>

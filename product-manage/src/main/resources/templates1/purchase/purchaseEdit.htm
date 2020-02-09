@@ -1,0 +1,200 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">库存管理 > 采购管理 > 采购入库单 </span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/purchase/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+        		<div class="row">
+                 <div class="form-group">
+                     <label class="control-label col-md-1">仓库：</label>
+                     <div class="col-md-2">
+                         <select class="js-data-wareHouse-ajax form-control" name="purchase.wareHouseId" required id="wareHouseId">
+                         	<option value="$purchase.wareHouseId" selected>$purchase.wareHouseName</option>
+						 </select>
+						 <input type="hidden" name="purchase.wareHouseName" id="wareHouseName" value="$purchase.wareHouseName" />
+						 <input type="hidden" name="purchase.id" id="id" value="$purchase.id" />
+                     </div>
+                     
+                     <label class="control-label col-md-1">供应商：</label>
+                     <div class="col-md-3">
+                         <select class="js-data-supplierName-ajax form-control" name="purchase.supplierId" required>
+                         	<option value="$purchase.supplierId" selected>$purchase.supplierName</option>
+						 </select>
+						 <input type="hidden" name="purchase.supplierName" id="supplierName" value="$purchase.supplierName"/>
+                     </div>
+                     
+                     <label class="control-label col-md-1">备注：</label>
+                     <div class="col-md-4">
+                         <input type="text" class="form-control" name="purchase.mark" maxlength="40" value="$purchase.mark">
+                     </div>
+                 </div>
+                 </div>
+                 <div class="row">
+                 	<div class="col-md-12">
+                 		<div class="table-scrollable">
+                 			<table class="table table-bordered table-hover data-tr">
+                 				<thead>
+                 				<tr>
+									<th class="text-center">条形码</th>
+									<th class="text-center">货品编码</th>
+									<th class="text-center">货品名称</th>
+									<th class="text-center">规格</th>
+									<th class="text-center">分类</th>
+									<th class="text-center">库位</th>
+									<th class="text-center">单位</th>
+									<th class="text-center">数量</th>
+									<th class="text-center">售价</th>
+									<th class="text-center">标准进价</th>
+									<th class="text-center">实际进价</th>
+									<th class="text-center">操作</th>
+								</tr>
+								</thead>
+								<tbody>
+									#set($idx = 0)
+									#foreach($item in $items)
+									<tr>
+										<td class="col-md-2">
+											<select  name="item[$idx].barCode"  class="form-control sku-barCode ">
+												<option value="$!item.barCode" selected>$!item.barCode</option>
+											</select>
+										</td>
+										<td class="col-md-2">
+											<select  name="item[$idx].skuCode"  class="form-control sku-skuCode ">
+												<option value="$!item.skuCode" selected>$!item.skuCode</option>
+											</select>
+										</td>
+										<td class="col-md-2">
+											<select name="item[$idx].productName"  class="form-control productName ">
+												<option value="$!item.productName" selected>$!item.productName</option>
+											</select>
+											<input type="hidden" name="item[$idx].skuId" class="skuId" value="$!item.skuId">
+											<input type="hidden" name="item[$idx].id" class="skuId" value="$!item.id">
+										</td>
+										<td>
+											<span class="attrName_Span">$!item.attrName</span>
+											<input type="hidden"   name="item[$idx].attrName" class="attrName" value="$!item.attrName">
+										</td>
+										<td>
+											<span class="categoryName_Span">$!item.categoryName</span>
+											<input type="hidden"   name="item[$idx].categoryName" class="categoryName" value="$!item.categoryName">
+										</td>
+										<td>
+											<span class="wareLocation_Span">$!item.wareLocation</span>
+											<input type="hidden"   name="item[$idx].wareLocation" class="wareLocation" value="$!item.wareLocation">
+										</td>
+										<td>
+											<span class="unitName_Span">$!item.unitName</span>
+											<input type="hidden"   name="item[$idx].unitName" class="unitName" value="$!item.unitName">
+										</td>
+										<td>
+											<input type="text" name="item[$idx].quantity" class="form-control quantity input-xsmall positiveIntegerNum2" value="$!item.quantity">
+										</td>
+										<td>
+											<span class="salePrice_Span">$!item.salePrice</span><input type="hidden" name="item[$idx].salePrice" class="salePrice" value="$!item.salePrice">
+										</td>
+										<td>
+											<input type="text" name="item[$idx].costPrice" class="form-control costPrice input-xsmall positiveFloatNum2" value="$!item.costPrice">
+										</td>
+										<td>
+											<input type="text" name="item[$idx].factPrice" class="form-control factPrice input-xsmall positiveFloatNum2" value="$!item.factPrice">
+										</td>
+										<td>
+											<a href="javascript:;" class="add-purchase-item">新增</a>
+											<a href="javascript:;" class="del-btn-item" thref="/purchase/delItem?id=$!item.id&purchaseId=$purchase.id">删除</a>
+										</td>
+									</tr>
+									#set($idx = $idx+1)
+									#end
+									#if($idx == 0 )
+									<tr>
+										<td class="col-md-2">
+											<select  name="item[0].barCode"  class="form-control sku-barCode ">
+											</select>
+										</td>
+										<td class="col-md-2">
+											<select  name="item[0].skuCode"  class="form-control sku-skuCode ">
+											</select>
+										</td>
+										<td class="col-md-2">
+											<select name="item[0].productName"  class="form-control productName ">
+											</select>
+											<input type="hidden" name="item[0].skuId" class="skuId" >
+										</td>
+										<td>
+											<span class="attrName_Span"></span>
+											<input type="hidden"   name="item[0].attrName" class="attrName" >
+										</td>
+										<td>
+											<span class="categoryName_Span"></span>
+											<input type="hidden"   name="item[0].categoryName" class="categoryName" >
+										</td>
+										<td>
+											<span class="wareLocation_Span"></span>
+											<input type="hidden"   name="item[0].wareLocation" class="wareLocation" >
+										</td>
+										<td>
+											<span class="unitName_Span"></span>
+											<input type="hidden"   name="item[0].unitName" class="unitName">
+										</td>
+										<td>
+											<input type="text" name="item[0].quantity" class="form-control quantity input-xsmall positiveIntegerNum2">
+										</td>
+										<td>
+											<span class="salePrice_Span"></span><input type="hidden" name="item[0].salePrice" class="salePrice">
+										</td>
+										<td>
+											<input type="text" name="item[0].costPrice" class="form-control costPrice input-xsmall positiveFloatNum2">
+										</td>
+										<td>
+											<input type="text" name="item[0].factPrice" class="form-control factPrice input-xsmall positiveFloatNum2">
+										</td>
+										<td>
+											<a href="javascript:;" class="add-purchase-item">新增</a>
+										</td>
+									</tr>
+									#end
+								</tbody>
+                 			</table>
+                 		</div>
+                 	</div>
+                 </div>
+                 
+                 
+            </div>
+            <div class="form-actions right">
+				<a thref="/purchase/list?$!queryReturn" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="/purchase/list" class="btn btn-outline grey-salsa ajaxify">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-purchaseAdd.js"></script>
+<script type="text/javascript">
+MyTouchSpin.init1() ;
+$(function(){
+	$('.del-btn-item').on('click',function(){
+		var url = $(this).attr('thref') ;
+		var pageContent = $('.page-content');
+        var pageContentBody = $('.page-content .page-content-body');
+		$.ajax({
+     		type: "GET",
+     		cache: false,
+     		url: url,
+     		dataType: "html",
+     		data: {},
+     		success : function(res) {
+     			debugger
+     			pageContentBody.html('');
+     			pageContentBody.html(res);
+     		},
+     		error: function (xhr, ajaxOptions, thrownError) {
+     			skuSelectMainDiv.html('<h4>服务器异常，请与管理员联系.</h4>');
+            }
+     	})
+	})
+})
+</script>

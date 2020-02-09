@@ -1,0 +1,301 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md" style="width: 800px;">
+		<div class="modal-content"></div>
+	</div>
+</div>
+
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cogs"></i>企业管理&gt; 企业信息&gt; 编辑
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse" data-original-title=""
+				title=""> </a>
+		</div>
+	</div>
+	<div class="portlet-body">
+		<div class="tabbable-line ">
+			<ul class="nav nav-tabs">
+	            <li class="active">
+	            <a href="/company/edit?id=$!item.id" class="ajaxify"  ><font style="vertical-align: inherit;"><font
+				   style="vertical-align: inherit;"> 企业信息编辑 </font></font></a></li>
+	            <li class="">
+	            <a href="/company/userinfoEdit?companyId=$!item.id" class="ajaxify"  ><font style="vertical-align: inherit;"><font
+				    style="vertical-align: inherit;"> 负责人信息编辑</font></font></a></li>
+	            <li class="">
+	            <a href="/company/licenseEdit?companyid=$!item.id" class="ajaxify" ><font style="vertical-align: inherit;"><font
+				    style="vertical-align: inherit;"> 营业执照信息编辑</font></font></a></li>
+            </ul>
+			
+		</div>
+		<span></span>
+	 </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/company/edit" class="form-horizontal" method="post">
+        	<div class="form-body">
+        	<h3 class="form-section">基本信息</h3>
+        	     <div class="form-group">
+                     <label class="control-label col-md-3">企业名称：</label>
+                     <div class="col-md-5">
+                     	 <input type="hidden" class="form-control" name="id" value="$!item.id">	
+                         <input type="text" class="form-control" name="name" value="$!item.name">
+                    	 <input type="hidden" class="form-control" name="regtime" value="$!item.regtime">
+                    	 <input type="hidden" class="form-control" name="licenseId" value="$!item.licenseId">
+                    	 <input type="hidden" class="form-control" name="licenseImage" value="$!item.licenseImage">
+                    	 <input type="hidden" class="form-control" name="userId" value="$!item.userId">	
+                    	 <input type="hidden" name="checkWarn" value="$!item.checkWarn">
+                 		 <input type="hidden" name="companySate" value="$!item.companySate">
+                 		 <input type="hidden" name="creditOver" value="$!item.creditOver" >
+                         <input type="hidden" name="credits" value="$!item.credits" >
+                         <input type="hidden" name="passTime" value="$!item.passTime" >
+                         <input type="hidden" name="extensionWorker" value="$!item.extensionWorker" >
+                         
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">企业编号：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control"  value="$!item.id" disabled="disabled">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">企业性质：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="nature" value="$!item.nature">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">企业规模：</label>
+                     <div class="col-md-5">
+                          <select name="scale" class="form-control" required>
+                    		<option value="">--请选择规模--</option>
+                    		<option value="LESS1" #if($!item.scale =='LESS1') selected #end>20人以下</option>
+                    		<option value="LESS2" #if($!item.scale =='LESS2') selected #end>20-99人</option>
+                    		<option value="LESS3" #if($!item.scale =='LESS3') selected #end>100-300人</option>
+                    		<option value="LESS4" #if($!item.scale =='LESS4') selected #end>301-1000人</option>
+                    		<option value="LESS5" #if($!item.scale =='LESS5') selected #end>1001-5000人</option>
+                    		<option value="LESS6" #if($!item.scale =='LESS6') selected #end>5000人以上</option>
+                    	</select>
+                     </div>
+                 </div>
+                 <div class="form-group">
+	                	<label class="control-label col-md-3">行业：</label>
+	                	<div class="col-md-5">
+	                    	<select name="industryId" class="form-control" required>
+	                    		<option value="">请选择行业</option>
+	                    		#foreach($industry in $!industryList)
+	                    		<option value="$industry.id" #if($!item.industryId == $industry.id) selected="selected" #end>$industry.name</option>
+	                    		#end
+	                    	</select>
+	                	</div>
+	             </div>
+                 <div class="form-group">
+	                	<label class="control-label col-md-3">企业分类：</label>
+	                	<div class="col-md-5">
+	                    	<!-- <select name="cataId" class="form-control" required>
+	                    		<option value="">请选择分类</option> -->
+	                    		#foreach($cata in $!catalist)
+	                    		#if($!item.cataId == $cata.id)
+	                    		<input type="hidden" name="cataId" value="$!item.cataId" >
+	                    		<input type="text" class="form-control" value="$!cata.name"  disabled="disabled"/>
+	                    		#end
+	                    		#end
+	                    	
+	                    	
+	                	</div>
+	             </div>
+                 <div class="form-group">
+ 					<label class="control-label col-md-3">企业地区:</label>
+ 					<div class="col-md-5">
+						<select name="provinceCode" onchange="getAddress(1, event)" data-id="0"
+                                   class="form-control  " style="width: 33.3% ;float: left;" required>
+                               <option value="">省</option>
+                               #foreach($city in $!listProvince)
+                               <option #if($!item.provinceCode == $!city.cityCode) selected="selected" #end value="$!city.cityCode">$!city.name</option>
+                          	 	#end
+                           </select>
+                           <select name="cityCode" onchange="getAddress(2, event)" data-id="1"
+                                   class="form-control  " style="width: 33.3%;float: left;">
+                                #foreach($city in $!listCity)
+                               <option #if($!item.cityCode == $!city.cityCode) selected="selected" #end  value="$!city.cityCode">$!city.name</option>
+                               #end
+                           </select>
+                           <select name="countyCode" onchange="getAddress(3, event)" data-id="2"
+                                   class="form-control  " style="width: 33.3%;float: left;">
+                                #foreach($city in $!listArea)    
+                               <option  #if($!item.countyCode == $!city.cityCode) selected="selected" #end  value="$!city.cityCode">$!city.name</option>
+                                #end
+                           </select>
+ 					</div>
+ 				 </div>	
+ 				 <div class="form-group">
+                     <label class="control-label col-md-3">详细地址：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="address" value="$!item.address">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                 	<label class="control-label col-md-3">地区邮编：</label>
+                 	<div class="col-md-5">
+                         <input type="number"  placeholder="请输入数字" class="form-control" name="postcode" value="$!item.postcode">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">企业电话：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="phone" value="$!item.phone" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="请输入数字">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">企业邮箱：</label>
+                     <div class="col-md-5">
+                         <input type="email" class="form-control" name="email" value="$!item.email">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">企业传真：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="fax" value="$!item.fax" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="请输入数字">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">*专管员：</label>
+                     <div class="col-md-5">
+                          <select name="operatorId" class="form-control operatorName" required>
+	                    		<option value="">--请选择专管员--</option>
+	                    		#foreach($user in $!operatorList)
+	                    		 <option value="$user.id" #if($!item.operatorId == $user.id) selected="selected" #end data-name='$user.username'>$user.username</option>
+	                    		#end
+	                    	</select>
+	                    	<input type="hidden" id="operatorName" name="operatorName" value="$!item.operatorName">
+                     </div>
+                     <script type="text/javascript">
+						function operatorName(){
+	                    	var _this = $("form .operatorName");
+	                    	var operatorName = _this.find("option:selected").attr("data-name");
+	                    	$("#operatorName").val(operatorName);
+						}
+						operatorName();
+                    	$("form").on("change",".operatorName",function(){
+                    		operatorName()
+						})
+                    </script>
+                 </div>
+                  <div class="form-group">
+                 	<label class="control-label col-md-3">企业网址:</label>
+                 	<div class="col-md-5">
+                 		 <input type="text" class="form-control" name="webSite" value="$!item.webSite">
+                     </div>
+                 </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3">订单免审：</label>
+                     <div class="col-md-5">
+                         <select name="audit" class="form-control" >
+	                    		<option value="1" #if($!item.audit == true) selected="selected" #end>免审核</option>
+	                    		<option value="0" #if($!item.audit == false) selected="selected" #end>审核</option>
+	                    	</select>
+                     </div>
+                 </div>
+                  <h3 class="form-section">账户信息</h3>
+                  <div class="form-group">
+                     <label class="control-label col-md-3">信用额度：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control positiveFloatNum" name="credits" value="$!item.credits"  placeholder="请输入数字">
+                     </div>
+                  </div>
+                  <div class="form-group">
+		                <label class="control-label col-md-3">实际申请账期时间：</label>
+		                <div class="col-md-5">
+		                <select name="applyListTimeId" class="form-control " >
+                            #foreach($billTime in $!billTimes)
+                                <option #if($!billTime.erpCode == $!item.applyListTimeId) selected="selected" #end value="$!billTime.erpCode" >$!billTime.conditionName</option>
+ 						    #end
+                        </select>
+                        </div>
+		            </div> 
+                   <div class="form-group">
+                     <label class="control-label col-md-3">账单日：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="period" value="$!item.period">
+                     </div>
+                 </div>
+                 <div class="form-group">
+	                	<label class="control-label col-md-3">企业等级：</label>
+	                	<div class="col-md-5">
+	                    	<select name="level" class="form-control" required>
+	                    		<option value="">请选择等级</option>
+	                    		#foreach($level in $!levelList)
+	                    		<option value="$level.id" #if($!item.level == $level.id) selected="selected" #end>$level.name</option>
+	                    		#end
+	                    	</select>
+	                	</div>
+	             </div>
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/company/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="/company/list" class="btn btn-outline grey-salsa ajaxify">返回</a>
+            </div>
+        </form>   
+    </div>
+</div>
+<script type="text/javascript">
+MyTouchSpin.init();
+
+$('#element_id').cxSelect({
+  url: '/assets/plugins/cxSelect-master/js/cityData.min.json',               // 如果服务器不支持 .json 类型文件，请将文件改为 .js 文件
+  selects: ['province', 'city', 'area'],  // 数组，请注意顺序
+  emptyStyle: 'none'
+});
+ 
+function getAddress(type, event){
+    var me = $(event.target),
+        nextEl = me.next(),
+        n_nextEl = nextEl.next(),
+        n_n_nextEl = n_nextEl.next(),
+        pid = me.val();
+    if(me.val() == ''){
+        switch (type) {
+            case 1: nextEl.html('<option value="">市</option>');
+                n_nextEl.html('<option value="">区/县</option>');
+                n_n_nextEl.hide();
+                break;
+            case 2: nextEl.html('<option value="">区/县</option>');
+                n_nextEl.hide();
+                break;
+            case 3: nextEl.hide();
+                break;
+        }
+        return;
+    }
+    $.get('city/getAddress', { pid: pid }, function(data){
+        if(data.length > 0){
+            switch (type) {
+                case 1: var htmls = '<option value="">市</option>';
+                    n_nextEl.html('<option value="">区/县</option>');
+                    n_n_nextEl.html('<option value="">街道</option>').hide();
+                    break;
+                case 2: var htmls = '<option value="">区/县</option>';
+                    n_nextEl.html('<option value="">街道</option>').hide();
+                    break;
+                case 3: var htmls = '<option value="">街道</option>';
+                    nextEl.show();
+                    break;
+            };
+            $.each(data, function(index, item){
+                htmls += '<option value="'+item.cityCode+'">'+item.name+'</option>';
+            })
+            nextEl.html(htmls);
+        }else{
+            switch (type) {
+                case 1: n_n_nextEl.hide();
+                    break;
+                case 2: n_nextEl.hide();
+                    break;
+                case 3: nextEl.hide();
+                    break;
+            };
+        }
+    },'json');
+}
+</script>

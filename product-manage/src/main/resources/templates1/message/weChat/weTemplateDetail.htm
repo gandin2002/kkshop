@@ -1,0 +1,146 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">查看详情</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/weChatMessage/editTemplat" class="form-horizontal" method="post">
+			<div class="form-body left">
+         	<div class="row">
+         		<div class="col-md-9">
+			        <div class="form-group">
+		                <label class="control-label col-md-4">模版ID：</label>
+		                <div class="control-label col-md-8" style="text-align:left">$!wxMsgTemplate.template_id</div>
+		                <input type="hidden" name="template_id" value="$!wxMsgTemplate.template_id">
+		            </div>
+		            <div  class="form-group">
+		            	 <label class="control-label col-md-4">绑定响应事件：</label>
+		            	 <div class=" col-md-8">
+		            	 	<select class="form-control" name="msgType">
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'REGISTER') selected="selected"  #end value="REGISTER" >注册成功提醒</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'ORDER_PAID') selected="selected"  #end  value="ORDER_PAID">订单付款成功通知</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'ORDER_CONFIRM_RECEIPT') selected="selected"  #end  value="ORDER_CONFIRM_RECEIPT">订单确认收货通知</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'AUDIT_NOTICE') selected="selected"  #end  value="AUDIT_NOTICE">审核结果通知</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'VERIFICATION_NOTICE') selected="selected"  #end  value="VERIFICATION_NOTICE">验证码通知</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'PLACING_ORDER_SUCCESS') selected="selected"  #end value="PLACING_ORDER_SUCCESS">下单成功通知</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'REPAYMENT_NOTICE') selected="selected"  #end value="REPAYMENT_NOTICE">还款提醒</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'OBLIGATION_NOTICE') selected="selected"  #end value="OBLIGATION_NOTICE">订单待付款提醒</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'PAYMENT_FAILURE_NOTICE') selected="selected"  #end value="PAYMENT_FAILURE_NOTICE">付款失败通知</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'CHANGE_PASSWORD_NOTICE') selected="selected"  #end value="CHANGE_PASSWORD_NOTICE">密码修改通知</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'COLLECTION_NOTICE') selected="selected"  #end value="COLLECTION_NOTICE">收款通知</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'LOGIN_SUCCESSFULLY_NOTICE') selected="selected"  #end value="LOGIN_SUCCESSFULLY_NOTICE">资料审核结果通知</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'ORDER_DELIVER_GOODS') selected="selected"  #end value="ORDER_DELIVER_GOODS">订阅模板消息</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'LOGIN_SUCCESS') selected="selected"  #end value="LOGIN_SUCCESS">登录成功通知</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'ORDER_AFTER_NOTICE') selected="selected"  #end value="ORDER_AFTER_NOTICE">订单售后通知</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'ORDER_DELIVER_GOODS') selected="selected"  #end value="ORDER_DELIVER_GOODS">订单发货提醒</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'ORDER_ORDER_REVIEW') selected="selected"  #end value="ORDER_ORDER_REVIEW">订单审核提醒</option>
+		            	 		<option #if($!wxMsgTemplate.messageNodeType == 'NOT_BINDING') selected="selected"  #end value="NOT_BINDING">没有绑定</option>
+		            	 	</select>
+		            	 </div>
+		            </div>
+		            #foreach($item in  $!jsonArray)
+		            #set($templateItem = $templateItemMap.get($!item))
+		         	<div class="form-group">
+		                <label class="control-label col-md-5">参数名 : $item 参数内容：</label>
+		                <div class="control-label col-md-1"><input value="$!templateItem.color"  name="color" type="hidden" id="hidden-input" class="form-control demo" ></div>
+		                <div class="control-label col-md-6" style="text-align:left">
+		                	<input class="form-control" name="value" value="$!templateItem.value " >
+		                	<input type="hidden" name="name" value="$item">
+		                </div>
+		            </div>  
+		             #end
+		             
+ 		            <div class="form-group">
+		            	<label class="control-label col-md-4">状态：</label>
+		                <div class="col-md-8 form-control-static">
+	                     	<label class="mt-radio mt-radio-outline">启用
+								<input type="radio" value="true" name="state" #if($!wxMsgTemplate.state) checked #end >
+								<span></span>
+							</label>
+							<label class="mt-radio mt-radio-outline">禁用
+								<input type="radio" value="false" name="state"  #if($!wxMsgTemplate.state=='false') checked #end >
+								<span></span>
+							</label> 
+	                     </div>
+		            </div>    		
+         		</div>
+         		<div class="col-md-3">
+         			<div class="form-group">
+		        		<textarea cols="form-control" style="width: 100%;height: 400px;resize:none;" >
+		        			客户请求IP:$ip
+							会员号：$passport_id
+							昵称：$nickname 
+							邮箱：$email
+							用户手机号：$phone
+							真实姓名: $realname
+							现在时间：$date
+							订单信息：$order_info
+							订单编号：$order_number
+							订单货品：$order_goods
+							订单金额：$order_total_pay
+							下单时间：$createDate
+							付款时间: $payDate
+							退款金额：$order_pay_back
+							提货时间：$order_deliver_time
+							提货门店：$order_shop
+							快递公司：$express_company
+							快递单号：$express_number
+							发货时间：$sendTime
+							售后申请时间：$afterservice_ctime
+							售后类型：$afterservice_type
+							售后单号：$afterservice_number
+							售后状态：$afterservice_status
+							售后进度：$afterservice_process
+							礼品卡类型：$type_name
+							礼品卡名称：$card_name
+							礼品卡终止日期：$card_end_time
+							通用审核类型:$check
+							通用审核状态:$checkSate
+							审核备注:$remark
+							公司名称:$checkName
+						</textarea>
+		            </div>
+         		</div>
+         	</div>
+         </div>
+            <div class="form-actions right">
+            	<a thref="/weChatMessage/list?$!queryReturn" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-kindeditor.js"></script>
+<script type="text/javascript">
+ComponentsSelect2.initWithSearch();
+$('.demo').each(function() {
+    //
+    // Dear reader, it's actually very easy to initialize MiniColors. For example:
+    //
+    //  $(selector).minicolors();
+    //
+    // The way I've done it below is just for the demo, so don't get confused
+    // by it. Also, data- attributes aren't supported at this time...they're
+    // only used for this demo.
+    //
+    $(this).minicolors({
+        control: $(this).attr('data-control') || 'hue',
+        defaultValue: $(this).attr('data-defaultValue') || '',
+        inline: $(this).attr('data-inline') === 'true',
+        letterCase: $(this).attr('data-letterCase') || 'lowercase',
+        opacity: $(this).attr('data-opacity'),
+        position: $(this).attr('data-position') || 'bottom left',
+        change: function(hex, opacity) {
+            if (!hex) return;
+            if (opacity) hex += ', ' + opacity;
+            if (typeof console === 'object') {
+                console.log(hex);
+            }
+        },
+        theme: 'bootstrap'
+    });
+
+});
+</script>

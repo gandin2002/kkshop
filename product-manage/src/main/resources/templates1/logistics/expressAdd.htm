@@ -1,0 +1,298 @@
+<style>
+#tbody {
+	width: 900px;
+	height: 500px;
+	border: 1px solid;
+}
+
+#expressImage {
+	background: url($!express.backgroundImage) no-repeat;
+	width: 900px;
+	height: 500px;
+	background-size: 100% 100%;
+	position: absolute;
+	background-size: cover !important;
+}
+
+.exparams {
+	padding-top: 10px;
+	padding-left: 50px;
+	padding-right: 50px;
+}
+
+.draggable {
+	padding: 0.5em;
+	float: left;
+	margin: 0 10px 10px 0;
+	position: absolute !important;
+}
+
+.dtext {
+	border: 1.2px dashed #F2784B;
+	margin: 0;
+}
+
+.coord {
+	font-size: xx-small;
+	text-align: right;
+	display: none;
+}
+.newtext{
+ 	display: none;
+}
+</style>
+<script src="/assets/plugins/jquery-ui/jquery-ui.js"></script>
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cogs"></i>基本设置 > 配送管理 > 物流公司管理 > 设置
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse" data-original-title=""
+				title=""> </a>
+		</div>
+		<div class="actions"></div>
+	</div>
+	<div class="portlet-body">
+		<div class="tab-content">
+			<div class="portlet-body form">
+				<form action="express/add" method="post" class="form-horizontal">
+ 					<input type="hidden" value="$!express.id" name="id" id="expressId">
+ 					<input type="hidden" value="$!express.backgroundImage" name="backgroundImage">
+					<input type="hidden" name="expressTemplate" >
+					<input type="hidden" id="expressParams" value='$!express.expressParams'>
+					<div id="thead" class="row">
+						<div class="col-md-6">
+							<label class="col-md-3 control-label"> 选择快递模板：</label>
+							<div class="col-md-4">
+								<select class="form-control" id="selectImage">
+									<option value="$!express.backgroundImage">自定义图片</option>
+									<optgroup label="系统已有背景图片" >
+										#foreach($express in $!list)
+										#set($logisticss = $!logisticssMap.get($!express))
+											<option value="$express.backgroundImage"> $logisticss.companyname</option>
+										#end
+									</optgroup>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<span class="btn  bg-green-turquoise bg-font-green-turquoise btn-file">
+	                            <span class="fileinput-new"> 上传背景图片 </span>
+	                            <input type="file" name="fileimage" > </span>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<label class="col-md-3 control-label"> 设置字号：</label>
+							<div class="col-md-2">
+								<select class="form-control"  id="fontSize">
+									<option>默认</option>
+									<option>10</option>
+									<option>16</option>
+									<option>18</option>
+									<option>20</option>
+									<option>24</option>
+									<option>27</option>
+								</select>
+							</div>
+						</div>
+					</div>
+ 					<div id="tbody" class="row">
+ 						<div class="col-md-8" id="expressImage" >
+ 							
+ 						
+	 						#if($!express.expressTemplate!="")
+	 							$!express.expressTemplate
+	 						#end
+ 						</div>
+					</div>	
+					<div id="tfoot" class="row">
+						<div class="col-md-3 exparams">
+							<h4 style="border-bottom: 1px dashed;">寄件人</h4>
+							<ul class="list-unstyled">
+								
+								<li><label><input name="senderUnitName" t_data="delivery.corporateName" type="checkbox">寄件人单位名称</label></li>
+								<li><label><input name="senderName" t_data="sendGoods.sender"  type="checkbox">寄件人姓名</label></li>
+								<li><label><input name="senderAddress" t_data="site"  type="checkbox">寄件人地址</label></li>
+								<li><label><input name="senderPhone" t_data="delivery.mobilePhone"  type="checkbox">寄件人手机</label></li>
+								<li><label><input name="senderLandline" t_data="delivery.landlinePhone"  type="checkbox">寄件人固话</label></li>
+								<li><label><input name="senderCode" t_data="delivery.regionCode"  type="checkbox">寄件人邮编</label></li>
+								<li><label><input name="originatingSite" t_data="delivery.city"  type="checkbox">始发地</label></li>
+								<li><label><input name="issueTime" t_data="delivery.sendTime"  type="checkbox">发件日期</label></li>
+								
+							</ul>
+						</div>
+						<div class="col-md-3 exparams">
+							<h4 style="border-bottom: 1px dashed;">收件人</h4>
+							<ul class="list-unstyled">
+								<li><label><input name="consigneeCompany" t_data="consigneeCompany" type="checkbox">收件人单位名称</label></li>
+								<li><label><input name="consigneeName" t_data="sendGoods.revicer" type="checkbox">收件人姓名</label></li>
+								<li><label><input name="consigneeAdress" t_data="sendGoods.reAdress" type="checkbox">收件人地址</label></li>
+								<li><label><input name="consigneePhone" t_data="sendGoods.rePhone" type="checkbox">收件人手机</label></li>
+								<li><label><input name="consigneeLandline" t_data="sendGoods.rePhone" type="checkbox">收件人固话</label></li>
+								<li><label><input name="landlineCode" t_data="postcode" type="checkbox">收件人邮编</label></li>
+								<li><label><input name="destination" t_data="sendGoods.reArea"  type="checkbox">目的地</label></li>
+								<li><label><input name="remarks" t_data="sendGoods.note" type="checkbox">备注</label></li>
+							</ul>
+						</div>
+						<div class="col-md-3 exparams">
+							<h4 style="border-bottom: 1px dashed;">商品</h4>
+							<ul class="list-unstyled">
+								<li><label><input name="commodityName"  t_data="productNameList"  type="checkbox">商品名称</label></li>
+								<li><label><input name="commodityCode"  t_data="productcodeList" type="checkbox">商品编码</label></li>
+								<li><label><input name="count"  t_data="sum"  type="checkbox">数量\总计</label></li>
+								<li><label><input name="orderNumber"  t_data="orderId"  type="checkbox">订单号</label></li>
+								<li><label><input name="barCode"  t_data="orderCode.barCode"  type="checkbox">订单号条形码</label></li>
+							</ul>
+						</div>
+						<div class="col-md-3 exparams">
+							<h4 style="border-bottom: 1px dashed;">其他</h4>
+							<ul class="list-unstyled">
+								<li><label><input name="userDefined1" type="checkbox"><input type="text" placeholder="用户自定义1"></label></li>
+								<li><label><input name="userDefined2" type="checkbox"><input type="text" placeholder="用户自定义2"></label></li>
+								<li><label><input name="userDefined3" type="checkbox"><input type="text" placeholder="用户自定义3"></label></li>
+								<li><label><input name="userDefined4" type="checkbox"><input type="text" placeholder="用户自定义4"></label></li>
+							</ul>
+						</div>
+					</div>	
+					<div class="form-actions right">
+						<a href="javascript:;" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a> 
+							<a  href="/logistics/list" class="ajaxify">返回</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+ 	$("#fontSize").click(function(){
+ 		 var target= $(this).val();
+ 		 if("默认"== target){
+  			$(".newtext").css("font-size","14px");
+ 			$(".dtext").css("font-size","14px");
+ 		 }else{
+ 			$(".newtext").css("font-size",target+"px");
+ 			$(".dtext").css("font-size",target+"px");
+ 			
+ 		 }
+ 	});
+ 	
+
+	$("#selectImage").click(function() {
+		var target = $(this).val();
+		$("#expressImage").css("background", "url(" + target + ") no-repeat ");
+		$("input[name='backgroundImage']").val(target);
+	});
+
+	/**
+	 * 如果有expressParams 就 初始化参数
+	 */
+	var expressParams = $("#expressParams").val();
+	if (expressParams != "" && expressParams != "undefined") {
+		$.each(JSON.parse(expressParams), function(k, v) {
+			if (v == "on") {
+				var target = $("input[name=" + k + "]");
+				target.attr("checked", "checked");
+			}
+		})
+		$("#expressImage .draggable").draggable({
+			stack : "#expressImage .draggable",
+			containment : "#expressImage",
+			stop : function(event, ui) {//拖拽stop
+				var left = ui.position.left;
+				var top = ui.position.top;
+				$(this).children(".coord").children(".left").text(left);
+				$(this).children(".coord").children(".top").text(top);
+			}
+		});
+	}
+	/**
+	 * 提交 点击事件
+	 */
+	$(".ajax-post").click(function() {
+		var expressHtml = $("#expressImage").html();
+		$("input[name='expressTemplate']").val(expressHtml);
+		return true;
+	})
+
+	/**
+	 *背景图片上传
+	 */
+	$("input[name='fileimage']").change(
+			function() {
+				var file = $(this).context.files[0];
+				var formData = new FormData();
+				formData.append("file", file);
+				formData.append("id", $("#expressId").val());
+				$.ajax({
+					url : "/express/addBackgroundImage",
+					type : "POST",
+					contentType : false,
+					processData : false,
+					data : formData,
+					dataType : "json",
+					success : function(res) {
+						$("#expressImage").css("background",
+								"url(" + res.image + ") no-repeat ");
+						$("input[name='backgroundImage']").val(res.image);
+						toastr.success("操作成功!");
+					},
+					error : function(xhr, ajaxOptions, thrownError) {
+						App.stopPageLoading();
+						toastr.error("操作失败!");
+					}
+				})
+			})
+	/**
+	 * 添加可以移动DIV 与删除
+	 */
+	function draggableAdd(elem) {
+
+		elem.draggable({
+			containment : "#expressImage",
+			scroll : false,
+			stop : function(event, ui) {//拖拽stop
+				var left = ui.position.left;
+				var top = ui.position.top;
+				$(this).children(".coord").children(".left").text(left);
+				$(this).children(".coord").children(".top").text(top);
+			}
+
+		});
+		$('#expressImage').append(elem);
+	}
+
+	$("input[type='checkbox']").click(function() {
+				var target = $(this);
+				var name = target.attr("name");
+				var text = target.parent().text();
+				var encode = target.attr("t_data");
+				if(encode == undefined || encode == ""){
+					encode = target.parent().children("input[type='text']").val();
+					text = encode;
+				}else{
+				encode = "$" + "!" + encode;
+				}
+				if (target.is(':checked')) {
+					elem = $('<div class="'+name+' draggable"/>');
+					elem.append('<p class="dtext">' + text + '</p>');
+					if (name == "barCode") {
+						elem.append('<image class="newtext" src="'+encode+'"></p>');
+					} else {
+						elem.append('<p class="newtext">' + encode+ '</p>');
+					}
+					child = $("<div/>").addClass("coord").append("X:<span class='left'>5</span>Y:<span class='top'>0</span>");
+					elem.append(child);
+					//添加拖拽元素
+					draggableAdd(elem);
+				} else {
+					$("." + name).remove();
+				}
+		});
+
+	$(".draggable").mouseenter(function() {
+		$(this).children(".coord").show(500);
+	});
+	$(".draggable").mouseleave(function() {
+		$(this).children(".coord").hide(500);
+	})
+</script>

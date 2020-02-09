@@ -1,0 +1,69 @@
+<div class="portlet box green form">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cogs"></i>
+			订单 &gt; 售后管理 &gt; 售后服务 &gt; 详情
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+		</div>
+	</div>
+	<div class="portlet-body">
+		<div class="tabbable-line ">
+			<ul class="nav nav-tabs ">
+				<li>
+					<a href="/afterMarketOrder/show?id=$!amOrderId" class="ajaxify">订单信息</a>
+				</li>
+				<li>
+					<a href="/amOrderItem/list?amOrderId=$!amOrderId" class="ajaxify">订单货品</a>
+				</li>
+				<li class="active">
+					<a href="/amOrderLog/orderLogs?amOrderId=$!amOrderId" class="ajaxify">订单日志</a>
+				</li>
+			</ul>
+
+			<div class="tab-content">
+				<div class="tab-pane active form">
+					<div class="form-body">
+						<h3 class="form-section">售后信息</h3>
+						<div class="dataTables_wrapper no-footer">
+							<div class="table-scrollable">
+								<table class="table table-striped table-bordered table-hover">
+									<tbody>
+										<tr>
+											<th>操作时间</th>
+											<th>操作人</th>
+											<th>操作人身份</th>
+											<th>操作IP</th>
+											<th>操作日志</th>
+										</tr>
+									</tbody>
+									<tbody>
+										#foreach($item in $pageOrderLog.result)
+										<tr>
+											<td>$!item.createDate</td>
+											<td>$!item.username</td>
+											<td>$!item.operateIdentity.name</td>
+											<td>$!item.operatIp</td>
+											<td>$!item.note</td>
+										</tr>
+										#end
+									</tbody>
+
+								</table>
+							</div>
+							#set($page=$pageOrderLog) 
+							#set($pageUrl="/amOrderLog/orderLogs?amOrderId=$!amOrderId&pageNo=") 
+							#parse("_page.htm")
+
+						</div>
+
+
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>

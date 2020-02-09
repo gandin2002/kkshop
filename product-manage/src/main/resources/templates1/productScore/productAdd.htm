@@ -1,0 +1,624 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+        <div class="modal-content" style="width:745px;height:610px;"></div>
+    </div>
+</div> 
+
+<div class="portlet light bordered">
+	<div class="portlet-title">
+    	<div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">营销推广 > 积分兑换管理 > 赠品列表 > 新增赠品</span>
+        </div>
+    </div>
+   <div class="form-group">
+		<div class="alert alert-warning">
+			<strong> 注：</strong>辅计量数量*换算率=主计量数量
+		</div>
+	</div>
+    <div class="portlet-title">
+    	<div class="row">
+            <label class="control-label col-md-1  text-justify" style="line-height: 32px;">*赠品分类：</label>
+            <div class="col-md-6">
+            	<select class="form-control cate1 " onchange="getAddress(1, event)" style="width: 33.3% ;float: left;" >
+            		#foreach($cate1 in $!listc1)
+            			<option #if($!cate1.id == $!firstCate.id ) selected="selected" #end value="$!cate1.id" >$!cate1.name</option>
+           		 	#end
+           		</select>
+           		 
+ 				<select class="form-control cate2 " onchange="getAddress(2, event)" style="width: 33.3% ;float: left;">
+            		<option value="">请选择</option>
+            		#foreach($cate2 in $!listc2)
+            			<option #if($!cate2.id == $!secondCate.id ) selected="selected" #end value="$!cate2.id"  >$!cate2.name</option>
+           		 	#end
+           		</select>
+          	 	
+          		<select class="form-control cate3 " onchange="getAddress(3, event)"  style="width: 33.3% ;float: left;" >
+          			<option value="">请选择</option>
+            		#foreach($cate3 in $!listc3)
+            			<option #if($!cate3.id == $!thirdCate.id ) selected="selected" #end value="$!cate3.id"  >$!cate3.name</option>
+           		 	#end
+           		 </select>
+            </div>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form role="form" action="/productScore/add" class="form-horizontal" method="post">
+            <div class="form-body">
+            	<div class="row">
+            		<input type="hidden" id="productId" value="">
+	                <div class="form-group">
+	                	<label class="control-label col-md-2">*赠品名称：</label>
+	                	<div class="col-md-5">
+	                    	<input name="prod.name" type="text" placeholder="（30字以内）" class="form-control" maxlength="50" required >
+	                    	<input name="prod.code" type="text"  class="form-control hidden" maxlength="32" required value="${code}">
+	                    	<input name="prod.categoryId" type="hidden" id="categoryId" value="$!categoryId" />
+	                    	<input name="prod.categoryName" type="hidden" value="$!categoryName" />
+	                    	<input type="hidden" name="prod.salesNum" id="salesNum" value="0">
+	                	</div>
+	                </div>
+	                <div class="form-group">
+	                	<label class="control-label col-md-2">*赠品卖点：</label>
+	                	<div class="col-md-5">
+	                    	<textarea name="prod.sellPoint" class="form-control" placeholder="（50字以内，突出字体颜色显示在赠品名称后面）"  maxlength="85" required ></textarea>
+	                	</div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="control-label col-md-2">品牌：</label>
+	                    <div class="col-md-1">
+	                    	<select name="prod.brandId"   data-live-search="true" data-size="8"  class=" form-control brandName bs-select">
+	                    		#foreach($brand in $!brandList)
+	                    		<option value="$!brand.id">$!brand.name</option>
+	                    		#end
+	                    	</select>
+	                    	<input type="hidden" id="brandName" name="prod.brandName" autocomplete="off">
+	                    </div>
+	                    <script type="text/javascript">
+							$("form").on("change",".brandName",function(){
+								var brandName = $(this).find("option:selected").text()
+								$("#brandName").val(brandName);
+							})
+						</script>
+						<label class="control-label col-md-1">*基本单位：</label>
+	                	<div class="col-md-1">
+	                    	<select name="prod.unitId"   data-live-search="true" data-size="8" class="form-control unitName bs-select" required>
+	                    		#foreach($unit in $!unitList)
+	                    		<option value="$unit.id">$unit.name</option>
+	                    		#end
+	                    	</select>
+	                    	<input type="hidden" id="unitName" name="prod.unitName" autocomplete="off">
+	                    	<script type="text/javascript">
+								$("form").on("change",".unitName",function(){
+								var unitName = $(this).find("option:selected").text()
+								$("#unitName").val(unitName);
+							})
+		                    </script>
+	                	</div>
+	                	<label class="control-label col-md-1">起订量：</label>
+	                    <div class="col-md-1">
+	                    	<input name="prod.startNum" type="text" class="form-control positiveIntegerNum" value="10">
+	                    </div>
+	                    <label class="control-label col-md-1">库存预警量：</label>
+	                    <div class="col-md-1">
+	                    	<input name="prod.inventoryHint" type="text" class="form-control positiveIntegerNum" value="1000">
+	                    </div>
+	                </div>
+	                
+	             
+	              
+	                <div class="form-group">
+	                	<label class="control-label col-md-2">*市场价：</label>
+	                	<div class="col-md-1">
+	                    	<input name="prod.displayPrice" id="displayPrice" type="text" class="form-control positiveFloatNum" required >
+	                	</div>
+	                	<label class="control-label col-md-1">*成交售价：</label>
+	                	<div class="col-md-1">
+	                    	<input name="prod.salesPrice" id="salesPrice" type="text" class="form-control positiveFloatNum" required >
+	                	</div>
+	                	<label class="control-label col-md-1">*商品体积(m³)：</label>
+	                	<div class="col-md-1">
+	                    	<input type="text" id="volume" class="form-control positiveFloatNum" name="prod.volume" required>
+	                	</div>
+	                	<label class="control-label col-md-1">*赠品重量(kg)：</label>
+	                	<div class="col-md-1">
+	                    	<input type="text" id="weight" class="form-control positiveFloatNum" name="prod.weight" required>
+	                	</div>
+	                </div>
+	              
+	                <div class="form-group">
+	                	<label class="control-label col-md-2">*是否上架：</label>
+	                	<div class="col-md-1">
+	                    	<select name="prod.flag" class="form-control bs-select" required>
+	                    		<option value="1">是</option>
+	                    		<option value="0">否</option>
+	                    	</select>
+	                	</div>
+	                	<label class="control-label col-md-1">*税码：</label>
+	                	<div  class="col-md-1" >
+	                			<select name="prod.taxId" class="form-control bs-select"  >
+	                				#foreach($taxcode  in $!taxcodeArray)
+	                				<option #if($!taxcode.state == 'true') selected="selected" #end value="$!taxcode.id">$!taxcode.name</option>
+	                				#end
+	                			</select>
+	                	</div>	
+	                	<label class="control-label col-md-1">商品标签：</label>
+	                    <div class="col-md-4">
+							<select name="prod.lables" class="form-control lableNames bs-select " multiple>
+								#foreach($pLabel in $!pLabelList)
+									<option value="$!pLabel.name" #if("新品" == $!pLabel.name) selected="selected" #end data-name="$!pLabel.name">$!pLabel.name</option>
+								#end
+							</select>
+						</div>
+	                </div>
+            	</div>
+            	<div class="row">
+            	<p>规格/库存</p>
+            	<hr/>
+            		<div class="form-group">
+	            		<label class="control-label col-md-2">规格名称：</label>
+	           			<div class="col-md-2">
+	           				<select class="js-data-getAttr-ajax form-control" name="search-attrid">
+							</select>
+	           			</div>
+	           			<div class="col-md-8">
+	           				<a  style="line-height: 2 !important;" href="javascript:;" class="btn green btn-outline btn-sm join-search-attr"><i class="fa fa-plus"></i>搜索加入</a>
+	           				<a  style="line-height: 2 !important;" href="#modelContent" thref="/attr/addFromProduct" class="btn green btn-outline btn-sm ajax-model-get" data-toggle="modal"><i class="fa fa-plus"></i>自定义加入</a>
+	           			</div>
+            		</div>
+            		<script type="text/javascript">
+					
+            		function formatAttr(repo) {
+            			  if (repo.loading) {
+            				    return repo.text;
+            			  }
+            			var markup = "<div class='select2-result-repository clearfix'>"
+            							+ "<div class='select2-result-repository__meta'>"
+            									+ "<div class='select2-result-repository__title'>" + repo.id+"</div>"
+            									+ "<div class='select2-result-repository__description'>"+ repo.name + "</div>"
+            								+"</div>"
+            							+"</div>";
+            			return markup;
+            		}
+
+            		function formatRepoSelection(repo) {
+            			return   repo.id;
+            		}
+            		$('.join-search-attr').on('click',function(){
+            			var id=$('.js-data-getAttr-ajax').val() ;
+            			var trid = 'select-attr'+id ;
+            			if($('#'+trid).html()) {
+            				toastr.warning('已存在的规格！');
+            				return ;
+            			}
+            			$.ajax({
+            				url: "/attr/getAttrAndValues",
+            				type: "get",
+            				data: {"id":id},
+            				dataType: "json",
+            				success: function(res){
+            					$('.all-attr-div').append(res.check) ;
+            					$('#skuAtteTable').append(res.attrTr)
+            					$('.icheck').iCheck({
+            						labelHover: false,
+            						cursor: true,
+            						checkboxClass: 'icheckbox_minimal-grey',
+            					});
+            				}
+            			})
+            			
+            		})
+
+            		
+            		</script>
+            	</div>
+            	
+            	<div class="row">
+            		<div class="form-group">
+            		<label class="control-label col-md-2">所有规格：</label>
+            			<div class="col-md-10 all-attr-div">
+            			#foreach($attr in $!attrList)
+            				<input type="checkbox" name="select-attr" value="$!attr.id" class="select-attr">$attr.name
+            			#end
+            			</div>
+            		</div>
+            		<script type="text/javascript">
+	            		
+	                	$("form").on("click",".select-attr",function(){
+	                		 var obj = $(this) ;
+	                		var _this = $("form .select-attr");
+                			
+                			if($("input[name=select-attr]:checked").length > 2) {
+                				toastr.warning('最多只能选择两项！');
+                				$(obj).prop("checked",false);
+                				return ;
+                			}
+                			$('.select-attr-tr').css('display','none');
+                			$('.select-attr-tr').find(".selectValue").removeAttr("checked");
+                    		_this.each(function(){
+                    			var id = $(this).val() ;
+                    			var trid = 'select-attr'+id ;
+                    			
+	                    		if ($(this).is(':checked')) {
+		                    		$('#'+trid).css('display','block');
+	                    		} else {
+	                    			$('#'+trid).css('display','none');
+	                    		}
+	                    	})
+	                    	$('.icheck').iCheck({ //重新渲染 icheck 控件
+									labelHover: false,
+									cursor: true,
+									checkboxClass: 'icheckbox_minimal-grey',
+							 });
+	                    	$(".productAttr input:checked").iCheck('uncheck') ;
+	                    	ProductSku.selectState()
+						})
+            		</script>
+            	</div>
+            	<div class="row productAttr">
+	            	<div class="form-group">
+						<label class="control-label col-md-2">已选规格：</label>
+						<div class="col-md-10">
+							<table class="table table-bordered table-hover" id="skuAtteTable">
+								#foreach($attr in $!attrList)
+								<tr id="select-attr$attr.id" style="display:none;" class="select-attr-tr">
+							        <td><strong>$attr.name</strong></td>
+							        <td>
+							        	<div class="icheck-inline" style="margin-top:-10px">
+								        	#set($attrValueList = $attrValueMap.get($attr))
+											#foreach($attrValue in $attrValueList )
+								           <label  style="margin-bottom: 0;position: relative;">
+								            	<input type="checkbox" class="icheck selectValue" value="$attrValue.id">
+									            <span>$attrValue.name</span>
+									            <div class="qrMl" style="display: none; z-index: 999;position:absolute; background-color: #fff; width: 200px;height: 200px;box-shadow: 5px 5px rgba(102,102,102,.1);border: 1px solid #eee;">
+													<button type="button" class="close close-click" style="margin: 10px;"></button>
+													<img  style="width: 151px;height: 151px;margin-left: 20px">
+												</div>
+								            </label>
+								            <input value="" type="hidden" class="inputImage">
+								            <img alt="图" class="attrImg" src="/assets/images/skuDefaultImage.jpg" width="23px" height="23px">
+								          	<input type="file" class="imgfile" style="display: none;"  accept=".jpg,.bmp,.jpeg,.png">
+								            <i style="color: red; position:relative;bottom: -5px;right:0"  t_srot="$!attrValue.sort"   class="fa fa-remove del-attrValue"></i>
+								            #end
+										   <label class="form-group form-md-line-input has-success" style="padding-top: 0px !important; margin-top:3px;margin-bottom: -10px !important;margin-left: 10px !important;">
+		                                        	<div class="col-md-6">
+			                                            <input t_attrId="$attr.id" type="text" class="form-control form_control_1"  placeholder="规格值">
+			                                            <span class="form-control-focus"> </span>
+		                                        	</div>
+		                                    </label>
+							        	</div>
+									</td>
+							    </tr>
+							    #end
+							</table>
+						</div>
+					</div>
+            	</div>
+            	
+ 
+            	 <script type="text/javascript">
+            		//添加规格值
+            		$(".form-body").on("keypress",".form_control_1",function(event){
+            			 var target= $(this);
+            			 var tval = target.val();
+            			 var taId = target.attr("t_attrId");
+            			if(event.keyCode == 13&&tval){
+                			bootbox.setLocale("zh_CN");
+                			bootbox.confirm("确定添加吗？", function(result) {
+                				if(result){
+                					var tprev =$(target.parents(".form-md-line-input ")).prev();  //获得上一个兄弟节点
+                					debugger;
+                					var t_srot= tprev.attr("t_srot"); //获得上一个排序
+                					$.post("/attr/addAttrValue",{attrId:taId,AttrValue:tval,srot:t_srot},function(source){
+                						if(source.code==0){
+                							toastr.warning(source.msg);
+                						}
+                						if(source.code==1){
+	               							 var data = JSON.parse(source.data);
+	               							var _avtem="<label style='margin-bottom: 0'>"+
+	               									   	 	"<input type='checkbox' class='icheck selectValue'>"+
+	               									  	 	"<span class='attrValueName'></span>"+
+	     									             	"<div class='qrMl' style='display: none; z-index: 999;position:absolute; background-color: #fff; width: 200px;height: 200px;box-shadow: 5px 5px rgba(102,102,102,.1);border: 1px solid #eee;'>"+
+		 														"<button type='button' class='close close-click' style='margin: 10px;'></button>"+
+		 														"<img  style='width: 151px;height: 151px;margin-left: 20px'>"+
+		 													 "</div>"+
+	               									   	"</label>";
+	               							 
+	               							_avtem +=  "<input value='' type='hidden' class='inputImage'>";
+	               							_avtem +=  "<img alt='图' class='attrImg'   src='/assets/images/skuDefaultImage.jpg'      width='23px' height='23px'>";
+	               							_avtem +=  "<input type='file' class='imgfile' style='display: none;'  accept='.jpg,.bmp,.jpeg,.png'>";
+ 
+	               							 var teh=$(_avtem+'<i   t_srot='+data.sort+' style="color: red;  position:relative;bottom: -5px;right:0"  class="fa fa-remove  del-attrValue"></i>');
+                 							
+	               							 
+	               							 
+	               							 teh.find(".attrValueName").text(tval);
+                 							 teh.find(".selectValue").val(data.id);
+                 							 
+                 							 tprev.after(teh); //向目标之后追加
+                  						 	 target.val(""); //清空
+                  						 	 toastr.success(source.msg);
+                  							 $('.icheck').iCheck({ //重新渲染 icheck 控件
+                  								labelHover: false,
+                  								cursor: true,
+                  								checkboxClass: 'icheckbox_minimal-grey',
+                  							 });
+                						}
+                					},"json")
+                				}
+                			});
+            			}
+            		});
+            		//删除规格值
+            		$(".productAttr").on("click",".del-attrValue",function(){
+              			var target = $(this);
+            			var tprev = target.prev();
+            			var tprev2 =tprev.prev();
+              			var tprev3 =tprev2.prev();
+              			var tprev4 =tprev3.prev();
+            			var avId=tprev4.find(".selectValue").val();
+						bootbox.setLocale("zh_CN");
+            			bootbox.confirm("确定删除吗？", function(rest) {
+            				if(rest){
+		            			 $.getJSON("/attr/deleteValue",{"attrValueId": avId},function(result){
+			         					if(result.code > 0){
+			        						toastr.warning(result.msg);
+			        					}else{
+			        						target.remove();
+			        						tprev.remove();
+			        						tprev2.remove();
+			        						tprev3.remove();
+			        						tprev4.remove();
+			        						toastr.success(result.msg);
+			        						debugger;
+			        						ProductSku.selectState();
+			        					}
+		            			 },"json");
+            				}
+            			});
+            		})
+            		
+            	</script>
+            	
+            	
+	            <div class="row productSku">
+	            </div>
+	            <div class="row">
+					<div class="form-group">
+	                	<label class="control-label col-md-2">赠品描述：</label>
+	                    <div class="col-md-10">
+	                        <textarea id="description" class="form-control" name="prodInfo.description" style="width:100%;height:400px;"></textarea>
+	                    </div>
+	                </div>
+	        	</div>
+	        	<div class="row">
+	        		<div class="form-group">
+	        			<label class="control-label col-md-2" style="margin-top: 0">赠品图册：</label>
+	        			<div class="col-md-10">
+	        				<input type="file" class="uploadProdImage" multiple accept=".jpg,.bmp,.jpeg,.png">
+	        				<span>（最大1M，支持格式：jpg、bmp、png、jpeg） </span>
+	        			</div>
+	        		</div>
+	        	</div>
+	        	
+	        	<div class="row prodImages">
+	        		<div class="form-group">
+						<label class="control-label col-md-2"></label>
+						<div class="col-md-10 images">
+							
+						</div>
+					</div>
+	        	</div>
+       			<div class="form-group">
+       				<label class="control-label col-md-2" style="margin-top: 0">赠品参数</label>
+       			</div>
+       			#foreach($param in $attrGroup.params) 
+       			#set($temp = $velocityCount - 1)
+       			#set($ptype=$!param.paramType)
+       			<div class="row">
+       				<div class="form-group">
+	        			<div class="col-md-5">
+	        				<label class="control-label col-md-4">$!param.paramName :</label>
+	        				<div class="col-md-8">
+	       						<input name="ppms[$!temp].value" type="text" class="form-control #if($!ptype=='num')positiveIntegerNum#end#if($!ptype=='date')common-date-datepicker#end#if($!ptype=='time')common-time-datepicker#end " #if($param.paramMust=='on') required #end   #if($!ptype=='date' || $!ptype=='time') readOnly #end>#if($!ptype=='date' || $!ptype=='time')<i class="fa fa-calendar" style="position: absolute;right: 10px;top: 10px"></i>#end
+	       						<input name="ppms[$!temp].name" type="hidden" value="$param.paramName">
+	       						<input name="ppms[$!temp].ptype" type="hidden" value="$!ptype">
+	       						<input name="ppms[$!temp].categoryId" type="hidden" value="$!categoryId">
+	   						</div>
+      					</div>
+      					<div class="col-md-3" >
+      						<label class="control-label col-md-8  checkbox inline">是否筛选条件：</label>
+      						<div class="col-md-4">
+      							<input type="checkbox" name="ppms[$!temp].fliterSearch" #if($!param.paramSearch) checked #end>
+      						</div>
+        				</div>
+        				<div class="col-md-4" >
+        				&nbsp;
+        				</div>
+   					</div>
+				</div>
+       			#end
+            </div>
+            <div class="form-actions right">
+            	<a thref="/productScore/list?$!queryReturn" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+            	<a href="/productScore/toAdd/Step1?$!queryReturn" class="btn btn-outline grey-salsa ajaxify">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-product.js"></script>
+<script type="text/javascript" src="/assets/scripts/views-products-sku.js"></script>
+<script type="text/javascript" src="/assets/scripts/views-icheck.js"></script>
+<script type="text/javascript" src="/assets/scripts/views-date.js"></script>
+<script type="text/javascript">
+
+	ProductSku.init();
+	MyTouchSpin.init();
+	ComponentsTagsInput.init({id:"object_tagsinput"});
+	
+	$(' .js-data-getAttr-ajax').select2({
+		ajax : {
+			url : "attr/getAttr",
+			dataType: 'json',
+			delay : 250,
+			async : false,
+			data : function(params) {
+				var term= params.term ; 
+				var map = {};
+				map["str"] = term; 
+				return {
+					
+					str:map["str"] ,
+					pageNo : params.page||1
+				};
+			},
+			processResults: function (data, params) {
+			    params.page = params.page || 1;
+
+			    return {
+			        results: data.result,
+			        pagination: {
+			            more: (params.page * 10) < data.totalCount
+			        }
+			    };
+			},
+			cache : true
+		},
+		width : "off",
+		escapeMarkup : function(markup) {
+			return markup;
+		},
+		placeholder:'请选择',
+		minimumInputLength : 1,
+		language: "zh-CN",  
+		templateResult : formatAttr,
+		templateSelection : formatRepoSelection
+	});
+	//验证分类是否选择
+	$(".ajax-post").click(function(){
+		var cate3 = $(".cate3 option").length;
+		var cate2 = $(".cate2 option").length;
+		
+		if(cate2 >1 && !$.trim($(".cate2").val())) {
+			toastr.warning("请选择分类！");
+			return false ;
+		}
+		if(cate3 >1 && !$.trim($(".cate3").val())) {
+			toastr.warning("请选择分类！");
+			return false ;
+		}
+		
+		var cate2v= $(".cate2").val();
+		var cate3v= $(".cate3").val();
+		
+		var category1 =$(".cate1").val();
+		if($.trim(cate2v)){
+			category1 = cate2v;
+		}
+		if($.trim(cate3v)){
+			category1 = cate3v;
+		}
+		
+		$("#categoryId").val(category1);
+		
+		return true ;
+			
+	});
+	
+	
+</script>
+<script type="text/javascript">
+function getAddress(type, event){
+    var me = $(event.target),
+        nextEl = me.next(),
+        n_nextEl = nextEl.next(),
+        n_n_nextEl = n_nextEl.next(),
+        categoryId = me.val();
+    if(me.val() == ''){
+        switch (type) {
+            case 1: 
+                n_n_nextEl.hide();
+                break;
+            case 2:  
+                n_nextEl.hide();
+                break;
+            case 3: nextEl.hide();
+                break;
+        }
+        return;
+    }
+    $.get('/category/getChildrenCategory', { categoryId: categoryId }, function(data){
+            switch (type) {
+                case 1: var htmls = '<option value="">请选择</option>';
+                    n_nextEl.html('<option value="">请选择</option>');
+                    n_n_nextEl.html('<option value="">请选择/option>').hide();
+                    break;
+                case 2: var htmls = '<option value="">请选择</option>';
+                    n_nextEl.html('<option value="">请选择</option>').hide();
+                    break;
+                case 3: var htmls = '<option value="">请选择</option>';
+                    nextEl.show();
+                    break;
+            };
+            $.each(data, function(index, item){
+                 htmls += '<option value="'+item.id+'">'+item.name+'</option>';
+            })
+            nextEl.html(htmls);
+        },'json');
+}
+$(".form-body").on("click",".attrImg",function(){
+	 $(this).next().click();
+});
+$(".form-body").on("change",".imgfile",function(){
+		 var target= $(this);
+		 var aimg= target.prev();
+		 var inputImage = target.prev().prev();
+		 var bigimg =target.prev().prev().prev().find('.qrMl').find('img');
+		 var cxImage =target.prev().prev().prev();
+		cxImage.find(".selectValue").prop("checked","checked")
+		var files = this.files;
+		var formData = new FormData();
+		for (var i = 0; i < files.length; i++) {
+			var fileSize = parseInt(files[i].size / 1024).toFixed(0);
+			if (fileSize > 1024) {
+				toastr.warning("单张图片大小不要超过1M");
+				return false
+			}
+			formData.append("file", files[i]);
+		};
+		$.ajax({
+			url : "/upload-shareInfo",
+			type : "post",
+			data : formData,
+			contentType : false,
+			processData : false,
+			dataType : "html",
+			success : function(res) {
+				var data = JSON.parse(res);
+				aimg.attr('src', data.url);
+				bigimg.attr('src',data.url);
+				inputImage.val(data.url);
+				$(".icheck").iCheck({ //重新渲染 icheck 控件
+						labelHover: false,
+						cursor: true,
+						checkboxClass: 'icheckbox_minimal-grey',
+				 });
+				 ProductSku.selectState()
+			}
+		});
+	 
+})
+ 	 /**
+     * 二维码窗口关闭
+     *  
+     */
+     $(".close-click").click(function(){
+    	 $(".qrMl").hide();
+     })
+     $(".form-body").on("mouseover",".attrImg",function(){
+    	 $(this).prev().prev().find(".qrMl").show();
+     });  
+     $(".form-body").on("mouseout",".attrImg",function(){
+    	 $(this).prev().prev().find(".qrMl").hide();
+     });
+</script>
+<script src="/assets/plugins/bootstrap-select/js/components-bootstrap-select.js" type="text/javascript"></script>

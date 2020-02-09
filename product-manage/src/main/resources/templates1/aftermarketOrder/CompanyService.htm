@@ -1,0 +1,464 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>订单 &gt; 售后管理 &gt; 售后企业列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+    </div>
+    <div style="background-color: rgb(249, 247, 161);">
+	
+	</div>
+    <div class="portlet-body">
+    	<div class="tabbable-line ">
+			<ul class="nav nav-tabs ">
+				
+				<!-- <li  #if(!$company.appliState) class="active"  #end>
+					<a  href="/addmyCompany/list" >全部</a>
+					href="/addmyCompany/list" #if(!$company.appliState) class="ajaxify" #end
+				</li>  -->
+				
+				<li  #if($!company.appliState==0) class="active" #end >
+					<a href="/addmyCompany/list?appliState=0" class="ajaxify">待审核</a>
+				</li>
+				<li #if($!company.appliState==1) class="active" #end>
+					<a href="/addmyCompany/list?appliState=1" class="ajaxify">已审核</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active form">
+				</div>
+			</div>
+		</div>
+		<div class="portlet-body form">
+		   	<form action="/addmyCompany/list" class="form-horizontal" method="get" id="searchForm" onsubmit="return false">
+				<div class="form-body">
+					<div class="row">
+						<div class="col-md-3">
+							<label class="col-md-4 control-label">企业：</label>
+							<div class="col-md-8">
+						    	<input type="text" class="form-control" name="idName" id="companyId" placeholder="请输入企业名称或id"  value="">
+						    	
+							</div>
+						</div>
+						<div class="col-md-3">
+							<label class="col-md-4 control-label">企业分类：</label>
+							<div class="col-md-8">
+							    <select class="form-control" name="CompanycataId">
+							        <option value="">全部</option>
+						
+							   	#foreach($cata in $!cateList)
+									<option value="$cata.id" #if($!company.cataId == $!cata.id) selected #end >$cata.name</option>
+									#end
+							    </select>
+						    	
+							</div>
+						</div>
+						
+						
+						<div class="col-md-3">
+							<label class="col-md-4 control-label">等级：</label>
+							<div class="col-md-6">
+						    	<select name="level" class="form-control">
+								<option selected  value="">请选择</option>
+			
+		                    	#foreach($level in $!levelList)
+	                    		<option value="$level.id" #if($!company.level== $!level.id) selected #end>$level.name</option>
+	                    		#end
+		                    </select>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<label class="col-md-4 control-label">行业：</label>
+							<div class="col-md-6">
+						    	<select name="industryId" class="form-control">
+								<option selected value="">请选择</option>
+		                    	
+		                    	#foreach($item in $!industryList)
+								   <option value="$!item.sort" #if($!company.industryId == $!item.sort) selected #end>$!item.name</option>
+								#end
+		                    </select>
+							</div>
+						</div>
+		    		</div>
+		    		<div class="row">
+		    		&nbsp;<br/>
+		    		</div>
+		    		<div class="row">
+						<div class="col-md-3">
+							<label class="col-md-4 control-label">负责人：</label>
+							<div class="col-md-8">
+						    	<input type="text" class="form-control" name="companyName" value="$!companyName"> <!--  负责人  -->
+							</div>
+						</div>
+						<div class="col-md-4">
+							<label class="col-md-3 control-label">申请时间：</label>
+							<div class="col-md-4">
+						    	<input type="text" class="form-control" readOnly id="startTime" name="startTime" value="$!startTime">
+						    	<i class="fa fa-calendar" style="position: absolute;right: 10px;top: 10px"></i>
+							</div>
+							<div class="col-md-1">~</div>
+							<div class="col-md-4">
+						    	<input type="text" class="form-control"readOnly id="endTime" name="endTime" value="$!endTime">
+						    	<i class="fa fa-calendar" style="position: absolute;right: 10px;top: 10px"></i>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="actions col-md-12">
+							 
+							    
+								<a href="javascript:;" class="btn green btn-sm ajax-search"><i class="fa fa-search"></i> 查询 </a>
+								<a href="javascript:;" class="btn green btn-sm search-reset"><i class="fa fa-eraser"></i> 清除 </a>
+							</div>
+						</div>
+		    		</div>
+				</div>
+				
+			</form>
+		</div>
+		
+		
+		
+       <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+					<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+			   		<div class="actions">
+			   			<a href="javascript:;"   class="btn white btn-sm delete-tab" ><i class="fa fa-trash"></i>删除</a>
+			   			<a href="/addServiceCompany/helpOrder" class="btn white btn-sm ajaxify"><i class="fa fa-plus"></i> 新增 </a>
+			   		</div>	
+       </div>
+    
+    
+    	<div class="dataTables_wrapper no-footer">
+			<div class="table-scrollable">
+				<!-- <div>
+					<a href="#modelContent" class="btn white btn-sm ajax-model-get data_btn" data-toggle="modal" code="Membership.user.member.add" thref="/userInfo/add"><i class="fa fa-plus"></i> 新增 </a>
+					<a href="javascript:;" class="btn white btn-sm delete-tab data_btn"><i class="fa fa-trash"></i>删除</a>
+				</div> -->
+			    <table class="table table-striped table-bordered table-hover">
+				  	<thead>
+						<tr>
+						    	<th style="width: 20px">
+									<input type="checkbox" class="icheck group-icheck"/>
+								</th>
+		   		 			<th>企业ID</th>
+		   		 			<th>公司名称</th>
+		   		 			<th>分类</th>
+		   		 			<th>等级</th>
+		   		 			<th>行业</th>
+		   		 			<th>信用额度</th>
+		   		 			<th>负责人姓名</th>
+		   		 			<th>负责人手机</th>
+		   		 			<th>申请日期</th>
+		   		 			<th>技术顾问</th>
+		   		 			<th>维保有效期</th>
+		   		 			
+							<th class="col-md-2">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					#foreach($item in $pageCompany.result)
+					#set($cata=$!cataMap.get($item))
+					#set($industry=$!industryMap.get($item))
+					#set($level=$!levelMap.get($item))
+		  			#set($user=$!userMap.get($!item))
+		  				<tr>  
+		  					<td>
+								<input type="checkbox" name="checkboxes" class="icheck"  value="$!item.id" />
+							</td>
+						    <td><a class="btn-sm ajaxify" href="/details/list?id=$!item.id">$!item.id</a></td>
+						    <td>$!item.name</td>
+						    <td>$!cata.name</td>
+						    <td>$!level.name</td>
+						    <td>$!industry.name</td>
+						    <td>$!item.credits</td>
+						    <td>$!user.realname</td>
+						    <td>$!user.phone</td>
+						    <td>$!item.serviceTiem</td>
+						    <td>$!item.technicaladvisers</td>
+						  
+						    <td>$!item.validityTime</td>
+			    			<td>
+								<!-- <a href="#modelContent" class="btn green btn-outline btn-sm ajax-model-get"  data-toggle="modal"  thref="addmyCompany/addmyCompanyInfo?id=$!item.id">
+									<i class="fa fa-edit "></i>详情
+								</a> -->
+								#if($!item.appliState==0)
+								<a href="#modelContent" class="btn green btn-outline btn-sm ajax-model-get"  data-toggle="modal"  thref="addmyCompany/addmyCompanyInfo?id=$!item.id">
+								
+									<i class="fa fa-edit "></i>详情
+									</a>
+									#else
+							    	<a href="#" class="btn green btn-outline btn-sm"  data-toggle="modal"  thref="#">
+							    	<i class="fa fa-edit"></i>已通过
+							    	</a>
+								#end
+								<input type="hidden" value="$!item.id">
+						    </td>
+		  				</tr>
+					#end
+					</tbody>
+				</table>
+			</div>
+				#set($page=$pageCompany)
+			   #set($!pageUrl="/addmyCompany/list?$!queryString&pageNo=")
+			   #parse("_page.htm")
+		</div>
+    </div>
+</div>
+<div class="maske">
+	<div class="masLis">
+	<h1>审核详情</h1>
+	<table>
+		<tr>
+			<td>企业名称：</td>
+			<td style="color: #3cc51f;">武汉博宏网络科技有限公司</td>
+		</tr>
+		<tr>
+			<td>
+				技术顾问：
+			</td>
+			<td>
+				<select name="" id="teach">
+				
+				<option value="">徐小国</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>有效期:</td>
+			<td><input type="text" class="form-control" readOnly id="Time" name="startTime" value=""></td>
+		</tr>
+	</table>
+	<p><span class="pulse">通过</span><span class="gosee">取消</span></p>
+	</div>
+</div>
+<div class="maskes">
+	<div class="masLis">
+		<p class="nets"></p>
+		<p class="nemego">确定</p>
+	</div>
+</div>
+<style>
+	.maskes{
+		box-sizing: border-box;
+		display:none;
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top:0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 999;
+		margin-bottom: 50px;
+		background-color: rgba(111,106,106,.8);
+	}
+	.maskes .masLis{
+		border:1px solid #eee;
+		width: 200px;
+		height: 100px;
+		margin:410px auto;
+		background-color: white;
+		text-align: center;
+	}
+	.maskes .masLis p{
+		margin:0;
+	}
+	.maske{
+		box-sizing: border-box;
+		display:none;
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top:0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 999;
+		margin-bottom: 50px;
+	}
+	.maskes .masLis p.nets{
+		height: 50px;
+		line-height: 50px;
+	}
+	.maskes .masLis p.nemego{
+		display: inline-block;
+		text-align: center;
+		width: 80px;
+		height: 30px;
+		line-height: 30px;
+		background-color: #32c5d2;
+		color:white;
+		cursor: pointer;
+	}
+	.maske .masLis{
+		border:1px solid #eee;
+		width: 300px;
+		height: 210px;
+		margin:410px auto;
+		background-color: white;
+		text-align: center;
+	}
+	.maske .masLis table tr{
+		height: 40px;
+	}
+	.maske .masLis table{
+		margin-left: 18px;
+	}
+	.maske .masLis h1{
+		margin: 0;
+		height: 36px;
+		line-height: 36px;
+		font-size: 20px;
+		background-color: #5cd1db;
+		color:white;
+		text-align: center;
+	}
+	.maske .masLis p{
+		margin: 10px;
+	}
+	.maske .masLis p span{
+		cursor: pointer;
+		display: inline-block;
+		width: 100px;
+		height: 30px;
+		text-align: center;
+		line-height: 30px;
+		border: 1px solid #eee;
+		margin-right: 20px;
+	}
+	.maske .masLis p span.pulse{
+		background-color: #32c5d2;
+		color: white;
+	}
+</style>
+<script src="/assets/scripts/views-date.js" type="text/javascript"></script>
+<script src="/assets/scripts/views-date.js" type="text/javascript"></script>
+<script type="text/javascript" src="/assets/scripts/views-icheck.js"></script>
+<script type="text/javascript">
+   
+ComponentsSelect2.initWithSearch()
+MyTouchSpin.init()
+
+</script>
+<script type="text/javascript">
+    
+    
+	var item = '';
+    $(".go").click(function(){
+        item = $(this).siblings('input').val();
+        console.log(item);
+    	$(".maske").css('display',"block");
+
+	});
+    $(".maske p .pulse").on('click',function(){
+
+        var reanName = $("#teach").val();
+        var  afterTime = $("Time").val();
+        $.ajax({
+			url:'/handlerCompany',
+			type:'post',
+			dataType:'json',
+			data:{
+			    id:item,
+                reanName:reanName,
+                afterTime:afterTime
+			},
+            success:function(data){
+			    $(".maskes").css("display","block");
+				$(".maskes .masLis .nets").text(data.msg);
+			},
+			error:function(){
+                $(".maskes").css("display","block");
+                $(".maskes .masLis .nets").text("未通过，请检查您的内容");
+			}
+		});
+	});
+    $(".nemego").click(function(){
+        $(".maskes").css("display","none");
+	});
+    $(".maske p .gosee").click(function(){
+        $(".maske").css('display',"none");
+    });
+	$("#Time").datepicker(
+    {
+        language:  "zh-CN",
+        autoclose: true,
+        startView: 0,
+        format: "yyyy-mm-dd",
+        clearBtn:true,
+        todayBtn:false
+	});
+$("input[name= id]").focus();
+   
+
+var pageContentBody = $('.page-content .page-content-body');
+
+function getValues(){
+	var array = new Array()
+	var target= $("input[name='checkboxes']");
+	//循环加入数组
+	
+		$.each(target,function(i,v){
+			if(v.checked){
+				array.push($(v).val());
+			}
+		});
+	 	return array; 
+ }
+ 
+ //删除功能
+$(".delete-tab").click(function(){
+	  	var uIArray= getValues();
+	bootbox.setLocale("zh_CN");
+
+	bootbox.confirm("确定删除这些企业吗？", function(state) {
+			if (state && uIArray.length > 0) {
+				$.post("/addmyCompany/delete", {
+					"cIArray" : uIArray
+				}, function(result) {
+					if (result.code == 0) {
+						toastr.success(result.msg);
+						pageContentBody.load("/addmyCompany/list");
+					} else {
+						toastr.warning(result.msg);
+					}
+				}, "json");
+			}else{
+				toastr.warning("请选择商品");
+			}
+		})
+
+})
+
+
+
+ // Handles custom checkboxes & radios using jQuery iCheck plugin
+    var handleiCheck = function() {
+        if (!$().iCheck) {
+            return;
+        }
+    
+        $('.icheck').each(function() {
+            var checkboxClass = $(this).attr('data-checkbox') ? $(this).attr('data-checkbox') : 'icheckbox_minimal-grey';
+            var radioClass = $(this).attr('data-radio') ? $(this).attr('data-radio') : 'iradio_minimal-grey';
+
+            if (checkboxClass.indexOf('_line') > -1 || radioClass.indexOf('_line') > -1) {
+                $(this).iCheck({
+                    checkboxClass: checkboxClass,
+                    radioClass: radioClass,
+                    insert: '<div class="icheck_line-icon"></div>' + $(this).attr("data-label")
+                });
+            } else {
+                $(this).iCheck({
+                    checkboxClass: checkboxClass,
+                    radioClass: radioClass
+                });
+            }
+        });
+    };
+
+</script>

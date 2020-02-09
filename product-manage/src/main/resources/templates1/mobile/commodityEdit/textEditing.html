@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加描述</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 ,maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/dist/summernote-lite.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/weui.min.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/jquery-weui.min.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/css/common.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/css/addition.css">
+    <script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/plugins/fancybox/lib/jquery-1.10.1.min.js"></script>
+    <script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/dist/summernote-lite.js"></script>
+    <style>
+        .note-icon-question{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="header bar-positive">
+    <a href="" class="left"><img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/blockr.png"/></a>
+    <h1>添加描述</h1>
+    <a href="" class="right"><img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/more.png"/></a>
+</div>
+<div class="new-contaner addition">
+    <form method="">
+        <textarea id="summernote" name="editordata"></textarea>
+    </form>
+    <div class="check">
+        <button>提交</button>
+    </div>
+</div>
+<script>
+    $('#summernote').summernote({
+        placeholder: '请编辑商品描述',
+        tabsize: 2,
+        height: 300,
+        focus: true
+    });
+</script>
+</body>
+</html>

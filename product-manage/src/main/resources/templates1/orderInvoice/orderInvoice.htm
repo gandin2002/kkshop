@@ -1,0 +1,132 @@
+<div class="portlet light bordered">
+    <div class="portlet-body modal-form">
+    	<form role="form" action="/orderInvoice/invoice" class="form-horizontal" method="post">
+        	<div class="form-body">
+        		#if($!flag == 'edit')
+				<input type="hidden" name="id" value="$!item.id">
+				#end
+				<input type="hidden" name="orderId" value="$!order.id">
+                <div class="form-group">
+                	<label class="control-label col-md-2">发票类型：</label>
+                    <div class="col-md-5">
+                        <select name="invoiceType" class="form-control" id="invoicetype">
+	                    	<option value="ORDINARY" #if($!item.invoiceType=='ORDINARY') selected #end>纸质普通发票</option>
+	                        <option value="VALUEADDED" #if($!item.invoiceType=='VALUEADDED') selected #end>增值税发票</option>
+	                        <option value="NOTNEED" #if($!item.invoiceType=='NOTNEED') selected #end>无发票需求</option>
+	                    </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                	<label class="control-label col-md-2">发票抬头：</label>
+                    <div class="col-md-5" style="position:relative;">
+                        	<select name="title" class="form-control" id="inputSelect">
+	                    		<option value=""></option>
+	                    		#foreach($temInv in $!invs)
+	                    		<option value="$!temInv.title" #if($!item.title == $!temInv.title) selected="selected" #end>$!temInv.title</option>
+	                    		#end
+	                    	</select>
+	                    	<input type="text" class="form-control hidden" id="inputData"/>
+                        <input type="hidden" name="companyName" value="$!order.company">
+                        <input type="hidden" name="companyId" value="$!order.memberId">
+                        <input type="hidden" name="memberId" value="$!order.userId">
+                        <input type="hidden" name="flag" value="$!flag" id="flag">
+                        #if($!item.state != 1)
+                        	<input type="hidden" name="state" value="0" >
+                        #else 
+                        	<input type="hidden" name="state" value="$!item.state" >
+                        #end
+                    </div>
+                    <div class="col-md-1">
+                    	<a href="javascript:changeSelect();" class="btn green" id="addBtn"><i class="fa fa-plus"></i>新增</a>
+                    	<a href="javascript:saveSelect();" class="btn green hidden" id="saveBtn"><i class="fa fa-plus"></i>保存</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                	<label class="control-label col-md-2">税务登记号：</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" name="taxpayerNumber" value="$!item.taxpayerNumber">
+                    </div>
+                </div>
+                
+                <div class="form-group VALUEADDED hidden">
+                	<label class="control-label col-md-2">开户银行：</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" name="depositBank" value="$!item.depositBank">
+                    </div>
+                </div>
+                <div class="form-group VALUEADDED hidden">
+                	<label class="control-label col-md-2">银行账号：</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" name="accountBank" value="$!item.accountBank">
+                    </div>
+                </div>
+                <div class="form-group VALUEADDED hidden">
+                	<label class="control-label col-md-2">营业电话：</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" name="companyPhone" value="$!item.companyPhone">
+                    </div>
+                </div>
+                <div class="form-group VALUEADDED hidden">
+                	<label class="control-label col-md-2">营业地址：</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="companyAddress" value="$!item.companyAddress">
+                    </div>
+                </div>
+                <div class="form-group">
+                	<label class="control-label col-md-2">发票内容：</label>
+                    <div class="col-md-7">
+                        <textarea class="form-control" name="content" cols="3" style="width: 100%;">$!item.content</textarea>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="form-actions right">
+            	#if($!item.state != 1)
+				<a href="javascript:;" thref="/order/edit?orderId=$!order.id" class="btn green modal-ajax-post"><i class="fa fa-check"></i>保存</a>
+				#end
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	$('#invoicetype').on("change",function(){
+		selectChange();
+	}) ;
+	$('#inputData').on('blur',function() {
+		saveSelect();
+	})
+	selectChange();
+}) ;
+
+function selectChange() {
+	var vcl = $('#invoicetype').val();
+	console.log(vcl);
+	if(vcl == 'VALUEADDED') {
+		$('.VALUEADDED').removeClass('hidden');
+	} else {
+		$('.VALUEADDED').addClass('hidden');
+	}
+}
+
+function changeSelect() {
+	$('#inputData').removeClass("hidden");
+	$('#inputSelect').addClass("hidden");
+	$('#addBtn').addClass("hidden");
+	$('#saveBtn').removeClass("hidden");
+	$('#flag').val('add');
+	
+}
+function saveSelect() {
+	$('#inputData').addClass("hidden");
+	$('#inputSelect').removeClass("hidden");
+	$('#addBtn').removeClass("hidden");
+	$('#saveBtn').addClass("hidden");
+	var vv = $('#inputData').val();
+	var opt = "<option value='"+vv+"' >"+vv+"</option>" ;
+	$('#inputSelect').append(opt);
+	$('#inputSelect').val(vv);
+}
+</script>

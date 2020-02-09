@@ -1,0 +1,104 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+<div class="portlet box green">
+	<div class="portlet-title">
+	    <div class="caption"><i class="fa fa-cog"></i>基本设置 > 服务项管理 > 售后原因设置</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+			<!-- <a href="" class="fullscreen" data-original-title="" title=""> </a> -->
+    	</div>
+    	<div class="actions">
+			<a href="javascript:;" class="btn white btn-sm ajax-search"><i class="fa fa-search"></i> 查询 </a>
+			<a href="javascript:;" class="btn white btn-sm search-reset"><i class="fa fa-eraser"></i> 清除 </a>
+		</div>
+	</div>
+	<div class="portlet-body form">
+	   	<form action="/sale/list" class="form-horizontal" method="get" id="searchForm" onsubmit="return false">
+			<div class="form-body">
+				<div class="row">
+						   <div class="col-md-3">
+							<label class="col-md-4 control-label">售后类型：</label>
+							<div class="col-md-8">
+								<select name="saleType" class="form-control">
+									<option value="">--请选择类型--</option>
+									<option value="CHANGEGOODS">换货</option>
+									<option value="REFUND">仅退款</option>
+									<option value="RETURNSREFUNDS">退货退款</option>
+									<option value="OTHER">其他</option>
+								</select>
+							</div>
+					 </div>
+	    		</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"><a href="#modelContent" thref="/sale/add" class="btn white btn-sm ajax-model-get" data-toggle="modal"><i class="fa fa-plus"></i> 新增 </a></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="dataTables_wrapper no-footer">
+			<div class="table-scrollable">
+			    <table class="table table-striped table-bordered table-hover">
+				  	<thead>
+						<tr>
+		   		 			<th>售后类型</th>
+		   		 			<th>售后原因</th>
+		   		 			<th>启用</th>
+		   		 			<th>创建时间</th>
+							<th class="col-md-2">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					#foreach($item in $pageSale.result)
+		  				<tr>  
+		  				    <td>$!item.saleType.name</td>
+						    <td>$!item.saleCause</td>
+						    <td>#if($!item.state==true)
+						    	<span class="glyphicon glyphicon-ok-circle" style="color: lightgreen">
+						    	#end
+						    	#if($!item.state==false)
+						    	<span class="glyphicon glyphicon-remove-circle" style="color: red">
+						    	#end
+						    </td>
+						    <td>$!item.createTime</td>
+			    			<td>
+						    	<a class="btn green btn-outline btn-sm ajax-model-get" data-toggle="modal"
+									href="#modelContent" thref="/sale/edit?id=$!item.id&"> 
+									<i class="fa fa-edit"></i>修改
+								</a>
+								#if(!$item.state)
+								<a class="btn green btn-outline btn-sm ajax-delete" 
+									href="javascript:;" thref="/sale/delete?id=$!item.id">
+									<i class="fa fa-trash"></i>删除
+								</a>
+								#end
+								#if($item.state)
+								<a class="btn green btn-outline btn-sm" 
+									href="javascript:;" onclick="alert('启用状态不能删除')">
+									<i class="fa fa-trash"></i>删除
+								</a>
+								#end
+						    </td>		  			
+		  				</tr>
+					#end
+					</tbody>
+				</table>
+			</div>
+			#set($page=$pageSale)
+			#set($pageUrl="/sale/list?&pageNo=")
+			#parse("_page.htm")
+		</div>
+    </div>
+</div>
+<script type="text/javascript">
+     $("input[name=salatype]").focus();
+</script>
+

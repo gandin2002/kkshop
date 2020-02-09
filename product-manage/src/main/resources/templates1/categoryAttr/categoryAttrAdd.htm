@@ -1,0 +1,73 @@
+﻿<style type="text/css">
+.bootstrap-tagsinput {
+	width: 100%;
+}
+</style>
+<div class="portlet light bordered">
+	<div class="portlet-title">
+		<div class="caption font-dark">
+			<i class="fa fa-cog font-dark"></i>
+			<span class="caption-subject bold">添加类别</span>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form role="form" action="/categoryAttr/add" class="form-horizontal" method="post">
+			<div class="form-body">
+				<div class="form-group">
+					<label class="control-label col-md-2">*类别一：</label>
+					<div class="col-md-10">
+						<select class="form-control linkage" name="category1" id="category1" required>
+							<option></option> 
+							#foreach ($!item in $!categoryList)
+							<option value="$!item.id">$!item.name</option>
+							 #end
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">*类别二：</label>
+					<div class="col-md-10">
+						<select class="form-control" name="category2" id="category2" required>
+							<option></option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">*类别三：</label>
+					<div class="col-md-10">
+						<select class="form-control" name="category3" id="category3" required>
+							<option></option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">*排序：</label>
+					<div class="col-md-10">
+						<input type="text" class="form-control integer touchSpin" name="sort"   maxlength="3" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">*属性名：</label>
+					<div class="col-md-10">
+						<input type="text" class="form-control" name="name" maxlength="20" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">*属性值：</label>
+					<div class="col-md-10">
+						<input type="text" class="form-control" name="value" id="object_tagsinput" required>
+					</div>
+				</div>
+			</div>
+			<div class="form-actions right">
+				<a class="btn green ajax-post" href="javascript:;" thref="categoryAttr/list"><i class="fa fa-check"></i> 提交</a> 
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+ComponentsSelect2.init();
+ComponentsTagsInput.init({name:"value"});
+ComponentsTouchSpin.init();
+</script>

@@ -1,0 +1,173 @@
+<label class="control-label col-md-2">货品SKU：</label>
+<div class="col-md-10">
+	<div class="table-scrollable">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+				 
+					<th class="text-center">Sku-ERP编码</th>
+<!-- 					<th>ERP编码</th> -->
+					<th class="text-center">积分</th>
+					<th class="text-center">换算率</th>
+					<th class="text-center">条形码</th>
+					<th class="text-center">价格</th>
+					<th class="text-center">体积(m³)</th>
+					<th class="text-center">重量(kg)</th>
+					<th class="text-center">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				#foreach($sku in $!skus)
+				#set($temp = $velocityCount - 1)
+				<tr>
+					<td align="center" width="250px">
+						<input type="hidden" name="skus[$!temp].id" value="$!sku.id">
+						<input type="hidden" name="skus[$!temp].attrValues" value="$!sku.attrValues">
+						<input type="hidden" name="skus[$!temp].attrAndAttrValues" value="$!sku.attrAndAttrValues">
+<!-- 					<input type="text" name="skus[$!temp].code" value="$!sku.code" class="input-sm input-xsmall">  -->
+				          
+				          
+				        <!--   <input type="text" name="skus[$!temp].erpCode" value="$!sku.erpCode" style="height: 30px"> -->
+				          
+				          #if($!isFlag)
+	           				<select class="js-data-getAttr-ajax erpcode" name="skus[$!temp].erpCode" >
+	           					<option value="$!sku.erpCode" selected="selected">$!sku.erpCode</option>
+							</select>
+							<input type="hidden" class="isFlag" value="$!isFlag"/>
+ 							#else
+						 <input type="text"   name="skus[$!temp].erpCode" value="$!sku.erpCode" style="height: 30px" class="erpcode"> 							
+ 							#end
+ 							<span class="app"></span>
+				          
+				          
+				          
+                     	<input type="hidden" name="skuAttrs[$!temp][0].attrId" value="0">
+						<input type="hidden" name="skuAttrs[$!temp][0].attrValueId" value="0">
+					</td>
+					
+<!-- 					<td> -->
+<!-- 						<input type="text" name="skus[$!temp].erpCode" value="$!sku.erpCode" class="input-sm input-xsmall"> -->
+<!-- 					</td> -->
+					<td>
+						<input class="input-sm input-xsmall socre" type="number"   name="skus[$!temp].score" value="$!sku.score" >%<span class='errors'></span>
+					</td>
+					<td>
+						<input class="input-sm input-xsmall" type="text" name="skus[$!temp].translateRate" value="$!sku.translateRate" required>
+						<select name="skus[$!temp].auxUnitId" class="input-sm" style="height: 30px;width: 80px">
+							#foreach($unit in $!unitList)
+                    		<option value="$unit.Id"   data-name="$unit.name" #if($!sku.auxUnitId==$unit.Id) selected #end >$unit.name</option>
+                    		#end
+						</select>
+					</td>
+					<td align="center">
+					<!-- 	<input class="input-sm input-xsmall" type="text" name="skus[$!temp].barCode" value="$!sku.barCode"> -->
+						<input type="text" name="skus[$!temp].barCode" value="$!sku.barCode" style="height: 30px;width: 120px">
+					</td>
+					<td>
+						<input type="text" name="skus[$!temp].skuPrice" value="$!sku.skuPrice" class="input-sm input-xsmall positiFloatNum2" required>
+					</td>
+					<td>
+						<!-- <input type="text"  style="height: 30px;width:60px" name="skus[$!temp].volume" value="$!sku.volume" class="input-sm input-xsmall positiveFloatNum2" required > -->
+					       <input type="text"  style="height: 30px;width:60px" name="skus[$!temp].volume" value="$!sku.volume" class="input-sm input-xsmall positiveFloatNum2" required >
+					</td>
+					<td>
+						<input type="text" name="skus[$!temp].weight" value="$!sku.weight" class="input-sm input-xsmall positiveFloatNum2" required  style="height: 30px;width: 60px">
+						<input type="hidden" value='1' name="skus[$temp].flag" />
+					</td>
+					<td>
+					
+                   	</td>
+				</tr>
+				#end
+				<script type="text/javascript">
+							$(function(){
+								
+								$(".socre").blur(function(){
+									socre = $(this).val();
+									var s = $(this);
+									var categoryId = $("#categoryId").val();
+									if(categoryId == "")
+										return;
+									$.get('/category/getCategory', { categoryId: $("#categoryId").val()}, function(data){
+										/* alert(""data); */
+										var da = parseInt(data); 
+										var id = parseInt(socre);
+										s.parent().find("span").html("");
+										 if (id > da){
+											
+											s.parent().find("span").html("<div><font color='red'>大于分类的积分百分比!</font></div>");
+										} 
+										
+								        },'json');
+								    
+								})
+							})
+						</script>
+			</tbody>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+	MyTouchSpin.init1()
+		$(function(){
+		
+			$(' .js-data-getAttr-ajax').select2({
+				ajax : {
+					url : "product/getErpcode",
+					dataType: 'json',
+					delay : 250,
+					async : false,
+					data : function(params) {
+						 var term= params.term ; 
+						var map = {};
+						map["str"] = term; 
+						return {
+							
+							str:map["str"] ,
+							pageNo : params.page||1
+						};
+					},
+					processResults: function (data, params) {
+					    params.page = params.page || 1;
+							/* alert(data.result.id); */
+					    return {
+					        results: data.result,
+					        pagination: {
+					            more: (params.page * 10) < data.totalCount
+					        }
+					    };
+					},
+					cache : true 
+				},
+				width : "off",
+				escapeMarkup : function(markup) {
+					return markup;
+				},
+				placeholder:'请选择',
+				minimumInputLength : 1,
+				language: "zh-CN",  
+				templateResult : formatAttr,
+				templateSelection : formatRepoSelection
+			});
+		})
+		
+	function uploadSkuImage(obj) {
+		var formData = new FormData();
+        formData.append("file", obj.files[0]);   
+		$.ajax({
+			url: "/uploadSkuImage.do",
+			type: "post",
+			data: formData,
+			contentType: false,
+			processData: false,
+			dataType: "json",
+			success: function(res) {
+				$(obj).next().val(res.skuImage)
+			}
+		})
+		
+		
+		
+		
+	}
+</script>

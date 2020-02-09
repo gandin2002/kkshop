@@ -1,0 +1,48 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">查看详情</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/userLevel/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+        		<div class="form-group">
+        			<label class="control-label col-md-3">微信类型：</label>
+        			<div class="col-md-9">
+        				<span>$!messageLog.msgType</span>
+        			</div>
+        		</div>
+        		<div class="form-group">
+        			<label class="control-label col-md-3">发送时间：</label>
+        			<div class="col-md-9">
+        				<span>$!messageLog.sendTime</span>
+        			</div>
+        		</div>
+				<div class="form-group">
+				    <label class="control-label col-md-3  ">收信会员：</label>
+				    <div class="col-md-9">
+						<span>$!userInfo.id</span>
+				    </div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3  ">消息内容类型：</label>
+					<div class="col-md-9 form-control-static">
+ 						<span>$!messageLog.tMsgType</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">消息内容：</label>
+					<div class="col-md-9">
+						<textarea class="form-control" name="content" id="textContent"
+							style="width: 100%; height: 400px;" readonly="readonly">$!messageLog.content</textarea>
+					</div>
+				</div>
+			</div>
+            <div class="form-actions right">
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>

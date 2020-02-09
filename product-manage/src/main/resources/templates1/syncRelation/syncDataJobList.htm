@@ -1,0 +1,102 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+        <div class="modal-content" style="width:888px;height:470px;"></div>
+    </div>
+</div>
+<div class="portlet box green">
+	<div class="portlet-title">
+	    <div class="caption">
+		<i class="fa fa-cog"></i>查询内容 </div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+    	</div>
+    	<div class="actions">
+			<a href="javascript:;" class="btn white btn-sm ajax-search"><i class="fa fa-search"></i> 查询 </a>
+			<a href="javascript:;" class="btn white btn-sm search-reset"><i class="fa fa-eraser"></i> 清除 </a>
+		</div>
+	</div>
+	<div class="portlet-body form">
+	   	<form action="/syncDataJob/list" class="form-horizontal" method="get" id="searchForm" onsubmit="return false">
+			<div class="form-body">
+				<div class="row">
+					<div class="col-md-3">
+						<label class="col-md-4 control-label">任务名称：</label>
+						<div class="col-md-8">
+					    	<input type="text" class="form-control" name="jobName" value="$!jobName" maxlength="10">
+						</div>
+					</div>
+	    		</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions">
+			<a href="#modelContent" thref="/syncDataJob/syncDateJobModuleAdd" class="btn white btn-sm ajax-model-get" code="syncDataJob.add" data-toggle="modal"><i class="fa fa-plus"></i> 新增同步模块 </a>
+			<a href="#modelContent" thref="/syncDataJob/add" class="btn white btn-sm ajax-model-get" code="syncDataJob.add" data-toggle="modal"><i class="fa fa-plus"></i> 新增同步组 </a>
+		</div>
+    </div>
+    <div class="portlet-body">
+    	<div class="dataTables_wrapper no-footer">
+			<div class="table-scrollable">
+			    <table class="table table-striped table-bordered table-hover">
+					<thead>
+					    <tr>
+		                    <th>任务名称</th>
+		                    <th>触发周期规则</th>
+		                    <th>触发场景Url</th>
+		                    <th>最近一次执行时间</th>
+		                    <th>最近一次执行状态</th>
+		                    <th class="col-md-2">操作</th>
+		                </tr>
+					</thead>
+					<tbody>
+					    #foreach ($!item in $!jobPage.result)
+		                 <tr>
+		                     <td>
+		                     	<font>$!item.jobName</font>
+		                     </td>
+		                     <td>$!item.cronExpression</td>
+		                     <td>$!item.sceneUrl</td>
+		                     <td>$!item.lastExecute</td>
+		                     <td>#if($item.state) 成功 #else 失败 #end</td>
+		                     <td>
+		                     	#if($!item.moduleId)
+		                     	<a class="btn green btn-outline btn-sm ajax-model-get" data-toggle="modal"
+									code="syncDataJob.edit" href="#modelContent" thref="/syncDataJob/syncDataJobModuleEdit?id=$!item.id&$!queryReturn"> 
+									<i class="fa fa-edit"></i>	修改同步模块
+								</a>
+		                     	#end
+		                     	#if($!item.groupId)
+		                     	<a class="btn green btn-outline btn-sm ajax-model-get" data-toggle="modal"
+									code="syncDataJob.edit" href="#modelContent" thref="/syncDataJob/edit?id=$!item.id&$!queryReturn"> 
+									<i class="fa fa-edit"></i>	修改同步组
+								</a>
+								#end
+								#if(!$item.state) 
+									<a class="btn green btn-outline btn-sm ajax-update" t_msg="确定同步吗？" thref="/syncData/syncRightNow?id=$!item.groupId" t_href="/syncDataJob/list"> 
+										<i class="fa fa-check"></i>同步
+									</a>
+								#end
+								<a class="btn green btn-outline btn-sm ajax-delete" code="syncDataJob.delete" href="javascript:;" thref="/syncDataJob/delete?id=$!item.id"> 
+									<i class="fa fa-trash"></i>	删除
+								</a>
+		                     </td>
+		                 </tr>
+		                #end
+					</tbody>
+			    </table>
+			</div>
+			#set($page=$jobPage)
+			#set($pageUrl="/syncDataJob/list?$!queryString&pageNo=")
+			#parse("_page.htm")
+		</div>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-permission.js"></script>
+<script type="text/javascript">
+     $("input[name=name]").focus();
+</script>

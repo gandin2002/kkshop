@@ -1,0 +1,79 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">添加</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/warehLocation/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+        			
+                 <div class="form-group">
+                     <label class="control-label col-md-3">*库位名称：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="name" required>
+                     </div>
+                 </div>
+                 <div class="form-group">
+                	 <label class="control-label col-md-3">*仓库类型：</label>
+	                    <div class="col-md-5">
+	                    	<select name="typeId"   data-live-search="true" data-size="8"  class=" form-control wareHouseType" required>
+	                    		<option value="">--请选择--</option>
+	                    		#foreach($wareHouseType in $!typeList)
+	                    		<option value="$!wareHouseType.id">$!wareHouseType.name</option>
+	                    		#end
+	                    	</select>
+	                    	<input type="hidden" id="typeName" name="typeName">
+	                    </div>
+	                    <script type="text/javascript">
+							$("form").on("change",".wareHouseType",function(){
+								var typeId = $(this).find("option:selected").attr('value') ;
+								var typeName = $(this).find("option:selected").text()
+								$("#typeName").val(typeName);
+								if(typeId != '') {
+									$.get("/wareHouse/getWaresByTypeId", { "typeId" : typeId }, function(res) {
+										var result = JSON.parse(res);
+										var sel = $('.wareHouseName');
+										var wareHouses = result.data ;
+										$(".wareHouseName option:not(:first)").remove();
+										$.each(wareHouses, function(index, obj) {
+											var opt = "<option value='"+obj.id+"' >" + obj.corporateName + "</option>";
+											sel.append(opt);
+										});
+									})
+								}
+							})
+						</script>
+                 </div>
+                 <div class="form-group">
+                	 <label class="control-label col-md-3">*所属仓库：</label>
+	                    <div class="col-md-5">
+	                    	<select name="wareHouseId"   data-live-search="true" data-size="8"  class=" form-control wareHouseName" required>
+	                    		<option value="">--请选择--</option>
+	                    		
+	                    	</select>
+	                    	<input type="hidden" id="wareHouseName" name="wareHouseName">
+	                    </div>
+	                    <script type="text/javascript">
+							$("form").on("change",".wareHouseName",function(){
+								var wareHouseName = $(this).find("option:selected").text()
+								$("#wareHouseName").val(wareHouseName);
+							})
+						</script>
+                 </div>
+                 
+                 <div class="form-group">
+                     <label class="control-label col-md-3">备注：</label>
+                     <div class="col-md-9">
+                         <textarea name="mark" style="width: 98%;height: 115px;"></textarea>
+                     </div>
+                 </div>
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/warehLocation/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>

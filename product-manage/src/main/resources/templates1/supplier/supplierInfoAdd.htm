@@ -1,0 +1,125 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+		<div class="caption font-dark">
+			<i class="fa fa-cog font-dark"></i>
+			<span class="caption-subject bold">新增供应商</span>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form role="form" action="/supplierInfo/add" class="form-horizontal" method="post" enctype="multipart/form-data">
+			<div class="form-body">
+				<div class="form-group">
+					<label class="control-label col-md-2">*名称：</label>
+					<div class="col-md-4">
+						<input type="text" class="form-control" id="name" name="name" maxlength="32" required>
+					</div>
+
+					<label class="control-label col-md-2">*供应商类型：</label>
+					<div class="col-md-4">
+						<select name="typeId" data-live-search="true" data-size="8" class=" form-control supplierTypeName" required>
+							<option value="">--请选择--</option>
+							#foreach($type in $!typeList)
+							<option value="$!type.id">$!type.name</option>
+							#end
+						</select>
+						<input type="hidden" id="typeName" name="typeName">
+					</div>
+					<script type="text/javascript">
+						$("form").on("change",".supplierTypeName",function() {
+							var typeName = $(this).find("option:selected").text()
+							$("#typeName").val(typeName);
+						})
+					</script>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-md-2">*联系人：</label>
+					<div class="col-md-4">
+						<input type="text" class="form-control" id="linkMan" name="linkMan" maxlength="32" required>
+					</div>
+
+					<label class="control-label col-md-2">*联系人手机：</label>
+					<div class="col-md-4">
+						<input type="text" class="form-control" id="mobile" name="mobile" maxlength="32" required>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-md-2">*座机电话：</label>
+					<div class="col-md-4">
+						<input type="text" class="form-control" id="phone" name="phone" maxlength="32" required>
+					</div>
+
+					<label class="control-label col-md-2">邮编：</label>
+					<div class="col-md-4">
+						<input type="text" class="form-control" id="postCode" name="postCode">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">折扣：</label>
+					<div class="col-md-4">
+						<input type="text" class="form-control positiveFloatNum" id="rebate" name="rebate">
+					</div>
+
+					<label class="control-label col-md-2">开票税率：</label>
+					<div class="col-md-4">
+						<input type="text" class="form-control positiveFloatNum" id="tickRate" name="tickRate">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">联系QQ：</label>
+					<div class="col-md-4">
+						<input type="text" class="form-control" id="qqNum" name="qqNum" maxlength="16">
+					</div>
+					<label class="control-label col-md-2">税额计入成本：</label>
+					<div class="col-md-4">
+						<select name="isRateCost" class="form-control" required>
+							<option value="">--请选择--</option>
+							<option value="1">是</option>
+							<option value="0" selected>否</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">所在地区:</label>
+					<div class="col-md-10">
+						<div id="element_id" class="row">
+							<div class="col-md-3">
+								<select name="province" class=" form-control  province"></select>
+							</div>
+							<div class="col-md-3">
+								<select name="city" class=" form-control  city"></select>
+							</div>
+							<div class="col-md-4">
+								<select name="area" class=" form-control  area"></select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">联系地址：</label>
+					<div class="col-md-10">
+						<input type="text" class="form-control" id="adress" name="adress" maxlength="215">
+					</div>
+				</div>
+			</div>
+			<div class="form-actions right">
+				<a href="javascript:;" thref="/supplierInfo/list" class="btn green ajax-post">
+					<i class="fa fa-check"></i>
+					提交
+				</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+	ComponentsSelect2.init()
+	MyTouchSpin.init()
+
+	$('#element_id').cxSelect({
+		url : '/assets/plugins/cxSelect-master/js/cityData.min.json', // 如果服务器不支持 .json 类型文件，请将文件改为 .js 文件
+		selects : [ 'province', 'city', 'area' ], // 数组，请注意顺序
+		emptyStyle : 'none'
+	});
+</script>

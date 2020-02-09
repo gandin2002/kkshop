@@ -1,0 +1,82 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">标签添加</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/productLabel/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+                 <div class="form-group">
+                     <label class="control-label col-md-3">标签名称：</label>
+                     <div class="col-md-7">
+                         <input type="text" class="form-control" name="name">
+                     </div>
+                 </div>
+                 <div class="form-group">
+					<label class="control-label col-md-3">*图片：</label>
+					<div class="col-md-7">
+	                    <div class="mt-element-overlay">
+							<div class="mt-overlay-1 fileinput fileinput-new" data-provides="fileinput" style="margin-bottom: 0;width: auto;;height: auto;">
+								<div class="fileinput-new thumbnail" style="width: 150px; height: 150px; margin-bottom: 0">
+								    <img src="" alt="上传图片"> 
+								</div>
+								<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 150px;margin-bottom: 0"> </div>
+								<div class="mt-overlay">
+								    <span class="btn default btn-file" style="padding: 0;">
+									    <span class="fileinput-new"> 浏览 </span>
+									    <span class="fileinput-exists"> 更改 </span>
+									    <input type="file"  class="uploadProdImage" accept="image/jpg,image/gif,image/bmp,image/jpeg,image/png" required>  
+									    <input type="hidden" name="image" />
+								    </span>`
+								    <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput" style="padding: 0"> 删除 </a>
+								</div>
+                        	</div>
+						</div>
+					</div>
+				</div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">状态：</label>
+                     <div class="col-md-7" style="vertical-align: middle;margin-top: 7px;">
+						 <input type="radio"  name="status" value="1" checked="checked">启用
+                     	 <input type="radio"  name="status" value="0">禁用
+                     </div>
+                 </div>
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/productLabel/list" class="btn green ajax-post">
+				<i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+$(".uploadProdImage").on("change", function() {
+	var target= $(this);
+	var files = this.files;
+	var formData = new FormData();
+	for (var i = 0; i < files.length; i++) {
+		var fileSize = parseInt(files[i].size / 1024).toFixed(0);
+		if (fileSize > 1024) {
+			toastr.warning("单张图片大小不要超过1M");
+			return false
+		}
+		formData.append("file", files[i]);
+	}
+	;
+	$.ajax({
+		url : "/upload-shareInfo",
+		type : "post",
+		data : formData,
+		contentType : false,
+		processData : false,
+		dataType : "html",
+		success : function(res) {
+			var data = JSON.parse(res);
+			target.next().attr('value', data.url);
+		}
+	})
+})
+</script>

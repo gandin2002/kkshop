@@ -1,0 +1,157 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="portlet light bordered">
+				<div class="portlet-body form">
+					<div class="table-container table-scrollable">
+						<table class="table table-striped table-bordered table-hover" id="tableCategory">
+							<thead>
+								<tr>
+									<th>省份</th>
+									<th>
+									编码
+									<input type="hidden" name="editId" value="" id="editId" />
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								#foreach ($item in $!citys) 
+								<tr data-tt-id="$!item.id"  data-tt-parent-id="$!item.parentId" id="$!item.id">
+									 <td>
+									 <input type="checkbox" name="checkboxes" class="icheck" data-name='$!item.name' value="$!item.id" />
+									 $!item.name
+									 </td>
+									 <td>$!item.id</td>
+								</tr>
+								#end
+							</tbody>
+						</table>
+					</div>
+					<div class="form-actions right">
+						<a  href="javascript:;" class="btn green ensure-city">
+							<i class="fa fa-check"></i>
+							确定
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="portlet light bordered">
+	<div class="portlet-title">
+		<div class="caption font-dark">
+			<i class="fa fa-cog font-dark"></i>
+			<span class="caption-subject bold">添加</span>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form role="form" action="/expfeeTemplate/add" class="form-horizontal" method="post">
+			<div class="form-body">
+				<div class="form-group">
+					<label class="control-label col-md-2">模板名称：</label>
+					<div class="col-md-5">
+						<input type="text" class="form-control" name="template.name">
+						<input type='hidden' name='lname' id='levelNames' value="$!lvNames" />
+						<input type='hidden' name='template.isDefault'  value="0" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">快递运费计算方式：</label>
+					<div class="col-md-4 radio">
+						<input type="radio" name="template.calcTye" value="1" checked>
+						按货品运费模板计费
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">默认运费</label>
+					<div class="col-md-5 radio">
+						<input type="radio" name="template.isOpen" value="1" >
+						开启&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="template.isOpen" value="0" checked>
+						关闭
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">默认运费</label>
+					<div class="col-md-1">
+						<input type="text" name="template.fquality" class="form-control  positiveFloatNum"/>
+					</div>
+					<label class="control-label col-md-1" style="text-align: left;">kg内，运费</label>
+					<div class="col-md-1">
+						<input type="text" name="template.fqFee"  class="form-control positiveFloatNum"/>
+					</div>
+					<label class="control-label col-md-1" style="text-align: left;">元，每增加</label>
+					<div class="col-md-1">
+						<input type="text" name="template.conHeavy"  class="form-control  positiveFloatNum"/>
+					</div>
+					<label class="control-label col-md-1" style="text-align: left;">kg，增加运费</label>
+					<div class="col-md-1">
+						<input type="text" name="template.conFee"   class="form-control positiveFloatNum" />
+					</div>
+					<label class="control-label col-md-1" style="text-align: left;">元</label>
+				</div>
+				 <div class="row feeCity_template #if($calcType==0) hidden #end">
+					<div class="form-group">
+						<label class="control-label col-md-2">体重系数</label>
+						<div class="col-md-1">
+							<input type="text" name="template.coefficient" value="" class="form-control"/>
+						</div>
+						<div class="col-md-9">
+							<p style="line-height: 34px;margin-bottom: 0;">（货品按照重量和体积，选择价格高德计算。体积换算体重公式：长（m）X宽（m）X高（m）/体积重量系数=货品重量（KG））</p>
+						</div>
+					</div>
+				</div>
+				
+				
+				<div class="row feeCity_template">
+					<!-- <div class="form-group">
+						<label class="control-label col-md-2">计价方式</label>
+						<div class="col-md-5">
+							<input type="radio" name="template.valuationEnum" value="BYQUALITY" checked>
+							按重量计算运费
+							<input type="radio" name="template.valuationEnum" value="BYITEMS">
+							按件数计算运费
+						</div>
+					</div> -->
+					<div class="form-group">
+						<div class="col-md-5">
+							<a href="javascript:;" class="btn white addFeeCity" id="addFeeCity"><i class="fa fa-plus"></i> 添加指定区域 </a>
+						</div>
+					</div>
+					<div class="form-group">
+						<table class="table table-striped table-bordered table-hover addFeeCityTable">
+							<tr>
+			   		 			<td>配送地区</td>
+			   		 			<td>首重(kg)</td>
+			   		 			<td>运费(¥)</td>
+			   		 			<td>续重(kg)</td>
+			   		 			<td>续重运费（¥）</td>
+			   		 			<td>操作</td>
+							</tr>
+							<tr role="row" class="odd">
+			   		 			<td><span> &nbsp;</span><a href="javascript:;" class="edcity" id="tr0">编辑</a><input type='hidden' name="feeCity[0].cIds" value='全部'/></td>
+			   		 			<td><input type="text" name="feeCity[0].fquality" class="form-control input-small positiveFloatNum2"/></td>
+			   		 			<td><input type="text" name="feeCity[0].fqFee" class="form-control input-small positiveFloatNum2"/></td>
+			   		 			<td><input type="text" name="feeCity[0].conHeavy" class="form-control input-small positiveFloatNum2"/></td>
+			   		 			<td><input type="text" name="feeCity[0].conFee" class="form-control input-small positiveFloatNum2"/></td>
+			   		 			<td>
+									<input type="button" name="ops" value="×" class="delFeeCityTable"/>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				
+			</div>
+			<div class="form-actions right">
+				<a  thref="/expfeeTemplate/list?$!queryReturn" class="btn green ajax-post">
+					<i class="fa fa-check"></i>
+					提交
+				</a>
+				<a href="/expfeeTemplate/list?$!queryReturn" class="btn btn-outline grey-salsa ajaxify">返回</a>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-expFee-template.js"></script>

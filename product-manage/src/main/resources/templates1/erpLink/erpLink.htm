@@ -1,0 +1,119 @@
+<div class="modal fade bs-modal-lg" id="modelContent">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content"></div>
+	</div>
+</div>
+
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cogs"></i>
+			系统管理 > API接口中心> ERP接口配置
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form role="form" action="/erpLink/save" class="form-horizontal" method="post">
+			<div class="form-body">
+				<div class="row">
+					<div class="form-group">
+						<div class="col-md-4">
+							<select class="form-control multi-select" size="20" name="id" id="id" onchange="change(this)">
+								<option value="" #if(!$!item.id) selected #end>新增数据源</option>
+								#foreach($items in $!list)
+								<option value="$items.id" #if($!items.id == $!item.id) selected #end>$!items.sourceName</option>
+								#end
+							</select>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-4">ERP数据源名称：</label>
+								<div class="col-md-6">
+									<input type="text" class="form-control" name="sourceName" maxlength="40" value="$!item.sourceName">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-4">数据库类型：</label>
+								<div class="col-md-6">
+									
+									<select name="sourceType" class="form-control trans-type" required onchange="typeChange(this)">
+										<option value="" >--请选择--</option>
+				                    	<option value="SQLSERVER"  #if($!item.sourceType == 'SQLSERVER') selected #end >SQL SERVER</option>
+				                    	<option value="MySQL"  #if($!item.sourceType == 'MySQL') selected #end>MYSQL</option>
+				                    	<option value="ORACLE"  #if($!item.sourceType == 'ORACLE') selected #end>ORACLE</option>
+				                    	<option value="WEBSERVICE"  #if($!item.sourceType == 'WEBSERVICE') selected #end>WEBSERVICE</option>
+				                    </select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-4" id='hostinfo'>主机名或IP：</label>
+								<div class="col-md-6">
+									<input type="text" class="form-control" name="hostName" maxlength="255" value="$!item.hostName">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-4" id="groupId">端口：</label>
+								<div class="col-md-6">
+									<input type="text" class="form-control" name="port" maxlength="40" value="$!item.port">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-4">用户名：</label>
+								<div class="col-md-6">
+									<input type="text" class="form-control" name="username" maxlength="40" value="$!item.username">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-4">密码：</label>
+								<div class="col-md-6">
+									<input type="text" class="form-control" name="password" maxlength="40" value="$!item.password">
+								</div>
+							</div>
+							<div class="form-group" id="dbName-group">
+								<label class="control-label col-md-4" >数据库名：</label>
+								<div class="col-md-6">
+									<input type="text" class="form-control" name="dbName" maxlength="40" value="$!item.dbName">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-12 right">
+									<a href="javascript:;" thref="/erpLink/dataSource?id=$!item.id" class="btn green btn-outline ajax-post">
+										<i class="fa fa-check"></i>保存配置
+									</a> 
+									<a class="btn green btn-outline btn-sm ajax-delete" href="javascript:;" thref="/erpLink/delete?id=$!item.id">
+										<i class="fa fa-trash"></i>删除
+									</a>
+									<a class="btn green btn-outline btn-sm ajax-link-post" href="javascript:;" thref="/erpLink/testConn">
+										<i class="fa fa-link"></i>测试连接
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+MyTouchSpin.init()
+ 
+typeChange($('.trans-type'));
+
+function change(obj){
+	var id = $(obj).val() ;
+	 $('.page-content .page-content-body').load("/erpLink/dataSource?id="+id);
+}
+
+function typeChange(obj) {
+	var type = $(obj).val() ;
+	if(type == 'WEBSERVICE') {
+		$('#hostinfo').text('URL链接：');
+		$('#groupId').text('套账：') ;
+		$('#dbName-group').hide() ;
+	} else {
+		$('#hostinfo').text('主机名或IP：');
+		$('#groupId').text('端口：') ;
+		$('#dbName-group').show() ;
+	}
+}
+</script>

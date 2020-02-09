@@ -1,0 +1,55 @@
+<div class="modal fade bs-modal-lg" id="modelContent">
+	<div class="modal-dialog modal-lg">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="tabbable-line ">
+			<ul class="nav nav-tabs ">
+				<li class="active"><a href="/messageSms/smsTemplates"	class="ajaxify">短信模板</a></li>
+				<li><a href="/messageSms/sendBox" class="ajaxify">发件箱</a></li>
+				<li><a href="/messageSms/smsConfig" class="ajaxify">短信配置</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active form">
+					<div class="form-body">
+						<div class="table-scrollable">
+						   <table class="table table-striped table-bordered table-hover" id="tableCategory">
+							  	<thead>
+									<tr>
+										<th>发送项目</th>
+										<th>模板ID</th>
+										<th>启用</th>
+										<th>发送成功数</th>
+										<th>发送失败数</th>
+										<th>设置时间</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+								#foreach($messageTemplate in $!list)
+									<tr>
+										<td>$!messageTemplate.sendType.name</td>
+										<td>$!messageTemplate.title</td>
+										<td>#if($messageTemplate.state) √ #else × #end</td>
+										<td>$!messageTemplate.countSuccess()</td>
+										<td>$!messageTemplate.countFail()</td>
+										<td>$!messageTemplate.setupTime</td>
+										<td><a href="#modelContent" class="btn green btn-outline btn-sm ajax-model-get"  data-toggle="modal"  thref="messageTemplate?id=$!messageTemplate.id"><i class="fa fa-edit" ></i>编辑</a></td>
+									</tr>
+								#end	
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>

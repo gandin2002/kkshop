@@ -1,0 +1,243 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">添加</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/wareHouse/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+        		<div class="form-group">
+                     <label class="control-label col-md-3">*联系人：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="linkman" required>
+                     </div>
+                 </div>
+        			
+                 <div class="form-group">
+                     <label class="control-label col-md-3">*仓库名称：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="corporateName" required>
+                     </div>
+                 </div>
+                 <div class="form-group">
+                	 <label class="control-label col-md-3">*仓库类型：</label>
+	                    <div class="col-md-5">
+	                    	<select name="typeId"   data-live-search="true" data-size="8"  class=" form-control wareHouseType" required>
+	                    		<option value="">--请选择--</option>
+	                    		#foreach($wareHouseType in $!typeList)
+	                    		<option value="$!wareHouseType.id">$!wareHouseType.name</option>
+	                    		#end
+	                    	</select>
+	                    	<input type="hidden" id="typeName" name="typeName">
+	                    </div>
+	                    <script type="text/javascript">
+							$("form").on("change",".wareHouseType",function(){
+								var typeName = $(this).find("option:selected").text()
+								$("#typeName").val(typeName);
+							})
+						</script>
+                 </div>
+                 <div class="form-group">
+                	 <label class="control-label col-md-3">仓库管理员：</label>
+	                    <div class="col-md-5">
+	                    	<select name="operId" multiple="multiple"  data-live-search="true" data-size="8"  class=" form-control houseName" required>
+	                    		<option value="">--请选择--</option>
+	                    		#foreach($operator in $!operatorlist)
+	                    		<option value="$!operator.id" >$!operator.username</option>
+	                    		#end
+ 	                    	</select>
+      
+               
+                       <input type="hidden" id="houseName" name="houseName" value="$!item.houseName">  
+                       <input type="hidden" id="operatorId" name="operatorId" value="$!item.operatorId">  
+                     </div>
+	                     <script type="text/javascript">
+	                     /* function getcbvalue(){
+	                    		var array = new Array()
+	                    		var target= $("input[name='checkboxes']");
+	                    		//循环加入数组
+	                    		
+	                    			$.each(target,function(i,v){
+	                    				if(v.checked){
+	                    					array.push($(v).val());
+	                    				}
+	                    			});
+	                    		 	return array; 
+	                    	 } */
+	                     
+	                        
+							$("form").on("change",".houseName",function(){
+								
+							    var houseName = $(this).find("option:selected").text();
+								$("#houseName").val(houseName);
+							
+								
+
+							})
+						</script> -
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">发货地址：</label>
+                     <div class="col-md-5">
+						<div class="mt-radio-inline">
+							<label class="mt-radio">
+							<input type="radio" name="shipAddress"  value="0"  >否
+                          <span></span>
+                        </label>
+                        <label class="mt-radio">
+                           <input type="radio" name="shipAddress"  value="1" checked >是
+                           <span></span>  
+                       </label>
+						</div>
+						
+                     </div> 
+                 </div>	
+                 
+                 <div class="form-group">
+                     <label class="control-label col-md-3">门店显示状态：</label>
+                     <div class="col-md-5">
+						<div class="mt-radio-inline">
+							<label class="mt-radio">
+							<input type="radio" name="status"  value="0"  value="0">否
+                          <span></span>
+                        </label>
+                        <label class="mt-radio">
+                           <input type="radio" name="status"  value="1"   value="1" checked>是
+                           <span></span>  
+                       </label>
+						</div>
+						
+                     </div> 
+                 </div>	
+                 <div class="form-group">
+                     <label class="control-label col-md-3">退货地址：</label>
+                     <div class="col-md-5">
+						<div class="mt-radio-inline">
+							<label class="mt-radio">
+							<input type="radio" name="withdrawAddress"  value="0" >否
+                          <span></span>
+                        </label>
+                        <label class="mt-radio">
+                           <input type="radio" name="withdrawAddress"  value="1" checked >是
+                           <span></span>  
+                       </label>
+						</div>
+						
+                     </div> 
+                 </div>	
+        		
+                 <div class="form-group">
+                     <label class="control-label col-md-3">地区邮编：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="regionCode">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">座机号码：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="landlinePhone">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">手机号码：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="mobilePhone">
+                     </div>
+                 </div>
+                <div class="form-group">
+        				<label class="control-label col-md-3" style="margin-top: 0">东经：</label>
+        				<div class="col-md-5">
+        					<input type="number"   class="form-control"  name="eastLongitude" value="">
+        				</div>
+	        	</div>
+        		<div class="form-group">
+        				<label class="control-label col-md-3" style="margin-top: 0">北纬：</label>
+        				<div class="col-md-5">
+        					<input type="number"  class="form-control"  name="northernLatitude" value="">
+        				</div>
+        		</div> 
+                 <div class="form-group">
+ 					<label class="control-label col-md-3">所在地区:</label>
+ 					<div class="col-md-9">
+ 						<div id="element_id" class="row">
+ 						  <div class="col-md-4">
+						  	<select name="province" class=" form-control  province"></select>
+						  </div>
+						  <div class="col-md-4">
+						  	<select name="city"  class=" form-control  city"></select>
+						  </div>
+						  <div class="col-md-4">
+						  	<select name="county"   class=" form-control  area"></select>
+						  </div>
+						</div>
+ 					</div>
+ 				 </div>
+ 				 <div class="form-group">
+                     <label class="control-label col-md-3">是否默认仓库：</label>
+                     <div class="col-md-5">
+						<div class="mt-radio-inline">
+							<label class="mt-radio">
+							<input type="radio" name="isDefault"  value="0" checked >否
+                          <span></span>
+                        </label>
+                        <label class="mt-radio">
+                           <input type="radio" name="isDefault"  value="1"  >是
+                           <span></span>  
+                       </label>
+						</div>
+						
+                     </div> 
+                 </div>	
+        			
+                 <div class="form-group">
+                     <label class="control-label col-md-3">详细地址：</label>
+                     <div class="col-md-9">
+                         <input type="text" class="form-control" name="address">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">备注：</label>
+                     <div class="col-md-9">
+                         <textarea name="intro" id="description" style="width: 98%;height: 115px;"></textarea>
+                     </div>
+                 </div>
+                 
+                     	<div class="row">
+	        		<div class="form-group">
+	        			<label class="control-label col-md-3" style="margin-top: 0">图册：</label>
+	        			<div class="col-md-9">
+	        				<input type="file" class="uploadProdImage" multiple accept=".jpg,.bmp,.jpeg,.png">
+	        				<span>（最大1M，支持格式：jpg、bmp、png、jpeg） </span>
+	        			</div>
+	        		</div>
+	        	</div>
+	        	<div class="row wareHourseImage">
+	        		<div class="form-group">
+						<label class="control-label col-md-3"></label>
+						<div class="col-md-9 images">
+							
+						</div>
+					</div>
+	        	</div>
+                 
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/wareHouse/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="/assets/scripts/views-wareHouse.js"></script>
+
+<script type="text/javascript">
+$('#element_id').cxSelect({
+  url: '/assets/plugins/cxSelect-master/js/cityData.min.json',               // 如果服务器不支持 .json 类型文件，请将文件改为 .js 文件
+  selects: ['province', 'city', 'area'],  // 数组，请注意顺序
+  emptyStyle: 'none'
+});
+</script>

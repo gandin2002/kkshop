@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<h1 style=" text-align: center;">博宏商城议价单 </h1>
+	<table>
+		<tr>
+			<td>议价单号：$!item.id</td>
+			<td>售价总金额：$!item.quotationSkuPrice</td>
+			<td>下单时间：$!item.timeString</td>
+		</tr>
+		<tr>
+			<td>申请会员：$!userItem.id</td>
+			<td>会员姓名：$!userItem.realname</td>
+			<td>所属企业：$!companyItem.name</td>
+		</tr>
+		<tr>
+			<td>会员来源：$!userItem.MemberSource</td>
+			<td>报价单有效期：$!item.ValidDateString</td>
+			<td>修改货品数：：$!item.modifyNum</td>
+		</tr>
+		<tr> 
+			#if($item.quotationState=='DENY_QUOTATION')
+ 			<td colspan=" 2"> 未通过原因:$!item.denyDetail</td>
+ 			#end
+		</tr>
+	</table>
+	<table
+		class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline">
+		<thead>
+			<tr>
+               <th>序号</th>
+               <th>货品编号</th>
+               <th>货品名称+规格</th>
+               <th>年采购量</th>
+               <th>售价</th>
+               <th>报价</th>
+			</tr>
+		</thead>
+		<tbody>
+		#foreach ($!item1 in $!quotationItemList)
+		 #set($sku = $skuMap.get($item1))
+		  #set($product = $productMap.get($item1))
+			<tr>
+				<td>$!velocityCount</td>
+				<td>$!sku.code</td>
+				<td>$!product.name $!sku.attrAndAttrValues</td>
+				<td>$!item1.quantity</td>
+				<td>$!item1.quotationSkuPrice</td>
+				<td>$!item1.quotationPrice</td>
+			</tr>
+		#end
+		</tbody>
+	</table>
+	 <table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline">
+		<tr>
+			<th colspan=" 5">
+				市场售价总计：<span >$!item.quotationSkuPrice</span>元
+				&nbsp;&nbsp; 议价单价总计：<span>$!item.quotationPrice</span>元
+				&nbsp;&nbsp; 差额总计：<span>$!tDifference</span>元
+			</th>
+		</tr>
+	 </table>
+</body>
+<script type="text/javascript">
+window.print()
+window.close();
+</script>
+</html>

@@ -1,0 +1,388 @@
+<style>
+	.actives{
+		color: red;
+	}
+	.sorticon{
+		text-decoration:none 
+	}
+</style>
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+<div class="portlet box green">
+	<div class="portlet-title">
+	    <div class="caption"><i class="fa fa-cog"></i>企业管理 > 企业列表 </div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+    	</div>
+    	<div class="actions">
+			<a href="javascript:;" class="btn white btn-sm ajax-search"><i class="fa fa-search"></i> 查询 </a>
+			<a href="javascript:;" class="btn white btn-sm search-reset"><i class="fa fa-eraser"></i> 清除 </a>
+		</div>
+	</div>
+	<div class="portlet-body form">
+	   	<form action="/company/list" class="form-horizontal" method="get" id="searchForm" onsubmit="return false">
+			<div class="form-body">
+				<div class="row">
+	                	<label class="control-label col-md-1">企业名称：</label>
+	                	<div class="col-md-2">
+	                    	<input type="text" class="form-control" placeholder="输入企业ID或名称"  name= "name" value="$!search.name"/>
+	                   		<input type="hidden" class="htarget" name="coreditSort" value="$!coreditSort">
+	                   		<input type="hidden" class="htarget" name="creditOverSort" value="$!creditOverSort">
+	                   		<input type="hidden" class="htarget" name="registerDateSort" value="$!registerDateSort">
+	                   		<input type="hidden" class="htarget" name="periodSort" value="$!periodSort">
+	                   </div>
+	                   <label class="control-label col-md-1" >负责人：</label>
+	                	<div class="col-md-2">
+<!-- 	                    	<input type="text" class="form-control" placeholder="请输入负责人手机号码、昵称或姓名"  name= "user" value="$!search.name"/>
+ -->                             <select class="js-data-user-ajax form-control" name="userId" required >
+ 								#if($userId != "") 
+                     			<option  value="$!userId"  selected>$!userId</option>
+                     			#else
+                    			<option value="请输入负责人(手机号码/昵称/姓名) "   selected>请输入负责人(手机号码/昵称/姓名)</option>                     				
+                     			#end 
+						 	</select>	                    	
+	                   </div>
+	                   <label class="control-label col-md-1">企业等级：</label>
+	                	<div class="col-md-1">
+	                    	<select name="levels" class="form-control" required>
+	                    		<option value="">请选择等级</option>
+	                    		#foreach($level in $!levelList)
+	                    		<option value="$level.id" #if($!levels == $!level.id) selected #end>$!level.name</option>
+	                    		#end
+	                    	</select>
+	                	</div>
+	                	<label class="control-label col-md-1">企业分类：</label>
+	                	<div class="col-md-1">
+	                    	<select name="cataId" class="form-control" required>
+	                    		<option value="">请选择分类</option>
+	                    		#foreach($cata in $!cataList)
+	                    		<option value="$cata.id" #if($!search.cataId == $!cata.id) selected #end >$cata.name</option>
+	                    		#end
+	                    	</select>
+	                	</div>
+	                	<div class="col-md-4" style="top:10px;">
+							<label class="col-md-3 control-label">注册时间：</label>
+							<div class="col-md-4">
+						    	<input type="text" class="form-control" readOnly id="startTime" name="startTime" value="$!startTime">
+						    	<i class="fa fa-calendar" style="position: absolute;right: 10px;top: 10px"></i>
+							</div>
+							<div class="col-md-1">~</div>
+							<div class="col-md-4">
+						    	<input type="text" class="form-control"readOnly id="endTime" name="endTime" value="$!endTime">
+						    	<i class="fa fa-calendar" style="position: absolute;right: 10px;top: 10px"></i>
+							</div>
+						</div>	
+	    		</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+   		<div class="actions">
+   			  <span class="btn white btn-file">
+			    <span class="fileinput-new "><i class="fa fa-cloud-upload"></i>导入 </span>
+			    <input type="file" class="file import-tab" name="" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+		    </span>  
+		    <a href="/template/企业导入模板.xls"   class="btn white btn-sm" ><i class="fa fa-trash"></i>下载模板</a>
+   			<a href="javascript:;"   class="btn white btn-sm delete-tab" ><i class="fa fa-trash"></i>删除</a>
+   			<a href="#modelContent" class="btn white btn-sm  edit-model"  data-toggle="modal"  thref="/company/editCredit"><i class="fa fa-edit" ></i>修改信用额度</a>
+   			<a href="/company/add?$!queryReturn" class="btn white btn-sm ajaxify"><i class="fa fa-plus"></i> 新增 </a>
+<!--    			<a thref="/company/sync" class="btn white btn-sm ajax-editState"><i class="fa fa-plus"></i>同步</a> -->
+   		</div>	
+    </div>
+    <div class="portlet-body">
+        <div class="form-group">
+			<div class="alert alert-warning">
+				<strong> 注：</strong>
+			1.账单日生成每月周期账单，不影响付款。  2.信用余额为0时，前端企业用户不可支付订单。 3.企业有未还款账单时显示红色高亮状态。
+			</div>
+		</div>
+    	<div class="dataTables_wrapper no-footer">
+			<div class="table-scrollable">
+			    <table class="table table-striped table-bordered table-hover icheck-table">
+				  	<thead>
+						<tr>
+							<th style="width: 20px">
+								<input type="checkbox" class="icheck group-icheck" />
+							</th>
+							<th>企业ID</th>
+		   		 			<th>企业名称</th>
+		   		 			<th>分类</th>
+		   		 			<th>等级</th>
+		   		 			<th>行业</th>
+							<th>信用额度
+								<a href="javascript:;" t_val="DESC" t_target="coreditSort"  class=" sorticon   #if($!coreditSort == "DESC") actives #end " > <i class="fa fa-arrow-up"></i> </a>
+								<a href="javascript:;" t_val="ASC" t_target="coreditSort"  class=" sorticon   #if($!coreditSort == "ASC") actives #end "> <i class="fa fa-arrow-down"></i> </a>
+							</th>
+							<th>信用余额
+								<a href="javascript:;" t_val="DESC" t_target="creditOverSort"   class=" sorticon   #if($!creditOverSort == "DESC") actives #end "><i class="fa fa-arrow-up"></i> </a>
+								<a href="javascript:;" t_val="ASC" t_target="creditOverSort"   class=" sorticon   #if($!creditOverSort == "ASC") actives #end "> <i class="fa fa-arrow-down"></i> </a>
+							</th>
+							<th>账单日 
+								<a  href="javascript:;"  t_val="DESC" t_target="periodSort"   class=" sorticon   #if($!periodSort == "DESC") actives #end "> <i class="fa fa-arrow-up"></i> </a>
+								<a  href="javascript:;"  t_val="ASC" t_target="periodSort"   class=" sorticon  #if($!periodSort == "ASC") actives #end "> <i class="fa fa-arrow-down"></i> </a> 
+							</th>
+							<th>负责人姓名</th>
+							<th>负责人会员号</th>
+							<th>注册日期
+								<a href="javascript:;" t_val="DESC" t_target="registerDateSort" class=" sorticon   #if($!registerDateSort == "DESC") actives #end "><i class="fa fa-arrow-up"></i></a>
+								<a href="javascript:;"  t_val="ASC"  t_target="registerDateSort" class=" sorticon   #if($!registerDateSort == "ASC") actives #end "><i class="fa fa-arrow-down"></i></a>
+							</th>
+							<th class="col-md-2">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					#foreach($item in $pageCompany.result)
+					#set($cata=$!cataMap.get($item))
+					#set($industry=$!industryMap.get($item))
+					#set($level=$!levelMap.get($item))
+		  			#set($user=$!userMap.get($!item))
+		  				<tr>  
+		  					<td>
+								<input type="checkbox" name="checkboxes" class="icheck" value="$!item.id" />
+							</td>
+						    <td><a class="btn-sm ajaxify" href="/details/list?id=$!item.id">$!item.id</a></td>
+						    <td>$!item.name</td>
+						    <td>$!cata.name</td>
+						    <td>$!level.name</td>
+						    <td>$!industry.name</td>
+						    <td>$!item.credits</td>
+						    <td>$!item.creditOver</td>
+						    <td>$!item.periodCountDate</td>
+						    <td>$!user.realname</td>
+						    <td>$!item.userId</td>
+						    <td>$!item.regtime</td>
+			    			<td>
+						    	<a class="btn green btn-outline btn-sm ajaxify"
+									href="/company/edit?id=$!item.id" > 
+									<i class="fa fa-edit"></i>编辑
+								</a>
+<!-- 								<a class="btn green btn-outline btn-sm ajax-delete" -->
+<!-- 									href="javascript:;" thref="/company/delete?id=$!item.id&">  -->
+<!-- 									<i class="fa fa-trash"></i>删除 -->
+<!-- 								</a> -->
+								<a class="btn green btn-outline btn-sm ajaxify" href="/departmentsCompany/list?companyId=$!item.id">
+									<i class="fa fa-child"></i>查看部门
+								</a>
+								<a class="btn green btn-outline btn-sm ajaxify" href="/clientprice/list?companyId=$!item.id">
+									<i class="fa fa-cny"></i>价格表
+								</a>	
+						    </td>		  			
+		  				</tr>
+					#end
+					</tbody>
+				</table>
+			</div>
+			
+		
+			
+			#set($page=$pageCompany)
+			#set($pageUrl="/company/list?&pageNo=")
+			#parse("_page.htm")
+		</div>
+    </div>
+</div>
+<script src="/assets/scripts/views-date.js" type="text/javascript"></script>
+<script type="text/javascript" src="/assets/scripts/views-icheck.js"></script>
+<script type="text/javascript">
+$("input[name= name]").focus();
+
+ComponentsSelect2.initWithSearch();
+
+var pageContentBody = $('.page-content .page-content-body');
+
+function getValues(){
+	var array = new Array()
+	var target= $("input[name='checkboxes']");
+	//循环加入数组
+	
+		$.each(target,function(i,v){
+			if(v.checked){
+				array.push($(v).val());
+			}
+		});
+	 	return array; 
+ }
+ 
+ //删除功能
+
+$(".delete-tab").click(function(){
+	  	var uIArray= getValues();
+	bootbox.setLocale("zh_CN");
+
+	bootbox.confirm("确定删除这些企业吗？", function(state) {
+			if (state && uIArray.length > 0) {
+				$.post("/company/delete", {
+					"cIArray" : uIArray
+				}, function(result) {
+					if (result.code == 0) {
+						toastr.success(result.msg);
+						pageContentBody.load("/company/list");
+					} else {
+						toastr.warning(result.msg);
+					}
+				}, "json");
+			}
+		})
+
+})
+//修改信用额功能
+ $(".edit-model").click(function(e){
+	 var pageContentBody = $($(this).attr("href")).find(".modal-content");
+ 	var pIdArray= getValues();
+	if(pIdArray.length>0){
+	    e.preventDefault();
+     var url = $(this).attr("thref");
+     App.startPageLoading();
+     $.ajax({
+         type: "GET",
+         cache: false,
+         url: url,
+         dataType: "html",
+         data:{"idArry":pIdArray},
+         success: function (res) {
+             App.stopPageLoading();
+             pageContentBody.html(res);
+             Layout.fixContentHeight(); // 修复内容高度
+         },
+         error: function (xhr, ajaxOptions, thrownError) {
+             pageContentBody.html('<h4>服务器异常!</h4>');
+             App.stopPageLoading();
+         }
+     });
+	}else{
+		pageContentBody.html('<h4>请选择企业！</h4>');
+	}
+ })
+ 
+ 
+ 
+ function formatUser(repo) {
+	  if (repo.loading) {
+		    return repo.text;
+	  }
+	var markup = "<div class='select2-result-repository clearfix'>"
+					+ "<div class='select2-result-repository__avatar'><img src= '"+repo.imageUrl+"' /></div>"
+					+ "<div class='select2-result-repository__meta'>"
+							+ "<div class='select2-result-repository__title'>" + repo.id+"</div>"
+							+ "<div class='select2-result-repository__description'>真实姓名："+ repo.realname + "</div>"
+							+ "<div class='select2-result-repository__statistics'>"
+							+ "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i>手机号 ： "+ repo.phone+ "</div>"
+							+ "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i>  昵称  ："+ repo.nickname+ "</div>"
+							+ "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i>最后登录时间："+(repo.lastLoginTime || "无记录时间 ") + "</div>"
+							+"</div>"
+						+"</div>"
+					+"</div>";
+	return markup;
+}
+
+function formatRepoSelection(repo) {
+	if(repo.realname) {
+		$('#realname').val(repo.realname) ;
+	}
+	if(repo.nickname) {
+		$('#nickname').val(repo.nickname) ;
+	}
+	return   repo.id;
+}
+
+$(' .js-data-user-ajax').select2({
+	ajax : {
+		url : "userInfo/getUserInfo",
+		 dataType: 'json',
+		delay : 250,
+		async : false,
+		data : function(params) {
+			var term= params.term ; 
+			var map = {};
+			/* if(!isNaN(term)&&term.length != 0){
+				map["id"] = parseInt(term); 
+				map["phone"] = term; 
+				if(parseInt(term) > 2147483647){
+					delete va["id"];
+				}
+			}else{ */
+				map["phone"] = term; 
+			/* } */
+			return {
+				id: map["id"], 
+				phone: map["phone"], 
+				str:map["str"] ,
+				pageNo : params.page||1
+			};
+		},
+		processResults: function (data, params) {
+		    params.page = params.page || 1;
+
+		    return {
+		        results: data.result,
+		        pagination: {
+		            more: (params.page * 10) < data.totalCount
+		        }
+		    };
+		},
+		cache : true
+	},
+	width : "off",
+	escapeMarkup : function(markup) {
+		return markup;
+	},
+	placeholder:'请选择',
+	minimumInputLength : 1,
+	language: "zh-CN",
+	templateResult : formatUser,
+	templateSelection : formatRepoSelection
+});
+
+ 
+ 
+ $(function(){
+	 
+     /**
+      *
+      * 导入excel 
+      */
+     $(".import-tab").change(function(){
+    	 var source=$(this);
+    	  var file = source.context.files[0];
+    	 var formdata = new FormData();  
+    	 formdata.append('file',file);
+ 	 	 formdata.append('flag',$("#flag").val());
+    	 $.ajax({
+ 			url : '/company/excelImport',
+ 			type : 'POST',
+ 			data : formdata,
+ 			async : false,
+ 			cache : false,
+ 			contentType : false,
+ 			processData : false,
+ 			dataType :"JSON",
+ 			success : function(data) {
+ 				if(data.code == 0){
+ 					toastr.success(data.msg);
+ 					pageContentBody.load("/company/list");
+ 				}else{
+ 					 $.each(data,function(i,v){
+ 						 toastr.warning(v);
+ 					 })
+ 				}
+ 			} 
+ 		}); 
+ 		
+     });
+ 
+ });
+//排序功能
+ $(".sorticon").click(function(){
+	 $(".htarget").val("");
+	 $("[name='"+$(this).attr("t_target")+"']").val($(this).attr("t_val"));
+	 $('.actions .ajax-search').click();
+ });
+</script>

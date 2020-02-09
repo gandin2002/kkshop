@@ -1,0 +1,14 @@
+#foreach($prodImage in $!lsProdImages)
+#set($temp = $!imageMap.get($!prodImage))
+<div class="col-md-2 image" id="$!temp">
+	<div>
+		<img alt="" src="$!prodImage" width="100%" height="150px">
+		<input type="hidden" name="prodImage.imageUrl" value="$!prodImage">
+	</div>
+	<div class="btn-group btn-group-justified">
+		<a href="javascript:;" class="btn default moveLeft"><i class="fa fa-arrow-left"></i></a>
+		<a href="javascript:;" class="btn default moveRight"><i class="fa fa-arrow-right"></i></a>
+		<a href="javascript:;" class="btn default moveTrash"><i class="fa fa-trash"></i></a>
+	</div>
+</div>
+#end

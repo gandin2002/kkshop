@@ -1,0 +1,388 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-search"></i>查询内容
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+		</div>
+		<div class="actions">
+			<a href="javascript:;" class="btn white btn-sm ajax-search"><i class="fa fa-search"></i>查询 </a> 
+			<a href="javascript:;" class="btn white btn-sm search-reset"><i class="fa fa-eraser"></i>清除 </a>
+		</div>
+	</div>
+	<div class="portlet-body form" style="display: block;">
+		<form action="/productWarehouse/list" class="form-horizontal" method="get" id="searchForm" onsubmit="return false">
+  			<div class="form-body">
+  					<div class="form-group ">
+						<div class="col-md-3">
+							<label class="control-label col-md-3">货品：</label>
+							<div class="col-md-8">
+								<input class="form-control" type="text" name="product"   placeholder="输入货品名称或编码" value="$!product">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<label class="control-label col-md-3">分类：</label>
+							<div class="col-md-8">
+	 							<select name="categoryId" data-size="8" data-live-search="true" class="form-control bs-select">
+	 								<option value="">请选择</option>
+	 								#foreach($category in $!categoryList)
+	 								<option  #if($!categoryId == $!category.id)  selected="selected" #end value="$!category.id">$!category.name</option>
+	 								#end
+	 							</select>
+							</div>
+						</div>
+						<div class="col-md-3">
+						 	<label class="control-label col-md-3">品牌:</label>
+						 	<div class="col-md-8">
+						 		<select name="brandId"  data-size="8" data-live-search="true" class="form-control bs-select">
+						 			<option value="">请选择</option>
+						 			#foreach($brand in $!brandList)
+	 								<option #if($!brandId == $!brand.id) selected="selected" #end value="$!brand.id">$!brand.name</option>
+	 								#end
+	 							</select>
+						 	</div>
+						 </div>
+					 	<div class="col-md-3">
+						 	<label class="control-label col-md-3">标签:</label>
+						 	<div class="col-md-8">
+						 	 	<select data-live-search="true" data-size="8" class="form-control bs-select" name="label">
+						 	 	<option value="">请选择</option>
+						 	 	#foreach($label  in $!pLabelList)
+						 	 		<option #if($!label.name == $!labels ) selected="selected" #end value="$label.name">$label.name</option>
+						 	 	#end
+						 	 	</select>
+					   	</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cogs"></i>仓库中的货品
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+		</div>
+		<div class="actions">
+			<a href="javascript:;"   class="btn white btn-sm delete-tab" ><i class="fa fa-trash"></i>批量删除</a>
+			<a href="javascript:;"  class="btn white btn-sm soldUp-tab" ><i class="fa fa-cart-arrow-down"></i>立即上架</a>
+			<div class="btn-group " >
+				<button type="button" class="btn white btn-sm " data-toggle="dropdown"> 
+					<i class="fa fa-qrcode"></i> 下载二维码  
+				</button>
+				<ul class="dropdown-menu pull-right" role="menu">
+					<li>
+						<a href="javascript:;" class="downQR-tab"  > <i class="fa fa-cube"></i> 指定商品二维码 </a>
+					</li>
+					<li>
+						<a href="javascript:;" class="downQR-all"> <i class="fa fa-cubes"></i> 全部商品二维码 </a>
+					</li>
+				</ul>
+			</div>
+			<span class="btn white btn-file">
+			    <span class="fileinput-new "><i class="fa fa-cloud-upload"></i>导入 </span>
+			    <input type="file" class="file import-tab" name="" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+		    </span>
+			<div class="btn-group " >
+				<button type="button" class="btn white btn-sm " data-toggle="dropdown"> 
+					<i class="fa fa-cloud-download"></i> 导出
+				</button>
+				<ul class="dropdown-menu pull-right" role="menu">
+					<li>
+						<a href="javascript:;" class="export-tab"> <i class="fa fa-cube"></i> 指定商品</a>
+					</li>
+					<li>
+						<a href="javascript:;" class="export-all"> <i class="fa fa-cubes"></i> 全部商品</a>
+					</li>
+				</ul>
+			</div>
+			<a href="/productSale/goods?flag=0"   class="btn white btn-sm ajaxify" ><i class="fa fa-expand"></i>全部货品</a>
+		</div>
+	</div>
+	<div class="portlet-body">
+		<div class="form-group">
+			<div class="alert alert-warning">
+				<strong> 注：</strong>1.即将上架货品为新增时设置上架时间，且设置时间大于系统当前时间的货品；下架货品为所有非定时上架货品；
+      			<p> 2.点击列表“操作”下的“复制”可创建相似货品；评价：点击后链接到货品评价页面，筛选条件中将货品编码和所属商家默认填充，查询所有该货品的评价信息，可编辑。</p>
+			</div>
+		</div>
+		<div class="table-container table-scrollable">
+			<table class="table table-bordered table-hover icheck-table" id="productTable">
+				<thead>
+					<tr>
+					 	<th style="width: 20px">
+							<input type="checkbox" class="icheck group-icheck"/>
+						</th>
+						<th>序号</th>
+						<th>商品名称</th>
+						<th>分类</th>
+						<th>品牌</th>
+						<th>售价</th>
+						<th>货品列表</th>
+						<th>库存</th>
+						<th>总销量</th>
+						<th>标签</th>
+						<th class="col-md-1" style="width:160px;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					#foreach ($!item in $!pageProduct.result)
+					#set($inventory = $!inventoryMap.get($!item))
+					<tr class="odd gradeX">
+						<td>
+							<input type="checkbox" name="checkboxes" class="icheck" value="$!item.id" />
+						</td>
+						<td>
+						<p style="margin: 0">$!velocityCount</p>
+						</td>
+						<td>
+							<div style="display: inline-block;margin-left: 10px">
+								<p style="margin: 0"><a href="/product/preview?id=$!item.id" title="/product/preview?id=$!item.id" target="_blank">$item.name</a></p>
+								
+							</div>
+						</td>
+						<td>$!item.category.name</td>
+						<td>$!item.brand.name</td>
+						<td>$item.salesPrice</td>
+						<td><a href="#modelContent" thref="/product/skuList?productId=$!item.id" class="ajax-model-get" data-toggle="modal">查看</a></td>
+						<td>$!inventory</td>
+						<td>$!item.salesNum</td>
+						<td>$!item.lables</td>
+						<td>
+							<a class="btn green btn-outline btn-sm ajaxify" code="product.edit" href="/product/edit?id=$!item.id&resultUrl=$!resultUrl&$!queryString&pageNo=$pageProduct.pageNo"> 
+								<i class="fa fa-edit"></i>	修改
+							</a>
+<!-- 							<A HREF="JAVASCRIPT:;" THREF="/PRODUCTWAREHOUSE/DELETE?ID=$!ITEM.ID" CLASS="BTN GREEN BTN-OUTLINE BTN-SM AJAX-DELETE" CODE="CATEGORY.DELETE"> -->
+<!-- 							<I CLASS="FA FA-TRASH"></I>删除</A> -->
+							<a class="btn green btn-outline btn-sm ajax-model-get" data-attrValueId="" href="#modelContent" thref="/attr/specificationsadd?productId=$!item.id" data-toggle="modal">
+								<i class="fa fa-edit"></i> 关联
+							</a>
+						</td>
+					</tr>
+					#end
+				</tbody>
+			</table>
+		</div>
+		#set($page=$pageProduct)
+		#set($pageUrl="/productWarehouse/list.do?$!queryString&pageNo=")
+		#parse("_page.htm")
+	</div>
+	<div id="qrMl" style="display: none;top: 50%; right: 50%; z-index: 100; position: absolute; background-color: #fff; width: 200px;height: 200px;box-shadow: 5px 5px rgba(102,102,102,.1);border: 1px solid #eee;">
+		<button type="button" class="close close-click" style="margin: 10px;"></button>
+		<img  style="width: 151px;height: 151px;margin-left: 20px">
+	</div>
+	<form id="downfile" action="" class="hide" method="POST">
+		<input type="hidden" name="pid" id="pid" value="">
+		<input type="hidden" name="flag" id="flag" value="$!flag">
+		<button type="submit"></button>
+	</form>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-permission.js"></script>
+<script type="text/javascript" src="/assets/scripts/views-icheck.js"></script>
+<script type="text/javascript">
+    function formatAttr(repo) {
+        if (repo.loading) {
+            return repo.text;
+        }
+        var markup = "<div class='select2-result-repository clearfix'>"
+            + "<div class='select2-result-repository__meta' style='margin-left: 4px'>"
+            + "<div class='select2-result-repository__title'>" + repo.id+"</div>"
+            + "<div class='select2-result-repository__description'>"+ repo.name + "</div>"
+            +"</div>"
+            +"</div>";
+        return markup;
+    }
+    function formatRepoSelection(repo) {
+        return   repo.id;
+    }
+     $("input[name=code]").focus();
+     
+     var pageContentBody = $('.page-content .page-content-body');
+     ComponentsSelect2.initWithSearch();
+     
+     function getcbvalue(){
+ 		var array = new Array()
+ 		var target= $("input[name='checkboxes']");
+ 		//循环加入数组
+ 		
+ 			$.each(target,function(i,v){
+ 				if(v.checked){
+ 					array.push($(v).val());
+ 				}
+ 			});
+		 	return array; 
+	  }
+	   /**
+	    * 批量删除
+	    */
+	     $(".delete-tab").click(function(){
+	    	  var pIdArray= getcbvalue();
+	    	  if(pIdArray.length>0){
+	      		bootbox.setLocale("zh_CN");
+	    		bootbox.confirm("确定删除这些商品吗？", function(state) {
+	    			if(state){
+	   			   	 $.post("/productSale/deleteProduct",{"pIdArray":pIdArray},function(result){
+				        	if(result.code==0){
+				        		toastr.success(result.msg);
+				       			pageContentBody.load("/productWarehouse/list");
+				       		}else {
+				       			toastr.warning(result.msg);
+				       		}
+					   },"json");
+	    			}
+	    		});
+	    	  }
+	     })
+	   /*
+	   	*立即上架
+	    */
+	   $(".soldUp-tab").click(function(){
+		   var pIdArray= getcbvalue();
+	    	  if(pIdArray.length>0){
+		      		bootbox.setLocale("zh_CN");
+		    		bootbox.confirm("确定上架这些商品吗？", function(state) {
+		    			if(state){
+		    			   	 $.post("/productWarehouse/putaway",{"pIdArray":pIdArray},function(result){
+		    			        	if(result.code==0){
+		    			        		toastr.success(result.msg);
+		    			       			pageContentBody.load("/productWarehouse/list");
+		    			       		}else {
+		    			       			toastr.warning(result.msg);
+		    			       		}
+		    				   },"json");
+		    			}
+		    		})
+		   }
+	   })
+     
+	   
+	        /**
+      *
+      * 获得 鼠标点击坐标
+      */
+     function getMousePos(event) {
+            var e = event || window.event;
+            var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+            var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+            var x = e.pageX || e.clientX + scrollX;
+            var y = e.pageY || e.clientY + scrollY;
+            return { 'x': x, 'y': y };
+      }
+     /**
+     * 点击二维码 查看事件
+     *  
+     */
+     var record = "" ;
+     $(".qrCheck").click(function(event){
+    	  var ptId=$(this).attr("ptId");
+    	  var target= $("#qrMl");
+    	  target.toggle();
+    	  if(record != ptId){
+    		  target.show();
+    		  record = ptId;
+    	  } 
+     	  $.get("/productSale/getQrCodeImg",{"ptId":ptId},function(result){
+     		  $("#qrMl > img").attr("src",result);
+         	  var m = getMousePos(event);
+         	  target.css("top",(m.y-270)+"px");
+         	  target.css("left",(m.x-30)+"px");
+     	  })
+     })
+     
+     /**
+      * 下载二维码
+      */
+     $(".downQR-tab").click(function(){
+    	 var pIdArray= getcbvalue();
+    	 console.log(pIdArray);
+    	 if(pIdArray.length>0){
+   		    $("#pid").val(pIdArray);
+   		    $("#downfile").attr("action","/productSale/downloadQRCode");
+   			$("#downfile").submit();
+    	 }else{
+    		 toastr.warning("请选择商品");
+    	 }
+     })
+     /**
+      * 下载全部二维码
+      */
+     $(".downQR-all").click(function(){
+		    $("#pid").val("");
+   		    $("#downfile").attr("action","/productSale/downloadQRCode");
+   			$("#downfile").submit();
+     })
+     
+     /**
+      *
+      * excel 导出
+      */
+     $(".export-tab").click(function(){
+    	 var pIdArray= getcbvalue();
+    	 if(pIdArray.length>0){
+   		    $("#pid").val(pIdArray);
+   		    $("#downfile").attr("action","/productSale/downloadExcel");
+   			$("#downfile").submit();
+    	 }else{
+    		 toastr.warning("请选择商品");
+    	 }
+     })
+     
+    /**
+      *
+      * 导入excel 
+      */
+     $(".import-tab").change(function(){
+    	 var source=$(this);
+    	 var file = source.context.files[0];
+    	 var formdata = new FormData();  
+    	 formdata.append('file',file);
+ 	 	 formdata.append('flag',$("#flag").val());
+    	 $.ajax({
+ 			url : '/productSale/importExcel',
+ 			type : 'POST',
+ 			data : formdata,
+ 			async : false,
+ 			cache : false,
+ 			contentType : false,
+ 			processData : false,
+ 			dataType :"JSON",
+ 			success : function(data) {
+ 				if(data.code == 0){
+ 					toastr.success(data.msg);
+ 					pageContentBody.load("/productWarehouse/list");
+ 				}else{
+ 					 $.each(data,function(i,v){
+ 						 toastr.warning(v);
+ 					 })
+ 				}
+ 			} 
+ 		});
+    	 
+     })
+     
+     /*
+      *  excel 导出全部
+      */
+     $(".export-all").click(function(){
+	    	$("#pid").val("");
+  		    $("#downfile").attr("action","/productSale/downloadExcel");
+  			$("#downfile").submit();
+     })
+     
+ 	 /**
+     * 二维码窗口关闭
+     *  
+     */
+     $(".close-click").click(function(){
+    	 $("#qrMl").hide();
+     })
+</script>

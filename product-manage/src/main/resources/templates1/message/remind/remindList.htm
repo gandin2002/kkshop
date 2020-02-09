@@ -1,0 +1,42 @@
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cogs"></i>数据列表
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse" data-original-title=""
+				title=""> </a>
+		</div>
+		<div class="actions"></div>
+	</div>
+	<div class="portlet-body">
+		<div class="tab-content">
+			<table class="table table-striped table-bordered table-hover"
+				id="tableCategory">
+				<thead>
+					<tr>
+						<th>项目</th>
+						<th>状态</th>
+						<th>备注</th>
+					</tr>
+				</thead>
+				<tbody>
+					#foreach($remind in $!list)
+					<tr>
+						<td>$!remind.title</td>
+						<td> 
+							<input #if($!remind.state) checked #end type='checkbox' data-size='small' class='make-switch' 
+		                    			sendid="$!{remind.id}" data-on-color='success' data-off-color='warning'>
+						</td>	                     
+						<td>$!remind.label</td>
+					</tr>
+					#end
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-kindeditor.js"></script>
+<script type="text/javascript">
+	bootstrapSwitch.init({url:"messageRemind/modifiedStatus",ontext:"启用",offtext:"禁用"});
+</script>

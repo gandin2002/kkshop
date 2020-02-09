@@ -1,0 +1,55 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">添加</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/departmentsCompany/edit" class="form-horizontal" method="post">
+    		<div class="form-body">
+				<div class="form-group">
+					<label class="control-label col-md-4">上级部门：</label>
+					<div class="col-md-8">
+							$!pDept.title
+						 <input type="hidden" name="id" value="$!item.id">
+					</div>
+				</div>
+				<div class="form-group">
+				    <label class="control-label col-md-4">*部门名称：</label>
+				    <div class="col-md-8">
+				        <input type="text" class="form-control Limitletter" name="title"  value="$!item.title"  maxlength="10" placeholder="十个字以内" required>
+				    </div>
+				</div>
+				<div class="form-group">
+				    <label class="control-label col-md-4">*是否启用：</label>
+				    <div class="col-md-8">
+						<label class="mt-radio mt-radio-outline">是
+							<input type="radio" value="true" name="state" >
+							<span></span>
+						</label>
+						<label class="mt-radio mt-radio-outline">否
+							<input type="radio" value="false" name="state">
+							<span></span>
+						</label>
+						<script type="text/javascript">
+							$(function(){
+								var state=$!item.state.toString();
+								state = state.toString();
+								$("[name='state']",".form-group").each(function(i,target){
+									if($(target).val() == state){
+										$(target).attr("checked","checked");
+									}
+								})
+							})
+						</script>
+				    </div>
+				</div>
+            </div>
+            <div class="form-actions right"> 	
+				<a href="javascript:;" thref="departmentsCompany/list/?companyId=$!item.companyId" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>

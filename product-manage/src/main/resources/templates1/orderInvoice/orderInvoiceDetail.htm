@@ -1,0 +1,59 @@
+<div class="modal fade modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">账房 > 单据管理 > 发票 > 发票详情</span>
+        </div>
+    </div>
+    <div class="portlet-body">
+         <table class="table table-bordered">
+		 	<tr>
+		 		<td>发票类型</td>
+		 		<td>$!invoice.invoiceType.name</td>
+		 		<td>发票抬头</td>
+		 		<td>$!invoice.title</td>
+				<td>社会信用代码</td>
+		 		<td>$!company.licenseId</td>
+		 	</tr>
+		 	<tr>
+		 		<td>开户银行</td>
+		 		<td>$!invoice.depositBank</td>		 		
+		 		<td>开户银行账号</td>
+		 		<td>$!invoice.accountBank</td>
+		 		<td>营业电话</td>
+		 		<td>$!invoice.companyPhone</td>
+		 	</tr>
+		 	<tr>		 		
+		 		<td>营业地址</td>
+		 		<td>$!invoice.companyAddress</td>
+		 		<td></td>
+		 	</tr>
+		 	<tr>
+		 		<td>三证合一扫描件</td>
+		 		<td>
+ 					<img width="200px" height="200px" src="$!company.licenseImage">
+	            </td>
+		 		<td>一般纳税人资格认证扫描件</td>
+		 		<td>
+		 			<img src="$!license.generalTaxpayer">
+		 		</td>
+		 		<td>其他文件</td>
+		 		<td>
+		 			<img src="$!license.otherTaxpayerr">
+		 		</td>	
+		 		<td>
+		 			 
+		 		</td>
+		 	</tr>
+		 	
+		 </table>
+         <div class="form-actions right" style="text-align: center;">
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+         </div>  
+    </div>
+</div>

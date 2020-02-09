@@ -1,0 +1,126 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+		<div class="caption font-dark">
+			<i class="fa fa-cog font-dark"></i>
+			<span class="caption-subject bold">添加分类</span>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form role="form" action="/pageNavigation/add" class="form-horizontal" method="post">
+			<div class="form-body">
+
+				<div class="form-group">
+					<label class="control-label col-md-2">分类名称：</label>
+					<div class="col-md-4">
+						<input type="text" class="form-control" name="name">
+						<input type="hidden" name="loc" value="$!loc">
+						<input type="hidden" name="pid" value="$!pid">
+						<input type="hidden" name="level" value="$!level">
+						<input type="hidden" name="id" id="id">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-md-2">目录图片：</label>
+					<div class="col-md-4">
+	                    <div class="mt-element-overlay">
+							<div class="mt-overlay-1 fileinput fileinput-new" data-provides="fileinput" style="margin-bottom: 0;width: auto;;height: auto;">
+								<div class="fileinput-new thumbnail" style="width: 150px; height: 150px; margin-bottom: 0">
+								    <img src="" alt="上传图片"> 
+								</div>
+								<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 150px;margin-bottom: 0"> </div>
+								<div class="mt-overlay">
+								    <span class="btn default btn-file" style="padding: 0;">
+									    <span class="fileinput-new"> 浏览 </span>
+									    <span class="fileinput-exists"> 更改 </span>
+									    <input type="file"  class="uploadProdImage" onchange="uploadImage(this,'pageNavigationImage')" accept="image/jpg,image/gif,image/bmp,image/jpeg,image/png"> 
+								    </span>`
+								    <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput" style="padding: 0"> 删除 </a>
+								    <input type="hidden" name="image" id="pageNavigationImage"  />
+								</div>
+                        	</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label col-md-2">是否启用：</label>
+					<div class="col-md-4" style="vertical-align: middle; margin-top: 7px;">
+						<input type="radio" name="status" value="true" checked>
+						启用
+						<input type="radio" name="status" value="false">
+						禁用
+					</div>
+				</div>
+				<div class="form-group inline">
+					<label class="control-label col-md-2">筛选类型：</label>
+					<div class="col-md-4" style="vertical-align: middle; margin-top: 7px;">
+						<input type="checkbox" name="type" id="chk_category" value="category">
+						货品分类
+						<input type="checkbox" id="chk_tag" name="type" value="tag">
+						货品标签
+						<input type="checkbox" id="chk_price" name="type" value="price">
+						货品售价
+					</div>
+					<input type="hidden"  name="content" id="content">
+				</div>
+				<div id="content_div">
+				
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">广告图片：</label>
+					<div class="col-md-4">
+	                    <div class="mt-element-overlay">
+							<div class="mt-overlay-1 fileinput fileinput-new" data-provides="fileinput" style="margin-bottom: 0;width: auto;;height: auto;">
+								<div class="fileinput-new thumbnail" style="width: 150px; height: 150px; margin-bottom: 0">
+								    <img src="" alt="上传图片"> 
+								</div>
+								<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 150px;margin-bottom: 0"> </div>
+								<div class="mt-overlay">
+								    <span class="btn default btn-file" style="padding: 0;">
+									    <span class="fileinput-new"> 浏览 </span>
+									    <span class="fileinput-exists"> 更改 </span>
+									    <input type="file"  class="uploadProdImage" onchange="uploadImage(this,'pageNavigationAdImage')" accept="image/jpg,image/gif,image/bmp,image/jpeg,image/png"> 
+								    </span>`
+								    <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput" style="padding: 0"> 删除 </a>
+								    <input type="hidden" name="adImage" id="pageNavigationAdImage"  />
+								</div>
+                        	</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">广告图片路径：</label>
+					<div class="col-md-5">
+						<input type="text" class="form-control" name="adUrl">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label col-md-2">排序：</label>
+					<div class="col-md-5">
+						<input type="text" class="form-control positiveIntegerNum" name="sort">
+					</div>
+				</div>
+
+
+			</div>
+			<div class="form-actions right">
+				<a href="javascript:;" thref="/pageNavigation/$!loc" class="btn green ajax-post-pageNavigation">
+					<i class="fa fa-check"></i>
+					提交
+				</a>
+				<a href="/pageNavigation/$!loc" class="btn btn-outline grey-salsa ajaxify">返回</a>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-pagecfgNavigation.js"></script>
+<script type="text/javascript">
+
+$(function() {
+	MyTouchSpin.init() ;
+	PageConfigNavigation.init() ;
+})
+
+</script>

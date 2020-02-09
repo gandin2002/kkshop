@@ -1,0 +1,202 @@
+<div class="portlet light bordered">
+	<div class="portlet-body modal-form">
+		<form role="form" action="/sendGoods/edit" class="form-horizontal" method="post">
+			<div class="form-body">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">发货单ID：</label>
+							<div class="col-md-8">
+								<select name="id" class="form-control" onchange="changeItem(this) ;">
+									<option value="" >--请选择--</option>
+									#foreach($sg in $!sgs)
+			                    	<option value="$!sg.id" #if($!sg.id== $!item.id) selected #end >$!sg.id</option>
+			                    	#end
+		                    	</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">订单号：</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" name="orderId" value="$!orderId" id="orderId" readonly />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">物流公司：</label>
+							<div class="col-md-8">
+							<select name="transCompany" class="form-control exp-company" required>
+								<option value="" >--请选择--</option>
+								#foreach($logistic in $!logistics)
+		                    	<option value="$!logistic.companyname" com-code="$!logistic.code" #if($!item.transCompany == $!logistic.companyname) selected #end >$!logistic.companyname</option>
+		                    	#end
+		                    </select>
+		                    <input type="hidden" name="transCompanycode" id="transCompanycode"/>
+							</div>
+							<script type="text/javascript">
+								$(".exp-company").on("change",function(){
+									var transCompanycode = $(this).find("option:selected").attr("com-code") ;
+									$("#transCompanycode").val(transCompanycode);
+								})
+							</script>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">物流单号：</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" name="transNum" value="$!item.transNum" required>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">收货人：</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" name="revicer" value="$!item.revicer" required>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">联系电话：</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" name="rePhone" value="$!item.rePhone" required>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">收货地区：</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" name="reArea" value="$!item.reArea" required>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">详细地址：</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" name="reAdress" value="$!item.reAdress" required>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">发货人：</label>
+							<div class="col-md-8">
+								<select name="sender" class="form-control sender-person" required>
+									<option value="" >--请选择--</option>
+									#foreach($delivery in $!deliverys)
+			                    	<option value="$!delivery.linkman" #if($!item.sender==$!delivery.linkman) selected #end com-name="$!delivery.corporateName" send-id="$!delivery.id" send-address="$!delivery.address">$!delivery.linkman</option>
+			                    	#end
+		                    	</select>
+		                    	<input type="hidden" name="sendAdress" id="sendAdress" value="$!item.sendAdress"/>
+	                    		<input type="hidden" name="senderCompany"  id="senderCompany" value="$!item.senderCompany"/>
+	                    		<input type="hidden" name="sendId"  id="sendId" value="$!item.sendId"/>
+							</div>
+							<script type="text/javascript">
+								$(".sender-person").on("change",function(){
+									var senderCompany = $(this).find("option:selected").attr("com-name") ;
+									var sendAdress = $(this).find("option:selected").attr("send-address") ;
+									var sendId = $(this).find("option:selected").attr("send-id") ;
+									$("#sendId").val(sendId);
+									$("#sendAdress").val(sendAdress);
+									$("#senderCompany").val(senderCompany);
+								})
+							</script>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">发货时间：</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control common-time-datepicker" name="sendTime" value="$!item.sendTime" readOnly required>
+								<i class="fa fa-calendar" style="position: absolute;right: 10px;top: 10px"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label col-md-2">发货备注：</label>
+					<div class="col-md-7">
+                        <textarea class="form-control" name="note" cols="3" style="width: 100%;">$!item.note</textarea>
+                    </div>
+				</div>
+			</div>
+			
+			<div class="dataTables_wrapper no-footer">
+				<div class="table-scrollable">
+					<h2>订单货品</h2>
+				      <table class="table table-striped table-bordered table-hover center">
+				      	<thread>
+					      	<tr>
+					      		<td>货品编号</td>
+					      		<td>货品名称</td>
+					      		<td>规格</td>
+					      		<td>销售单价</td>
+					      		<td>单品积分</td>
+					      		<td>购买数量</td>
+					      		<td>发货量</td>
+					      	</tr>
+				      	</thread>
+				      	<tbody>
+				      		#foreach($orderItem in $!itemList)
+				      		#set($sendedNum = $!alMap.get($!orderItem.id))
+				      			<tr>
+					      			<td>$!orderItem.skuCode</td>
+					      			<td>$!orderItem.productName</td>
+					      			<td>$!orderItem.attrAndAttrValues</td>
+					      			<td>$!orderItem.price</td>
+					      			<td>$!orderItem.price</td>
+					      			<td>$!orderItem.quantity</td>
+					      			<td>
+					      				<input type="text" class="form-control" readOnly style="width: 90px;" value="$!sendedNum" name="sendNum"/>
+					      			</td>
+				      			</tr>
+				      		#end
+				      	</tbody>
+				      </table>
+				</div>
+			</div>
+			
+			<div class="form-actions right">
+				<a href="javascript:;" thref="/order/edit?orderId=$!orderId" class="btn green modal-ajax-post">
+					<i class="fa fa-check"></i>
+					修改发货
+				</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-date.js"></script>
+<script type="text/javascript">
+
+ComponentsSelect2.initWithSearch()
+
+function changeItem(obj) {
+	var id = $(obj).val() ;
+	var orderId = $('#orderId').val() ;
+	if(id =='') {
+		return ;
+	}
+	$('.modal-content').load("/sendGoods/edit?orderId="+orderId+"&id="+id);
+}
+</script>

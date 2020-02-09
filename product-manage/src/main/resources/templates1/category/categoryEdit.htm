@@ -1,0 +1,159 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+		<div class="caption font-dark">
+			<i class="fa fa-cog font-dark"></i> 
+			<span class="caption-subject bold">修改分类</span>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form role="form" action="/category/edit" class="form-horizontal" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="id" value="$!category.id">
+			<input type="hidden" name="pid" value="$!category.pid">
+			<input type="hidden" name="level" value="$!category.level">
+			<input type="hidden" name="image" value="$!category.image">
+			<input type="hidden" name="createDate" value="$!category.createDate">
+			<div class="modal-body">
+				<div class="form-group">
+					<label class="control-label col-md-3">*上级类别：</label>
+					<div class="col-md-7">
+						<label class="control-label">
+							#if($!category.level==1)
+							<span>无</span>
+							#elseif($!category.level==2)
+							<span>$!category1.name ($!category1.id)</span>
+							#elseif($!category.level==3)
+							<span>$!category2.name ($!category2.id)</span>
+							#end
+						</label>
+					</div>
+				</div>
+<!--				<div class="form-group">
+					<label class="control-label col-md-3">*类别编码：</label>
+					<div class="col-md-7">
+						<label class="control-label">$!category.id</label>
+					</div>
+				</div>-->
+				<div class="form-group">
+					<label class="control-label col-md-3">*类别名称：</label>
+					<div class="col-md-7">
+						<input type="text" class="form-control" value="$!category.name" name="name" maxlength="20" required>
+					</div>
+				</div>
+<!--				<div class="form-group">
+					<label class="control-label col-md-3">排序：</label>
+					<div class="col-md-7">
+						<input type="text" class="form-control integerNum" name="sort" value="$!category.sort">
+					</div>-->
+				<div class="form-group">
+					<label class="control-label col-md-3">*是否显示：</label>
+					<div class="col-md-7">
+						<select name="display " class="form-control bs-select" required>
+							<option value="1" #if($!category.display) selected #end>是</option>
+							<option value="0" #if(!$!category.display) selected #end>否</option>
+						</select>
+					</div>
+				</div>
+				 #if($!isChilds)
+				<div class="form-group">
+					<div class="alert alert-danger">
+	                     <strong>注意！</strong> 底层分类需要关联类型和品牌，关联后则不能添加下一级分类(或者添加商品也不能添加下一级分类)
+	                </div>
+                </div>
+				<div class="form-group">
+					<label class="control-label col-md-3">关联类型：</label>
+					<div class="col-md-7">
+	                    <select name="attrGoupId " class="form-control bs-select">
+	                    <option value="">请选择</option>
+	                    	#foreach($attrGroup in $!attrGroups)
+		                    	<option value="$!attrGroup.id" data-name="$!attrGroup.name" #if($!category.attrGoupId==$!attrGroup.id) selected #end>$!attrGroup.name</option>
+	                        #end
+	                    </select>
+					</div>
+				</div>
+				<div class="form-group">
+                     <label class="control-label col-md-3">关联品牌：</label>
+                     <div class="col-md-7">
+                         <select name="brandIds" class="form-control bs-select" data-size="8" multiple>
+                         <option value="">请选择</option>
+								#foreach($brand in $!brandList)
+									<option value="$!brand.id" #foreach($brId in $!brandIds) #if($!brId == $!brand.id) selected="selected" #end #end>$!brand.name</option>
+								#end
+							</select>
+                     </div>
+                 </div>
+                 #if($!products == "1")
+                 <div class="form-group">
+                     <label class="control-label col-md-3">货品百分比积分：</label>
+                     <div class="col-md-7">
+                         <input type="text" style="width:100px;" name="scorePercentage" class="percent" value="$!category.scorePercentage"/>%
+                         <span class="error"></span>
+                     </div>
+                 </div>
+                 #end
+                 #end
+ <!--                
+				<div class="form-group">
+					<label class="control-label col-md-3">*分类图片：</label>
+					<div class="col-md-7">
+	                    <div class="mt-element-overlay">
+							<div class="mt-overlay-1 fileinput fileinput-new" data-provides="fileinput" style="margin-bottom: 0;width: auto;;height: auto;">
+								<div class="fileinput-new thumbnail" style="width: 100px; height: 100px; margin-bottom: 0">
+								    <img src="$!imageUploadUrl$!category.image" alt="上传图片"> 
+								</div>
+								<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 100px; max-height: 100px;margin-bottom: 0"> </div>
+								<div class="mt-overlay">
+								    <span class="btn default btn-file" style="padding: 0;">
+									    <span class="fileinput-new"> 浏览 </span>
+									    <span class="fileinput-exists"> 更改 </span>
+									    <input type="file" id="file" name="file" accept="image/jpg,image/gif,image/bmp,image/jpeg,image/png"> 
+								    </span>
+								    <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput" style="padding: 0;"> 删除 </a>
+								</div>
+                        	</div>
+						</div>
+					</div>
+				</div>-->
+			</div>
+			<div class="form-actions right">
+                 <a href="javascript:;" thref="/category/list" class="btn green ajax-file"><i class="fa fa-check"></i> 提交</a>
+                 <a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+            </form>
+			</div>
+				<script type="text/javascript">
+				$(function(){
+					$('.ajax-file').click(function(){debugger
+						
+						if($(".percent").length == 0){
+							return true;
+						}
+					  	var val  = $(".percent").val();
+			    		 
+			    		
+			    		var objexg = /^[1-9][0-9]$/;
+			    		if(objexg.test(val)==true){
+			    		}else{
+			    			if (val == "100"){
+			    			}else{
+			    				var obj = /^[0-9]$/;
+			    				if (obj.test(val) != true){
+			    					
+			    					$(".error").html("<div><font color='red'>您输入的值必须是0~100(包含100)以内的百分比整数</font></div>");
+			    					return false;
+			    				}
+			    			}
+			    		}
+			    	
+					})
+				})
+			</script>
+	</div>
+<script src="/assets/scripts/views-file-edit.js" type="text/javascript"></script>
+<script src="/assets/plugins/bootstrap-select/js/components-bootstrap-select.js" type="text/javascript"></script>
+<script type="text/javascript">
+	MyTouchSpin.init()
+	
+
+});
+	
+</script>

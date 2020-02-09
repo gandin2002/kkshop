@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 ,maximum-scale=1,user-scalable=no">
+    <title>企业详情</title>
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/weui.min.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/jquery-weui.min.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/css/common.css">
+    <!--<link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/css/relation.css">-->
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/css/business.css">
+    <script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/plugins/fancybox/lib/jquery-1.10.1.min.js"></script>
+    <script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/jquery-weui.min.js"></script>
+</head>
+<body class="view-container coutom">
+<div class="header bar-positive">
+    <a href="" class="left"><img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/blockr.png"/></a>
+    <h1>企业详情</h1>
+    <a href="" class="right"><img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/more.png"/></a>
+</div>
+<div class="contanen">
+    <div class="weui-tab">
+        <div class="weui-navbar">
+                <a class="weui-navbar__item addlist weui-bar__item--on blue" href="#tab1">
+                    基本信息
+                </a>
+                <a class="weui-navbar__item addlist" href="#tab2 ">
+                    企业成员
+                </a>
+                <a class="weui-navbar__item addlist  " href="#tab3 ">
+                    营业执照
+                </a>
+        </div>
+        <div class="weui-tab__bd">
+            <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+                <a class="edit" href="editorEnterprise.html"></a>
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">企业编号</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="122314565" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="武汉博宏网络工程有限公司" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">所在地区</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="武大航域2期xxxxx0001" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell no-border">
+                        <div class="weui-cell__hd"><label class="weui-label">地区邮编</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="number" placeholder="432000" disabled>
+                        </div>
+                    </div>
+                    <p>负责人信息</p>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">会员编号</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="123456789" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">负责人姓名</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="刘大大" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">负责人手机号</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="137201118888" disabled>
+                        </div>
+                    </div>
+                </div>
+                    <p>账户信息</p>
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">账单日</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="16" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">企业等级</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="一级会员" disabled>
+                        </div>
+                    </div>
+                </div>
+                    <p>其他信息</p>
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">企业电话</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="027-87181818" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">企业传真</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="027-87181818" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">企业邮箱</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="bohoong@bohoon.cn" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">企业网址</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="www.bohoon.cn" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">企业性质</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="民营企业" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">行业分类</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="number" placeholder="软件行业" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">企业规模</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="20-99人" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">专营员</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="张三 18720888888 业务员" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">订单审核</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="number" placeholder="审核" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab2" class="weui-tab__bd-item member">
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell weui-cell_switch">
+                        <div class="weui-cell__bd">
+                            <h2>奥克塔维亚</h2>
+                            <p>手机号：132720111000</p>
+                            <p>会员号：30514718</p>
+                        </div>
+                            <span class="popo">负责人</span>
+                    </div>
+                    <div class="weui-cell weui-cell_switch">
+                        <div class="weui-cell__bd">
+                            <h2>奥克塔维亚</h2>
+                            <p>手机号：132720111000</p>
+                            <p>会员号：30514718</p>
+                        </div>
+                        <div class="weui-cell__ft">
+                            <label for="switchCP" class="weui-switch-cp">
+                                <input id="switchCP" class="weui-switch-cp__input" type="checkbox" checked="checked">
+                                <div class="weui-switch-cp__box"></div>
+                            </label>
+                            <span class="trash"></span>
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_switch">
+                        <div class="weui-cell__bd">
+                            <h2>奥克塔维亚</h2>
+                            <p>手机号：132720111000</p>
+                            <p>会员号：30514718</p>
+                        </div>
+                        <div class="weui-cell__ft">
+                            <label for="switchCP1" class="weui-switch-cp">
+                                <input id="switchCP1" class="weui-switch-cp__input" type="checkbox">
+                                <div class="weui-switch-cp__box"></div>
+                            </label>
+                            <span class="trash"></span>
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_switch">
+                        <div class="weui-cell__bd">
+                            <h2>奥克塔维亚</h2>
+                            <p>手机号：132720111000</p>
+                            <p>会员号：30514718</p>
+                        </div>
+                        <div class="weui-cell__ft">
+                            <label for="switchCP2" class="weui-switch-cp">
+                                <input id="switchCP2" class="weui-switch-cp__input" type="checkbox">
+                                <div class="weui-switch-cp__box"></div>
+                            </label>
+                            <span class="trash"></span>
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_switch">
+                        <div class="weui-cell__bd">
+                            <h2>奥克塔维亚</h2>
+                            <p>手机号：132720111000</p>
+                            <p>会员号：30514718</p>
+                        </div>
+                        <div class="weui-cell__ft">
+                            <label for="switchCP3" class="weui-switch-cp">
+                                <input id="switchCP3" class="weui-switch-cp__input" type="checkbox">
+                                <div class="weui-switch-cp__box"></div>
+                            </label>
+                            <span class="trash"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab3" class="weui-tab__bd-item license">
+                <a href="editorBusiness.html" class="edit"></a>
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">社会信用代码</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="123456789" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">成立日期</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="2018-5-14" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">有效日期</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="2019-5-14" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">注册资本</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="1000000.00" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label for="date" class="weui-label">选择地区</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" id="end" type="text" placeholder="湖北身武汉市江夏区" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">地址详情</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="number" placeholder="湖北省武汉市江夏区" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">法人姓名</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="张三" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">身份证号码</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="421083199911110011" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell linker">
+                        <div class="weui-cell__hd"><label for="" class="weui-label">法人身份证</label></div>
+                        <div class="weui-cell__bd">
+                            <div class="weui-uploader">
+                                <div class="weui-uploader__bd">
+                                    <ul class="weui-uploader__files" id="uploaderFiles">
+                                    <li class="weui-uploader__file">
+                                        <img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/skuDefaultImage.jpg" alt="">
+                                    </li>
+                                    <li class="weui-uploader__file">
+                                        <img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/skuDefaultImage.jpg" alt="">
+                                    </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weui-cell linker">
+                        <div class="weui-cell__hd"><label for="" class="weui-label">其他文件</label></div>
+                        <div class="weui-cell__bd">
+                            <div class="weui-uploader">
+                                <div class="weui-uploader__bd">
+                                    <ul class="weui-uploader__files" id="uploaderFiles2">
+                                        <li class="weui-uploader__file">
+                                            <img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/skuDefaultImage.jpg" alt="">
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/city/city-data.js"></script>
+<script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/city/city-picker.js"></script>
+<script>
+    $("#end").cityPicker({});
+    $(".weui-navbar a").on("click",function(){
+        $(this).addClass("blue").siblings().removeClass("blue");
+    });
+
+</script>
+</html>

@@ -1,0 +1,83 @@
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="tabbable-line ">
+			<ul class="nav nav-tabs ">
+				<li><a href="/messageEmail/emailTemplates" class="ajaxify">邮件模板</a></li>
+				<li><a href="/messageEmail/customEmail" class="ajaxify">自定义邮件</a></li>
+				<li><a href="/messageEmail/sendBox" class="ajaxify">发件箱</a></li>
+				<li class="active"><a href="/messageEmail/emailConfig" class="ajaxify">邮箱配置</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="portlet-body form">
+					<form action="/messageEmail/emailConfig"  class="form-horizontal form-row-seperated" method="post">
+                        <div class="form-body">
+	                        <div class="alert alert-warning">
+	                            <strong>注意!</strong> 邮件配置后可支持整个系统的邮件发送及接收，系统自动发出邮件，收件人可回复，回复的邮件收件人可配置。
+	                        </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3  ">SMTP服务器地址：</label>
+                                <div class="col-md-9">
+                                	<input type="hidden" name="id" value="$!messageConfig.id" class="form-control">
+                                	#set($emailConfig = $messageConfig.emailConfig())
+                                    <input type="text" name="host" value="$!emailConfig.host" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3  ">SMTP服务器用户名：</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="useranme" value="$!emailConfig.useranme" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3  ">SMTP服务器密码：</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="password"  value="$!emailConfig.password" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3  ">发件人邮箱：</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="from"   value="$!emailConfig.from"   class="form-control">
+                                </div>
+                            </div>
+                            <!--  
+                            <div class="form-group">
+                                <label class="control-label col-md-3  ">发件人名称：</label>
+                                <div class="col-md-9">
+                                    <input type="text"   class="form-control">
+                                </div>
+                            </div>
+                            -->
+                            <div class="form-group">
+                                <label class="control-label col-md-3  ">回复收件箱：</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="replyTo"   value="$!emailConfig.replyTo"  class="form-control">
+                                </div>
+                            </div>
+                            <!--  
+                            <div class="form-group">
+                                <label class="control-label col-md-3  ">回复收件人名称：</label>
+                                <div class="col-md-9">
+                                    <input type="text"   class="form-control">
+                                </div>
+                            </div>
+                            -->   
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+									<a href="javascript:;" class="btn green ajax-post"><i class="fa fa-save"></i> 保存</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>

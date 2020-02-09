@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>营业执照信息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 ,maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/weui.min.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/jquery-weui.min.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/weui-gallery.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/css/common.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/css/member.css">
+    <script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/plugins/fancybox/lib/jquery-1.10.1.min.js"></script>
+    <script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/jquery-weui.min.js"></script>
+</head>
+<body class="view-container">
+<div class="header bar-positive">
+    <a href="" class="left"><img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/blockr.png"/></a>
+    <h1>营业执照信息</h1>
+    <a href="" class="right"><img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/more.png"/></a>
+</div>
+<div class="contanen examine_con">
+    <h2>营业执照信息</h2>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">社会信用代码</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请填写社会信用代码">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">注册资本</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请填写注册资金" required>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">成立日期</label></div>
+            <div class="weui-cell__bd">
+                <input type="text" id="on-data" placeholder="请选择成立日期"/>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">有效日期</label></div>
+            <div class="weui-cell__bd">
+                <input type="text" id="on-data1" placeholder="请选择有限日期"/>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="date" class="weui-label">选择地区</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" id="end" type="text" placeholder="请选择地区">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">地址详情</label></div>
+            <div class="weui-cell__bd">
+                <input type="text" id="on-data1" placeholder="请填写地址详情"/>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">法人姓名</label></div>
+            <div class="weui-cell__bd">
+                <input type="text" id="on-data1" placeholder="请填写法人姓名"/>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>
+            <div class="weui-cell__bd">
+                <input type="text" id="on-data1" placeholder="请填写身份证号码"/>
+            </div>
+        </div>
+        <div class="weui-cell upload">
+            <div class="weui-cell__hd"><label for="" class="weui-label">法人身份证</label></div>
+            <div class="weui-cell__bd">
+                <div class="weui-gallery" id="gallery">
+                    <div class="weui-gallery__img" id="galleryImg">
+
+                    </div>
+                    <div class="weui-gallery__opr">
+                        <a href="javascript:" class="weui-gallery__del">
+                            <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="weui-uploader">
+                    <div class="weui-uploader__bd">
+                        <ul class="weui-uploader__files" id="uploaderFiles">
+                            <li class="weui-uploader__file">
+                                <img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/layouts/layout/img/photo1.jpg" alt="">
+                            </li>
+                            <li class="weui-uploader__file">
+                                <img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/layouts/layout/img/photo1.jpg" alt="">
+                            </li>
+                        </ul>
+                        <div class="weui-uploader__input-box">
+                            <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cell upload">
+            <div class="weui-cell__hd"><label for="" class="weui-label">营业执照</label></div>
+            <div class="weui-cell__bd">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__bd">
+                        <!--<ul class="weui-uploader__files" id="uploaderFiles">-->
+                        <!--<li class="weui-uploader__file" style="background-image:url(./images/pic_160.png)"></li>-->
+                        <!--</ul>-->
+                        <div class="weui-uploader__input-box">
+                            <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="check bu_examine">
+    <button class="no-button">保存</button>
+</div>
+</body>
+<script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/city/city-data.js"></script>
+<script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/city/city-picker.js"></script>
+<script>
+    $(".weui-uploader__file").on('click',function(){
+        $(".weui-gallery__img").empty();
+        console.log($(this).index());
+        var con =   $(this).find("img").attr("src");
+        $("#gallery").css("display","block");
+        $(".weui-gallery__img").append('<img src="'+con+'">');
+    })
+    $(".weui-gallery__img").on('click',function(){
+        $("#gallery").css("display","none");
+    })
+    $("#end").cityPicker({});
+    $(".deliver-list .weui-cell__ft").on('click',function(){
+        console.log(1);
+        var That = $(this).find("i");
+        if(That.hasClass("icon-bottom")){
+            That.removeClass("icon-bottom");
+            $(".deliver-lists").css("display","block")
+        }else{
+            That.addClass("icon-bottom");
+            $(".deliver-lists").css("display","none")
+        }
+    })
+
+</script>
+</html>

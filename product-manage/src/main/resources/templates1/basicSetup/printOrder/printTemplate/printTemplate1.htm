@@ -1,0 +1,165 @@
+<style>
+	.rowt:after {
+    clear: both;
+   	display: table;
+    content: " ";
+	}
+	.rowt:before {
+    display: table;
+    content: " ";
+}
+.col-md-1t, .col-md-10t, .col-md-11t, .col-md-12t, .col-md-2t, .col-md-3t, .col-md-4t, .col-md-5t, .col-md-6t, .col-md-7t, .col-md-8t, .col-md-9t {
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-left: 5px;
+    padding-right: 0px;
+}
+.col-md-2t {
+    width: 16.66667%;
+}
+.col-md-3t {
+    width: 25%;
+}
+.col-md-5t {
+    width: 41.66667%;
+}
+.col-md-4t {
+    width: 33.33333%;
+}
+.col-md-6t {
+    width: 50%;
+}
+.col-md-7t {
+    width: 58.33333%;
+}
+.col-md-9t {
+    width: 75%;
+}
+.col-md-8t {
+    width: 66.66667%;
+} 
+.text-rightt {
+    text-align: right;
+}
+
+</style>
+
+<div  style="width: 80mm; font-size: xx-small; margin: 0 auto;" class="divTemplate">
+	<div class="rowt" style="border-bottom: 1px solid;">
+		<div class="col-md-4t">
+			<img width="70px" height="70px"
+				src="$!sysParamMap.PLATFORM_LOGO" />
+		</div>
+		<div class="col-md-8t">
+			<h5>$!templatePrint.templatePrintType.name</h5>
+		</div>
+	</div>
+	<div class="rowt" style="border-bottom: 1px solid; padding-top: 5px;">
+		<div class="col-md-8t">
+			#if($!order)
+			<ul
+				style="list-style: none;  padding-left: 0; line-height: 20px">
+				<li class="orderId">订单号:$!order.id</li>
+				<li>提/收货人:$!order.receive</li>
+				<li>联系电话:$!order.shippingInfoModel.phone</li>
+				<li>订购日期:$!order.createDate</li>
+			</ul>
+			#else
+			<ul style="list-style: none; padding-left: 0; line-height: 20px">
+				#if($!templatePrint.templatePrintType == "PRINT_EXCHANGE_LIST")
+				<li class="orderId">换货订单号: 23773734321243</li>
+				<li class="orderId">原订单号: 23773734321243</li>
+				#else
+				<li class="orderId">订单号: 23773734321243</li>
+				#end
+				
+				
+				<li>提/收货人:欧阳诗琪</li>
+				<li>联系电话:12345678901</li>
+				<li>订购日期:2015-10-23</li>
+			</ul>
+			#end
+		</div>
+		<div class="col-md-4t text-rightt">
+			#if($!orderCode)
+			<img  class="orderQR" width="80px" height="80px" src="$!orderCode.qrCode">
+			#else
+			<img class="orderQR" width="80px" height="80px" src="http://127.0.0.1:8066/B2Brp/images/%E5%BF%AB%E9%80%92_%E9%97%A8%E5%BA%97%E8%B4%AD%E7%89%A9%E6%B8%85%E5%8D%95%E6%A8%A1%E7%89%88/u30748.jpg">
+			#end
+		</div>
+	</div>
+	<div class="rowt">
+		<table>
+			<thead>
+				<tr class="text-center">
+					<th width=26% style="text-align: center;">商品ID</th>
+					<th width=35% style="text-align: center;">品名</th>
+					<th width=13%>单价</th>
+					<th width=13% >数量</th>
+					<th width=13% class="text-right">小计</th>
+				</tr>
+			</thead>
+			<tbody style="border-bottom: 1px solid;">
+				#if($!orderItemList)
+					#foreach($!orderItme in $!orderItemList)
+					#set($product = $!productMap.get($!orderItme))
+					<tr>
+						<td>$!product.code</td>
+						<td> $!orderItme.productName</td>
+						<td>$!orderItme.ordinaryPrice</td>
+						<td style="text-align: center;">$!orderItme.quantity</td>
+						<td class="text-right">$!orderItme.ordinarySubTotal</td>
+					</tr>
+					#end
+				#else	
+					<tr>
+						<td>545645650000</td>
+						<td>自然堂活泉控油平衡爽肤水135ml</td>
+						<td>¥123</td>
+						<td style="text-align: center;">3</td>
+						<td class="text-right">¥369</td>
+					</tr>
+				#end
+			</tbody>
+			<tfoot style="border-bottom: 1px solid;">
+			#if($!order)
+				<tr>
+					<td>总计：$!total</td>
+					<td>运费：$!order.deliverFee元</td>
+					<td colspan="3" style="text-align: center;">优惠额：$!discounts元</td>
+				</tr>
+				<tr style="line-height: 40px;">
+					<td colspan="2" >货品总额：$!productTotal元</td>
+					<td colspan="3" ><strong>总计：$!order.total元</strong></td>
+				</tr>
+			#else
+				<tr>
+					<td>总计：9</td>
+					<td>运费：10.00元</td>
+					<td colspan="3"  style="text-align: center;">优惠额：0.00元</td>
+				</tr>
+				<tr style="line-height: 40px;">
+					<td colspan="2">货品总额：969.00元</td>
+					<td colspan="3"><strong>总计：979.00元</strong></td>
+				</tr>
+			
+			#end	
+			</tfoot>
+		</table>
+	</div>
+	<div class="rowt"  style="margin-top: 10px">
+		<div class="col-md-5t">
+			<img width="90px" height="90px" alt=""
+				src="$!sysParamMap.PLATFORM_QRCODE">
+		</div>
+		<div class="col-md-7t">
+			<ul style="list-style: none; padding-left: 0;">
+				<li>商家名称:$!sysParamMap.PLATFORM_NAME</li>
+				<li>电话：$!sysParamMap.SERVICE_MOBILE</li>
+				<li>邮箱：$!sysParamMap.SERVICE_EMAIL</li>
+				<li>网址：$!sysParamMap.PC_SITE</li>
+			</ul>
+		</div>
+	</div>
+</div>

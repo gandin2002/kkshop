@@ -1,0 +1,96 @@
+<div class="portlet box green">
+	<div class="portlet-title">
+	    <div class="caption"><i class="fa fa-cog"></i>账房 > 收支查询 > 销售额汇总 </div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+    	</div>
+    	<div class="actions">
+			<a href="javascript:;" class="btn white btn-sm ajax-search"><i class="fa fa-search"></i> 查询 </a>
+			<a href="javascript:;" class="btn white btn-sm search-reset"><i class="fa fa-eraser"></i> 清除 </a>
+		</div>
+	</div>
+	<div class="portlet-body form">
+	   	<form action="orderSalesSum/dayList" class="form-horizontal" method="get" id="searchForm" onsubmit="return false">
+			<div class="form-body">
+				<div class="row">
+					<div class="form-group">
+						<div class="col-md-2">
+							<label class="control-label col-md-4">日期：</label> 
+							<label class="col-md-8">
+								<input class="form-control" type="text" name="startTime" id="startTime" value="$!startTime" readonly>
+								<i class="fa fa-calendar" style="position: absolute;right: 10px;top: 10px"></i>
+							</label>
+						</div>
+						<div class="col-md-2">
+							<label class="control-label col-md-2">至：</label> 
+							<label class="col-md-8">
+								<input class="form-control" type="text" name="endTime" id="endTime" value="$!endTime" readonly>
+								<i class="fa fa-calendar" style="position: absolute;right: 10px;top: 10px"></i>
+							</label>
+						</div>
+					</div>
+	    		</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions">
+			<a onclick="javascript:alert('功能完善中...');" class="btn white btn-sm" data-toggle="modal"><i class="fa fa-cloud-download"></i> 导出 </a>
+		</div>
+    </div>
+    <div class="portlet-body">
+		<div class="tabbable-line ">
+			<ul class="nav nav-tabs ">
+				<li #if($SUM_TYPE=='SUM_MONTH') class="active checkTab" #end ><a href="orderSalesSum/list" class="ajaxify"> 商城月汇总</a></li>
+				<li #if($SUM_TYPE=='SUM_DAY') class="active checkTab" #end ><a href="orderSalesSum/dayList" class="ajaxify"> 商城日汇总</a></li>
+			</ul>
+			
+			<div class="tab-content">
+				<div class="tab-pane active form">
+					<div class="table-container table-scrollable">
+						<table class="table table-bordered table-hover icheck-table" id="productTable">
+							<thead>
+									<tr>
+					  		 			<th>日期</th>
+					  		 			<th>下单支付金额(￥)</th>
+					  		 			<th>确认收货金额(￥)</th>
+					  		 			<th>运费(￥)</th>
+					  		 			<th>退款金额(￥)</th>
+					  		 			<th>退款差额(￥)</th>
+					  		 			<th>优惠减免金额(￥)</th>
+					  		 			<th>下单使用信用额(￥)</th>
+									</tr>
+								</thead>
+								<tbody>
+								#foreach($item in $pageDaySum.result)
+						 				<tr>  
+										    <td>$!item.days</td>
+										    <td>$!item.total</td>
+										    <td>$!item.xx</td>
+										    <td>$!item.deliverFee</td>
+										    <td>$!item.xx</td>
+										    <td>$!item.xx</td>
+										    <td>$!item.couponReduction</td>
+										    <td>$!item.xx</td>		  			
+						 				</tr>
+								#end
+								</tbody>
+							</table>
+					</div>
+					#set($page= $pageDaySum)
+					#set($pageUrl="orderSalesSum/dayList?$!queryString&pageNo=")
+					#parse("_page.htm")
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+<script type="text/javascript">
+     $("input[name=id]").focus();
+</script>
+<script src="/assets/scripts/views-date.js" type="text/javascript"></script>

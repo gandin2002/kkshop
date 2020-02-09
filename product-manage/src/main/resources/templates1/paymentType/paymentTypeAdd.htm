@@ -1,0 +1,57 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">添加</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/paymentType/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+        		 <div class="form-group">
+                     <label class="control-label col-md-3">编码：</label>
+                     <div class="col-md-9">
+                         <input type="text" class="form-control" name="code" required>
+                     </div>
+                 </div>
+        		 <div class="form-group">
+                     <label class="control-label col-md-3">名称：</label>
+                     <div class="col-md-9">
+                         <input type="text" class="form-control" name="name" required>
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">链接地址：</label>
+                     <div class="col-md-9">
+                         <input type="text" class="form-control" name="display" required>
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">简介：</label>
+                     <div class="col-md-9">
+                         <textarea rows="8" cols="2" class="form-control" name="intro" required></textarea>
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">微信端启用：</label>
+                     <div class="col-md-9">
+                   		 <input name="isWap" type="checkbox" data-size="small" class="make-switch" data-on-color="success" data-off-color="warning">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">PC端启用：</label>
+                     <div class="col-md-9">
+                   		 <input checked name="isPC" type="checkbox" data-size="small" class="make-switch" data-on-color="success" data-off-color="warning">
+                     </div>
+                 </div>
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/paymentType/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+	bootstrapSwitch.init({url:"promotion/modifiedStatus",ontext:"启用",offtext:"禁用"});
+</script>

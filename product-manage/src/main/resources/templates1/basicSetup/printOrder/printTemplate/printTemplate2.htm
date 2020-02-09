@@ -1,0 +1,279 @@
+<style>
+	.rowt:after {
+    clear: both;
+   	display: table;
+    content: " ";
+	}
+	.rowt:before {
+    display: table;
+    content: " ";
+}
+.col-md-1t, .col-md-10t, .col-md-11t, .col-md-12t, .col-md-2t, .col-md-3t, .col-md-4t, .col-md-5t, .col-md-6t, .col-md-7t, .col-md-8t, .col-md-9t {
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-left: 5px;
+    padding-right: 0px;
+}
+.col-md-2t {
+    width: 16.66667%;
+}
+.col-md-3t {
+    width: 25%;
+}
+.col-md-5t {
+    width: 41.66667%;
+}
+.col-md-4t {
+    width: 33.33333%;
+}
+.col-md-6t {
+    width: 50%;
+}
+.col-md-7t {
+    width: 58.33333%;
+}
+.col-md-9t {
+    width: 75%;
+}
+.text-rightt {
+    text-align: right;
+} 
+</style>
+<div style=" width: 702px margin: 0 auto;" class="divTemplate">
+	<div class="rowt">
+		<div class="col-md-5t">
+			<img width="70px" height="70px"
+				src="$!sysParamMap.PLATFORM_LOGO" />
+		</div>
+		<div class="col-md-7t">
+			<h3>$!templatePrint.templatePrintType.name</h3>
+		</div>
+	</div>
+	<div class="rowt" style="border-bottom: 1px solid;">
+		<div class="col-md-4t">
+			#if($!order)
+			<ul
+				style="list-style: none; font-size: 14px; padding-left: 0; line-height: 20px">
+				<li  class="orderId">订单号: $!order.id</li>
+				<li>提/收货人:$!order.shippingInfoModel.receiver</li>
+				<li>联系电话:$!order.shippingInfoModel.phone</li>
+				<li>订购日期:$!order.createDate</li>
+			</ul>
+			#else
+			<ul  style="list-style: none; font-size: 14px; padding-left: 0; line-height: 20px">
+			
+				#if($!templatePrint.templatePrintType == "PRINT_EXCHANGE_LIST"||$!templatePrint.templatePrintType == "PRINT_EXCHANGE_PACKING_LIST"||$!templatePrint.templatePrintType=="PRINT_EXCHANGE_AND_PACKING" || $!templatePrint.templatePrintType == 'UNLION_COLLECT_LIST')
+				<li class="orderId">换货订单号: 23773734321243</li>
+				<li class="orderId">原订单号: 23773734321243</li>
+				#else
+				<li class="orderId">订单号: 23773734321243</li>
+				#end
+				<li>提/收货人:欧阳诗琪</li>
+				<li>联系电话:12345678901</li>
+				<li>订购日期:2015-10-23</li>
+			</ul>
+			#end
+		</div>
+		
+			#if($!orderCode)
+				<div class="col-md-6t text-rightt" style="padding-top: 30px;">
+					<img alt="" id="barcodes" width="190px" height="53px"
+						src="$!orderCode.barCode">
+				</div>
+				<div class="col-md-2t text-rightt">
+					<img alt=""   class="orderQR"  width="88px" height="88px"
+						src="$!orderCode.qrCode">
+				</div>
+			#else
+				<div class="col-md-6t text-rightt" style="padding-top: 30px;">
+					<img alt="" id="barcodes" width="190px" height="53px"	src="http://127.0.0.1:8066/B2Brp/images/%E5%BF%AB%E9%80%92_%E9%97%A8%E5%BA%97%E8%B4%AD%E7%89%A9%E6%B8%85%E5%8D%95%E6%A8%A1%E7%89%88/u30654.png">
+				</div>
+				<div class="col-md-2t text-rightt">
+					<img alt=""  class="orderQR" width="80px" height="80px" src=" http://127.0.0.1:8066/B2Brp/images/%E5%BF%AB%E9%80%92_%E9%97%A8%E5%BA%97%E8%B4%AD%E7%89%A9%E6%B8%85%E5%8D%95%E6%A8%A1%E7%89%88/u30748.jpg">
+				</div>
+			#end
+		
+		
+	</div>
+	<div class="rowt">
+		<table style="width: 100%">
+			<thead >
+				<tr class="text-center">
+					<th width="16%">货品编号</th>
+					<th width="9%"></th>
+					<th width="25%" style="text-align: center;">货品名称</th>
+					<th width="10%">规格</th>
+					<th width="9%">单价</th>
+					<th width="5%">数量</th>
+					<th width="10%" style="text-align: center;">小计</th>
+					#if($!templatePrint.templatePrintType != "PRINT_SHOPPING_LIST")
+					<th width="8%">库位</th>
+					#end
+					<th width="10%">货品类型</th>
+				</tr>
+			</thead>
+			<tbody style="border-bottom: 1px solid; margin-bottom: 10px;">
+				
+				#if($!orderItemList)
+					#foreach($!orderItme in $!orderItemList)
+					#set($product = $!productMap.get($!orderItme))
+						<tr height="65px">
+							<td>$!product.code</td>
+							<td><img class="productImage" alt="" width="50px" height="50px" src="$!orderItme.productImage.imageUrl"></td>
+							<td > $!orderItme.productName </td>
+							<td>$!orderItme.attrAndAttrValues</td>
+							<td>$!orderItme.ordinaryPrice</td>
+							<td>$!orderItme.quantity</td>
+							<td style="text-align: center;" >$!orderItme.ordinarySubTotal</td>
+							#if($!templatePrint.templatePrintType != "PRINT_SHOPPING_LIST")
+							<td>021-25-321</td>
+							#end
+							<td>购买货品</td>
+						</tr>
+					#end
+				#else	
+					<tr height="65px">
+						<td>545645650000</td>
+						<td><img class="productImage" alt="" width="50px" height="50px"
+							src="http://127.0.0.1:9850/13_product/1_Requirement/B2Brp_html/images/%E5%BF%AB%E9%80%92_%E9%97%A8%E5%BA%97%E8%B4%AD%E7%89%A9%E6%B8%85%E5%8D%95%E6%A8%A1%E7%89%88/u2018.png"></td>
+						<td><span>自然堂（CHANDO）活泉控油平衡爽肤水</span></td>
+						<td>135ml</td>
+						<td>¥123</td>
+						<td>3</td>
+						<td style="text-align: center;" >¥369</td>
+						#if($!templatePrint.templatePrintType != "PRINT_SHOPPING_LIST")
+							<td>021-25-321</td>
+						#end
+						<td>购买货品</td>
+					</tr>
+				#end
+			</tbody>
+			<tfoot style="border-bottom: 1px solid;">
+			#if($!order)
+				#if($!templatePrint.templatePrintType == "PRINT_SHOPPING_LIST" || $!templatePrint.templatePrintType =='PRINT_COLLECTION_LIST')
+				<tr>
+					<td colspan="2" class="text-right">货品总额：$!productTotal元</td>
+					<td colspan="2" class="text-center">总计：$!total</td>
+					<td colspan="5">优惠额：$!discounts元</td>
+				</tr>
+				<tr>
+					<td colspan="4" class="text-right">运费：$!order.deliverFee元</td>
+					<td colspan="5" class="text-center"><strong>总计：$!order.total元</strong></td>
+				</tr>
+				#end
+				#if($!templatePrint.templatePrintType == "PRINT_PACKING_LIST"||$!templatePrint.templatePrintType == "PRINT_EXCHANGE_PACKING_LIST" || $!templatePrint.templatePrintType == 'PICKING_COLLECTION_LIST')
+				#set($shippingInfo = $!order.shippingInfoModel)
+				
+				<tr>
+					<td colspan="2" class="text-right">配送方式：快递配送</td>
+					<td colspan="2" class="text-center">总计：$!total</td>
+					<td colspan="2">货品种类:$!kind种</td>
+					<td colspan="3">优惠额：$!discounts元</td>
+				</tr>
+				<tr>
+					<td colspan="4" class="text-right">运费：$!order.deliverFee元</td>
+					<td colspan="5" class="text-center"><strong>总计：$!order.total元</strong></td>
+				</tr>
+					#if($!templatePrint.templatePrintType == "PRINT_PACKING_LIST" || $!templatePrint.templatePrintType == 'PICKING_COLLECTION_LIST'|| $!templatePrint.templatePrintType == 'PICKING_COLLECTION_LIST')
+				<tr>
+					<td colspan="9">会员留言：</td>
+				</tr>
+					#end
+				<tr>
+					<td colspan="9">收货地址：$!shippingInfo.province $!shippingInfo.city $!shippingInfo.county $!shippingInfo.address </td>
+				</tr>
+				<tr>
+					<td colspan="9">配货人签字：</td>
+				</tr>	
+				#end
+				#if($!templatePrint.templatePrintType == "PRINT_SHOPPING_AND_PACKING" || $!templatePrint.templatePrintType == "PRINT_EXCHANGE_AND_PACKING" || $!templatePrint.templatePrintType == 'UNLION_COLLECT_LIST')
+						<tr>
+							<td colspan="2" class="text-right">配送方式：快递配送</td>
+							<td colspan="2" class="text-center">货品总计：$!total</td>
+							<td colspan="2">货品种类:$!kind种</td>
+							<td colspan="3">货品总额：$!discounts元</td>
+						</tr>
+						<tr>
+							<td colspan="2" class="text-right">优惠金额：$!discounts元 </td>
+							<td colspan="2" class="text-right">运费：$!order.deliverFee元</td>
+							<td colspan="5" class="text-center"><strong>总计：$!order.total元</strong></td>
+						</tr>
+						#if($!templatePrint.templatePrintType == "PRINT_SHOPPING_AND_PACKING" )
+						<tr>
+							<td colspan="9">会员留言：</td>
+						</tr>
+						#end
+					#end
+			#else
+						#if($!templatePrint.templatePrintType == "PRINT_SHOPPING_LIST" || $!templatePrint.templatePrintType == "PRINT_EXCHANGE_LIST" || $!templatePrint.templatePrintType =='PRINT_COLLECTION_LIST')
+						<tr>
+							<td colspan="2" class="text-right">货品总额：$!productTotal元</td>
+							<td colspan="2" class="text-center">总计：$!total</td>
+							<td colspan="5">优惠额：$!discounts元</td>
+						</tr>
+						<tr>
+							<td colspan="4" class="text-right">运费：$!order.deliverFee元</td>
+							<td colspan="5" class="text-center"><strong>总计：$!order.total元</strong></td>
+						</tr>
+						#end
+						#if($!templatePrint.templatePrintType == "PRINT_PACKING_LIST"||$!templatePrint.templatePrintType == "PRINT_EXCHANGE_PACKING_LIST" || $!templatePrint.templatePrintType == 'PICKING_COLLECTION_LIST')
+						<tr>
+							<td colspan="2" class="text-right">配送方式：快递配送</td>
+							<td colspan="2" class="text-center">总计：$!total</td>
+							<td colspan="2">货品种类</td>
+							<td colspan="3">优惠额：$!discounts元</td>
+						</tr>
+						<tr>
+							<td colspan="4" class="text-right">运费：$!order.deliverFee元</td>
+							<td colspan="5" class="text-center"><strong>总计：$!order.total元</strong></td>
+						</tr>
+						#if($!templatePrint.templatePrintType == "PRINT_PACKING_LIST" || $!templatePrint.templatePrintType == 'PICKING_COLLECTION_LIST')
+						<tr>
+							<td colspan="9">会员留言：</td>
+						</tr>
+						#end
+						<tr>
+							<td colspan="9">收货地址：</td>
+						</tr>
+						<tr>
+							<td colspan="9">配货人签字：</td>
+						</tr>	
+						#end
+						#if($!templatePrint.templatePrintType == "PRINT_SHOPPING_AND_PACKING" || $!templatePrint.templatePrintType == "PRINT_EXCHANGE_AND_PACKING" || $!templatePrint.templatePrintType == 'UNLION_COLLECT_LIST')
+						<tr>
+							<td colspan="2" class="text-right">配送方式：快递配送</td>
+							<td colspan="2" class="text-center">货品总计：$!total</td>
+							<td colspan="2">货品种类：</td>
+							<td colspan="3">货品总额：$!discounts元</td>
+						</tr>
+						<tr>
+							<td colspan="2" class="text-right">优惠金额：0.00元 </td>
+							<td colspan="2" class="text-right">运费：$!order.deliverFee元</td>
+							<td colspan="5" class="text-center"><strong>总计：$!order.total元</strong></td>
+						</tr>
+						#if($!templatePrint.templatePrintType == "PRINT_SHOPPING_AND_PACKING" )
+						<tr>
+							<td colspan="9">会员留言：</td>
+						</tr>
+						#end
+					#end
+			#end
+			</tfoot>
+		</table>
+	</div>
+	<div class="rowt" style="margin-top: 10px">
+		<div class="col-md-3t">
+			<img width="110px" height="110px" alt=""
+				src="$!sysParamMap.PLATFORM_QRCODE">
+		</div>
+		<div class="col-md-9t">
+			<ul style="list-style: none; padding-left: 0; line-height: 25px">
+				<li>商家名称:$!sysParamMap.PLATFORM_NAME</li>
+				<li>电话：$!sysParamMap.SERVICE_MOBILE</li>
+				<li>邮箱：$!sysParamMap.SERVICE_EMAIL</li>
+				<li>网址：$!sysParamMap.PC_SITE</li>
+			</ul>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,51 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"><a href="#modelContent" thref="/inventoryHint/add" class="btn white btn-sm ajax-model-get " code="inventoryHint.add" data-toggle="modal"><i class="fa fa-plus"></i> 新增 </a></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="dataTables_wrapper no-footer">
+			<div class="table-scrollable">
+			    <table class="table table-striped table-bordered table-hover">
+				  	<thead>
+						<tr>
+		   		 			<th colspan="2">库存区间(左值=&#60;库存量&#60;右值)</th>
+		   		 			<th>提示词</th>
+							<th class="col-md-2">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					#foreach($item in $pageInventoryHint.result)
+		  				<tr>  
+						    <td>$!item.min</td>
+						    <td>$!item.max</td>
+						    <td>$!item.hint</td>
+			    			<td>
+						    	<a class="btn green btn-outline btn-sm ajax-model-get " code="inventoryHint.edit" data-toggle="modal"
+									href="#modelContent" thref="/inventoryHint/edit?id=$!item.id"> 
+									<i class="fa fa-edit"></i>修改
+								</a>
+								<a class="btn green btn-outline btn-sm ajax-delete " code="inventoryHint.delete" 
+									href="javascript:;" thref="/inventoryHint/delete?id=$!item.id">
+									<i class="fa fa-trash"></i>删除
+								</a>
+						    </td>		  			
+		  				</tr>
+					#end
+					</tbody>
+				</table>
+			</div>
+			#set($page=$pageInventoryHint)
+			#set($pageUrl="/inventoryHint/list?$!queryString&pageNo=")
+			#parse("_page.htm")
+		</div>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-permission.js"></script>
+

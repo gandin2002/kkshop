@@ -1,0 +1,87 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">货品 > 货品属性信息 > 类型管理 > 新增货品类型 </span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/attrGroup/edit" class="form-horizontal" method="post">
+        	<div class="form-body">
+                 <div class="form-group">
+                     <label class="control-label col-md-2">类型名称：</label>
+                     <div class="col-md-4">
+                         <input type="text" class="form-control" name="name" maxlength="40" value="$!item.name">
+                         <input type="text" class="form-control hidden" name="id" value="$!item.id">
+                         <input type="text" class="form-control hidden" name="createTime" value="$!item.createTime">
+                     </div>
+                 </div>
+                 
+                 <div class="form-group">
+                     <label class="control-label col-md-2">关联规格：</label>
+                     <div class="col-md-5">
+                          <select name="specsIds" class="form-control attr-select" multiple>
+							#foreach($attr in $!attrs)
+								<option value="$!attr.id" data-name="$!attr.name" #foreach($aid in $!specsids) #if($!aid == $!attr.id) selected="selected" #end #end>$!attr.name</option>
+							#end
+						</select>
+                     </div>
+                 </div>
+                <div class="paraminfo_div">
+                <div class="form-group">
+                     <label class="control-label col-md-2">关联参数：</label>
+                      <div class="col-md-4" style="vertical-align: middle;margin-top: 7px;">
+                     	 <input type="radio"  name="teamType" value="false" checked>无参数组
+                     	 <a class="btn green btn-outline btn-sm add-param"><i class="fa fa-plus"></i>添加参数</a>
+                     </div>
+                 </div>
+                 #foreach($param in $item.params)
+                 #set($temp = $velocityCount - 1)
+	                 <div class="form-group group-params">
+                         <div class="form-group">
+	                     <label class="control-label col-md-2">参数名：</label>
+	                     <div class="col-md-4">
+	                         <input type="text" class="form-control" name="params[$!temp].paramName" value="$!param.paramName">
+                         	 <nobr>必填：<input type="checkbox" name="params[$!temp].paramMust" #if($!param.paramMust) checked #end >&nbsp;&nbsp;&nbsp;&nbsp;是否筛选条件：<input type="checkbox" name="params[$!temp].paramSearch" value="1" #if($!param.paramSearch) checked #end>&nbsp;&nbsp;&nbsp;&nbsp;
+                         	 	数据类型：<select name="params[$!temp].paramType" class="params-enum">
+			                       	 <option value="text" #if($!param.paramType =='text') selected #end>文本</option>
+			                       	 <option value="num" #if($!param.paramType =='num') selected #end>数字</option>
+			                       	 <option value="date" #if($!param.paramType =='date') selected #end>日期</option>
+			                       	 <option value="time" #if($!param.paramType =='time') selected #end>时间</option>
+			                       	 <option value="enum" #if($!param.paramType =='enum') selected #end>枚举</option>
+                         	 </select></nobr>
+	                     </div>
+	                     &nbsp;<a class="btn green btn-outline btn-sm add-param"><i class="fa fa-plus"></i>添加参数</a>
+	                     &nbsp;<a class="btn green btn-outline btn-sm del-param" onclick="delParam(this);"><i class="fa trash"></i>删除参数</a>
+                         </div>
+                         #if($param.paramType=="enum")
+                         #foreach($par in  $param.params)
+                         <div class="form-group">
+                         <label class="control-label col-md-3">参数值：</label>
+                         <div class="col-md-3">
+                             <input type="text" class="form-control" name="params[$!temp].params" value="$!par">
+                             </div>
+                         &nbsp;<a class="btn green btn-outline btn-sm add-paramt" onclick="addParm(this)"><i class="fa fa-plus"></i>添加参数</a>
+                         &nbsp;<a class="btn green btn-outline btn-sm del-param" onclick="delParam(this);"><i class="fa trash"></i>删除参数</a>
+                         </div>
+                         #end
+                         #end
+	                 </div>
+                 #end
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-2">状态：</label>
+                     <div class="col-md-4" style="vertical-align: middle;margin-top: 7px;">
+                         <input type="radio"  name="status" value="true" checked >启用
+                     	 <input type="radio"  name="status" value="false">禁用
+                     </div>
+                 </div>
+            </div>
+            <div class="form-actions right">
+				<a thref="/attrGroup/list?$!queryReturn" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="/attrGroup/list?$!queryReturn" class="btn btn-outline grey-salsa ajaxify">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-attrGroup.js"></script>

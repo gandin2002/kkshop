@@ -1,0 +1,53 @@
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">添加同步任务</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form role="form" action="/syncDataJob/edit" class="form-horizontal" method="post">
+            <div class="form-body">
+                 <div class="form-group">
+                     <label class="control-label col-md-3">*任务名称：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" id="jobName" name="jobName" value="$!syncDataJob.jobName" maxlength="20" required>
+                         <input type="hidden" id="id" name="id" value="$!syncDataJob.id" >
+                     </div>
+                 </div>
+                  <div class="form-group">
+                  	<label  class="control-label col-md-3" >*关联模块</label>
+                  	<div class="col-md-5">
+                  		<select  class="form-control"   disabled="disabled" >
+                  			#foreach( $!syncModule in $!smlist)
+                  			<option #if($!syncDataJob.moduleId == $!syncModule.id ) selected="selected" #end value="$!syncModule.id">$!syncModule.moduleName</option>
+                  			#end
+                  		</select>
+                  	</div>
+                  </div>
+                  <div class="form-group">
+                      <label class="control-label col-md-3">触发周期规则：</label>
+                      <div class="col-md-5">
+                          <input type="text" class="form-control" name="cronExpression" value="$!syncDataJob.cronExpression">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="control-label col-md-3">触发场景规则：</label>
+                      <div class="col-md-7">
+                          <input type="text" class="form-control" name="sceneUrl" value="$!syncDataJob.sceneUrl">
+                      </div>
+                      <div class="col-md-2">如：新增订单，注册会员。场景URL，多个用“,”</div>
+                  </div>
+            </div>
+            <div class="form-actions right">
+              	  <a href="javascript:;" thref="/syncDataJob/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+                  <a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/assets/scripts/views-file-add.js" type="text/javascript"></script>
+<script type="text/javascript">
+	ComponentsSelect2.init()
+	MyTouchSpin.init()
+</script>

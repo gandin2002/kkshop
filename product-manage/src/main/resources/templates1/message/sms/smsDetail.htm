@@ -1,0 +1,43 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">查看详情</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/userLevel/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+				<div class="form-group">
+                	<label class="control-label col-md-3">发送状态：</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="name" disabled="disabled" placeholder = "10字以内">
+                    </div>
+                </div>
+                <div class="form-group">
+                	<label class="control-label col-md-3">发送时间：</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="level"  disabled="disabled" placeholder = "例如：V1、V2">
+                    </div>
+                </div>
+                <div class="form-group">
+                	<label class="control-label col-md-3">手机号码：</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="exp" disabled="disabled">
+                    </div>
+                </div>
+                <div class="form-group">
+                     <label class="control-label col-md-3">短信内容：</label>
+                     <div class="col-md-7 form-control-static">
+                     	<textarea rows="10" cols="30" class="form-control" disabled="disabled" style="resize:none" >
+                     	</textarea>
+                     </div>
+                 </div>
+
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>

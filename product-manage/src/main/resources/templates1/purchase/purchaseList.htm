@@ -1,0 +1,140 @@
+<div class="modal fade bs-modal-lg" id="modelContent">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content"></div>
+	</div>
+</div>
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cog"></i>
+			库存管理 > 采购管理 > 采购入库单
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+		</div>
+		<div class="actions">
+			<a href="javascript:;" class="btn white btn-sm ajax-search">
+				<i class="fa fa-search"></i>
+				查询
+			</a>
+			<a href="javascript:;" class="btn white btn-sm search-reset">
+				<i class="fa fa-eraser"></i>
+				清除
+			</a>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form action="/purchase/list" class="form-horizontal" method="get" id="searchForm" onsubmit="return false">
+			<div class="form-body">
+				<div class="row">
+					<div class="col-md-3">
+						<label class="col-md-4 control-label">单号：</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" name="id" value="$!id">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<label class="col-md-4 control-label">供应商：</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" name="supplierName" value="$!supplierName">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<label class="col-md-4 control-label">仓库名称：</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" name="wareHouseName" value="$!wareHouseName">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<label class="col-md-4 control-label">操作人：</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" name="operator" value="$!operator">
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cogs"></i>
+			数据列表
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+		</div>
+		<div class="actions">
+			<a class="btn white btn-sm ajaxify" href="/purchase/add">
+				<i class="fa fa-plus"></i>
+				新增
+			</a>
+		</div>
+	</div>
+	<div class="portlet-body">
+		<div class="dataTables_wrapper no-footer">
+			<div class="table-scrollable">
+				<table class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+							<th>入库单号</th>
+							<th>供应商名称</th>
+							<th>仓库名称</th>
+							<th>总金额</th>
+							<th>总数量</th>
+							<th>备注</th>
+							<th>操作人</th>
+							<th>入库时间</th>
+							<th>审核状态</th>
+							<th class="col-md-2">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						#foreach($item in $_thisPage.result)
+						<tr>
+							<td>$item.id</td>
+							<td>$!item.supplierName</td>
+							<td>$!item.wareHouseName</td>
+							<td>$!item.total</td>
+							<td>$!item.totalNum</td>
+							<td>$!item.mark</td>
+							<td>$!item.operator</td>
+							<td>$!item.inWareHouseTime</td>
+							<td>$!item.state.getName()</td>
+							<td>
+								<a class="btn green btn-outline btn-sm ajaxify" href="/purchase/view?id=$!item.id"> 
+									<i class="fa fa-eye"></i>查看
+								</a>
+								#if($!item.state == 'INIT')
+						    	<a class="btn green btn-outline btn-sm ajax-operation" thref="/purchase/pass?id=$!item.id" tohref="/purchase/list"> 
+									<i class="fa fa-check"></i>通过
+								</a>
+								<a class="btn green btn-outline btn-sm ajax-operation" thref="/purchase/refuse?id=$!item.id" tohref="/purchase/list"> 
+									<i class="fa fa-remove"></i>拒绝
+								</a>
+								<a class="btn green btn-outline btn-sm ajax-delete" href="javascript:;" thref="/purchase/delete?id=$!item.id"> 
+									<i class="fa fa-trash"></i>	删除
+								</a>
+								#end
+								#if($!item.state == 'REFUSE')
+								<a class="btn green btn-outline btn-sm ajaxify"  href="/purchase/edit?id=$!item.id">
+									<i class="fa fa-edit"></i>
+									编辑
+								</a>
+								#end
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			#set($page=$_thisPage) #set($pageUrl="/purchase/list?&pageNo=") #parse("_page.htm")
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("input[name=id]").focus();
+</script>
+

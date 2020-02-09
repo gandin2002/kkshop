@@ -1,0 +1,98 @@
+<style>
+.modal-lg {
+    width: 950px;
+}
+#tbody {
+	width: 900px;
+	height: 500px;
+	border: 1px solid;
+}
+
+#expressImage {
+	background: url($!express.backgroundImage) no-repeat;
+	width: 900px;
+	height: 500px;
+	background-size: 100% 100%;
+	position: absolute;
+}
+
+.draggable {
+	padding: 0.5em;
+	float: left;
+	margin: 0 10px 10px 0;
+	position: absolute !important;
+}
+
+.dtext {
+	border: 1.2px dashed #F2784B;
+	margin: 0;
+	display: none;
+}
+
+.coord {
+	font-size: xx-small;
+	text-align: right;
+	display: none;
+}
+.newtext{
+ 	display: block;
+ 	margin: 0;
+}
+</style>
+<script src="/assets/plugins/jquery-ui/jquery-ui.js"></script>
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">打印快递单</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        	<div class="form-body"  >
+        		<div id="tbody">
+	        		<div id="expressImage">
+	 					$!expressHtml
+	 				</div>
+ 				</div>
+            </div>	
+            <div class="form-actions right">
+            	 <a href="javascript:;"   class="btn green print"> 打印</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+    </div>
+</div>
+<script type="text/javascript">
+	 
+	$(".print").on('click', function() {
+		$("#expressImage").printThis({
+			debug : false,
+			importCSS : true,
+			importStyle : true,
+			printContainer : true,
+			pageTitle : "打印",
+			removeInline : false,
+			printDelay : 333,
+			header : null,
+			formValues : true,
+		});
+	})
+	
+
+	$("#expressImage .draggable").draggable({
+		stack : "#expressImage .draggable",
+		containment : "#expressImage",
+		stop : function(event, ui) {//拖拽stop
+			var left = ui.position.left;
+			var top = ui.position.top;
+			$(this).children(".coord").children(".left").text(left);
+			$(this).children(".coord").children(".top").text(top);
+		}
+	});
+	$(".draggable").mouseenter(function(){
+		$(this).children(".coord").show(500);
+	});
+	$(".draggable").mouseleave(function(){
+		$(this).children(".coord").hide(500);
+	})
+
+</script>

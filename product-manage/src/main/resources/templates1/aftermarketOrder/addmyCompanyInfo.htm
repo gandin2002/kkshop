@@ -1,0 +1,65 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+		<div class="caption font-dark">
+			<i class="fa fa-cog font-dark"></i>
+			<span class="caption-subject bold">审核详情</span>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form role="form" action="/addmyCompany/addmyCompanyInfo" class="form-horizontal" method="post">
+			<input value="$!id" type="hidden" name="id">
+			<div class="form-body">
+				<div class="form-group">
+					<label class="control-label col-md-3">企业名称:</label>
+					<div class="col-md-8">
+						<!--<h4 class="text-success text-left">-->
+							<strong class="form-control" style="width:auto;border:none;">武汉博宏网络科技有限公司</strong>
+						<!--</h4>-->
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">技术顾问：</label>
+					<div class="col-md-8">
+							<select name="technicaladvisers"  class="form-control" id="teach" required>
+								#foreach($operator  in $!operatorList)
+							
+								 
+									<option #if($!company.technicaladvisers == $!operator.realname) #end value="$!operator.realname">$!operator.realname </option>
+									
+								#end
+						  </select>
+						 
+                  </div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">有效期至:</label>
+					<div class="col-md-8">
+						<!--<h4 class="text-success text-left">-->
+							<input style="width: 180px;" type="text" class="form-control" readOnly  id="Time" name="startTime" value="" required>
+						<!--</h4>-->
+					</div>
+				</div>
+			</div>
+			<div class="form-actions right">
+				<a href="javascript:;" thref="/addmyCompany/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+			</div>
+		</form>
+	</div>
+</div>
+<style>
+	 /*.control-label{*/
+		 /*vertical-align: middle;*/
+	 /*}*/
+</style>
+<script>
+    $("#Time").datepicker(
+        {
+            language:  "zh-CN",
+            autoclose: true,
+            startView: 0,
+            format: "yyyy-mm-dd",
+            clearBtn:true,
+            todayBtn:false
+        });
+</script>

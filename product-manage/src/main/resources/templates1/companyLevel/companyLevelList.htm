@@ -1,0 +1,102 @@
+<div class="modal fade bs-modal-lg" id="modelContent">
+	<div class="modal-dialog modal-lg">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+<div class="portlet box green">
+	<div class="portlet-title">
+	    <div class="caption"><i class="fa fa-cog"></i>企业管理 > 企业等级 </div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+			<!-- <a href="" class="fullscreen" data-original-title="" title=""> </a> -->
+    	</div>
+    	<div class="actions">
+			<a href="javascript:;" class="btn white btn-sm ajax-search"><i class="fa fa-search"></i> 查询 </a>
+			<a href="javascript:;" class="btn white btn-sm search-reset"><i class="fa fa-eraser"></i> 清除 </a>
+		</div>
+	</div>
+	<div class="portlet-body form">
+	   	<form action="/companyLevel/list" class="form-horizontal" method="get" id="searchForm" onsubmit="return false">
+			<div class="form-body">
+				<div class="row">
+					<div class="col-md-3">
+						<label class="col-md-4 control-label">等级名称</label>
+						<div class="col-md-8">
+					    	<input type="text" class="form-control" name="name" value="$!name">
+						</div>
+					</div>
+	    		</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"><a href="#modelContent" thref="/companyLevel/add" class="btn white btn-sm ajax-model-get" data-toggle="modal"><i class="fa fa-plus"></i> 新增 </a></div>
+    </div>
+    <div class="portlet-body">
+        <div class="form-group">
+			<div class="alert alert-warning">
+				<strong> 注：</strong>
+			 	企业会员划分为不同等级，每个等级对应不同的折扣率。当某个会员等级被使用时，则不可被删除。
+			</div>
+		</div>
+    	<div class="dataTables_wrapper no-footer">
+			<div class="table-scrollable">
+			    <table class="table table-striped table-bordered table-hover">
+				  	<thead>
+						<tr>
+		   		 			<th>等级名称</th>
+		   		 			<th>等级显示</th>
+		   		 			<th>折扣率</th>
+		   		 			<th>启用状态</th>
+							<th class="col-md-2">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					#foreach($item in $pageCompanyLevel.result)
+		  				<tr>  
+						    <td>$!item.name</td>
+						    <td>$!item.alias</td>
+						    <td>$!item.discount%</td>
+						    <td>#if($!item.status=='true')
+						    	<span class="glyphicon glyphicon-ok-circle" style="color: lightgreen">
+						    	#end
+						    	#if($!item.status=='false')
+						    	<span class="glyphicon glyphicon-remove-circle" style="color: red">
+						    	#end
+						    </td>
+			    			<td>
+						    	<a class="btn green btn-outline btn-sm ajax-model-get" data-toggle="modal"
+									href="#modelContent" thref="/companyLevel/edit?id=$!item.id&"> 
+									<i class="fa fa-edit"></i>修改
+								</a>
+								#if(!$!item.status=='true')
+								<a class="btn green btn-outline btn-sm ajax-delete" 
+									href="javascript:;" thref="/companyLevel/delete?id=$!item.id">
+									<i class="fa fa-trash"></i>删除
+								</a>
+								#else
+								<a class="btn green btn-outline btn-sm" 
+									href="javascript:;" onclick="alert('启用状态不能删除')"><i class="fa fa-trash"></i>删除
+								</a>
+								#end
+						    </td>		  			
+		  				</tr>
+					#end
+					</tbody>
+				</table>
+			</div>
+			#set($page=$pageCompanyLevel)
+			#set($pageUrl="/companyLevel/list?name=$!name&pageNo=")
+			#parse("_page.htm")
+		</div>
+    </div>
+</div>
+<script type="text/javascript">
+$("input[name= name]").focus();
+</script>
+

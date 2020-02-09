@@ -1,0 +1,41 @@
+<form action="/productScore/relatedAdd" class="form-horizontal" method="post">
+	<div class="table-container table-scrollable">
+		<input type="hidden" name="mainProdId" value="$!mainProd.id">
+		<table class="table table-bordered table-hover" id="productTable">
+			<thead>
+				<tr>
+					<th><input type="checkbox"></th>
+					<!-- <th>货品图片</th> -->
+					<th>货品编号</th>
+					<th>货品名称</th>
+					<th>货品价格</th>
+				</tr>
+			</thead>
+			<tbody>
+				#foreach ($!item in $!pageProduct.result)
+				#set($prodImage = $!prodImageMap.get($!item).imageUrl)
+				<tr class="odd gradeX">
+					<td>
+						<input type="checkbox" name="relatedProdId" value="$!item.id">
+					</td>
+					<!-- <td>
+						<a href="javascript:;">
+							<img alt="" src="$!prodImage" title="$item.name" style="width: 40px; height: 40px">
+						</a>
+					</td> -->
+					<td>$item.code</td>
+					<td>$item.name</td>
+					<td>$item.salesPrice</td>
+				</tr>
+				#end
+			</tbody>
+		</table>
+	</div>
+	#set($page=$pageProduct)
+	#set($pageUrl="/productScore/search?mainProdId=$!mainProd.id&pageNo=")
+	#parse("_pageModel.htm")
+	<div class="form-actions right">
+		<a href="javascript:;" thref="/productScore/related?mainProdId=$!mainProd.id" class="btn green ajax-post"> <i class="fa fa-check"></i> 提交</a> 
+		<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+	</div>
+</form>

@@ -1,0 +1,57 @@
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="tabbable-line ">
+			<ul class="nav nav-tabs ">
+				<li  ><a href="userInfo/detail?id=$!id" class="ajaxify">基本信息</a></li>
+				<li  ><a href="userInfo/orderDetail?id=$!id" class="ajaxify"> 订单记录</a></li>
+				<li  ><a href="userInfo/creditDetail?id=$!id"  class="ajaxify"> 信用记录</a></li>
+				<li  ><a href="userInfo/scoreDetail?id=$!id" class="ajaxify"> 积分记录</a></li>
+				<li  ><a href="userInfo/commendfriendDetail?id=$!id" class="ajaxify"> 推荐会员</a></li>
+				<li  ><a href="userInfo/expDetail?id=$!id" class="ajaxify"> 经验值记录</a></li>
+				<li  class="active"   ><a href="userInfo/afterSaleDetail?id=$!id" class="ajaxify"> 售后记录</a></li>
+				<li  ><a href="userInfo/invoiceDetail?id=$!id" class="ajaxify">开票记录</a></li>
+			</ul>
+			
+
+			<div class="tab-content">
+				<div class="tab-pane active form">
+                    <!-- BEGIN FORM-->
+						<table class="table table-striped table-bordered table-hover" id="tableCategory">
+							<thead>
+								<tr>
+									<th>售后单号</th>
+									<th>订单号</th>
+									<th>售后类型</th>
+									<th>退款金额</th>
+									<th>订单状态</th>
+									<th>申请时间</th>
+								</tr>
+							</thead>
+							<tbody>
+								#foreach($item in $!page.result)
+									<tr>
+										<td>$!order.id</td>
+										<td>$!order.orderId</td>
+										<td>$!order.reOrderType.name</td>
+										<td>$!order.reFundFee</td>
+										<td>$!order.orderState.name</td>
+										<td>$!order.createDate</td>
+									</tr>
+								#end
+							</tbody>
+						</table>
+                    <!-- END FORM-->
+				</div>
+				#set($page=$!page)
+				#set($pageUrl="/userInfo/afterSaleDetail?id=$!id&$!queryString&pageNo=")
+				#parse("_page.htm")
+			</div>
+			
+		</div>
+    </div>
+</div>

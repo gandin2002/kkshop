@@ -1,0 +1,119 @@
+<label class="control-label col-md-2">货品SKU：</label>
+<div class="col-md-10">
+	<div class="table-scrollable">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					#foreach($attr in $!attrList)
+						#if($!attrValueMap.get($!attr).size()>0)
+					<th  class="text-center">$!attr.name</th>
+					 	#end
+					 #end
+					<th class="text-center">Sku-ERP编码</th>
+					<th class="text-center">兑换积分</th>
+					<th class="text-center">所需金额</th>
+					<th class="text-center">可兑换数量</th>
+					<th class="text-center transUnit" style="display: none;">换算率</th>
+					<th class="text-center">条形码</th>
+					<th class="text-center">体积(m³)</th>
+					<th class="text-center">重量(kg)</th>
+					<th class="text-center">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				#foreach($sku in $!skus)
+				#set($temp = $velocityCount - 1)
+				#set($attrName = '')
+				#set($attrId = '')
+				<tr>
+					#foreach($attrValue in $!attrValueList)
+					#foreach($values in $sku.skuAttr)
+					#set($temp1 = $velocityCount - 1)
+					#if($!values==$!attrValue.id)
+					#set($imageStr = $!mapImage.get($!values))
+					#if($!attrValue.attrId==0)
+					#set($attrName = $!attrValue.name)
+					#set($attrId = $!attrValue.id)
+					#end
+					<td>
+						<span>$!attrValue.name</span>
+						<input type="hidden" name="skuAttrs[$!temp][$!temp1].attrId" class="attrId" value="$!attrValue.attrId">
+						<input type="hidden" name="skuAttrs[$!temp][$!temp1].attrValueId" value="$!attrValue.id">
+						#foreach($!jsonImage in  $!jsonImageArray)
+							#if($!values == $!jsonImage.id )
+								<input type="hidden" name="skuAttrs[$!temp][$!temp1].attrImage" value="$!jsonImage.attrImage">
+							#end
+						#end
+					</td>
+					#end
+					#end
+					#end
+					<td>
+					    <input type="hidden" name="skus[$!temp].productId" value="$!sku.productId">
+					    <input type="hidden" name="skus[$!temp].taxId" value="$!sku.taxId">
+					    <input type="hidden" name="skus[$!temp].tax" value="$!sku.tax">
+						<input type="hidden" name="skus[$!temp].id" value="$!sku.id">
+						<input type="hidden" name="skus[$!temp].attrValues"  value="$!sku.attrValues">
+						<input type="hidden" name="skus[$!temp].attrAndAttrValues" value="$!sku.attrAndAttrValues">
+						<input type="text"   name="skus[$!temp].erpCode" value="$!sku.erpCode" class="input-sm sku-code input-xsmall">
+						<input type="hidden" name="skus[$!temp].salesNum" value="$!sku.salesNum" >
+						<input type="hidden" name="skus[$!temp].code" value="$!sku.code">
+						<input type="hidden" name="skus[$!temp].inventory" value="$!sku.inventory">
+						<input type="hidden" name="skus[$!temp].status" value="$!sku.status">
+						<input type="hidden" name="skus[$!temp].salesNum" value="$!sku.salesNum">
+						<input type="hidden" name="skus[$!temp].auxUnitName" value="$!attrName" class="attrName">
+						<input type="hidden" name="skus[$!temp].storageLocation" value="$!sku.storageLocation">
+						<input type="hidden" name="skus[$!temp].name" value="$!sku.name">
+						<input type="hidden" name="skus[$!temp].createDate" value="$!sku.createDateString">
+						<input type="hidden" name="skus[$!temp].imageUrl" value="$!sku.imageUrl">
+					</td>
+					
+					<td>
+						<input class="input-sm input-xsmall" type="number" name="skus[$!temp].score" value="$!sku.score">
+					</td>
+					<td>
+						<input type="number" name="skus[$!temp].skuPrice" value="$!sku.skuPrice" class="input-sm input-xsmall positiveFloatNum2" required>
+					</td>
+					<td>
+						<input type="text" name="skus[$!temp].exchangeAmout" value="$!sku.exchangeAmout" class="input-sm input-xsmall" required>
+					</td>
+					<td class="transUnit" style="display: none;">
+						<input class="input-sm input-xsmall" type="text" name="skus[$!temp].translateRate" value="$!sku.translateRate" required>
+						<div class="baseUnit"></div>
+						<div>$!attrName</div>
+					</td>
+					<td>
+						<input class="input-sm input-xsmall" type="text" name="skus[$!temp].barCode" value="$!sku.barCode" >
+					</td>
+					<td>
+						<input type="number" name="skus[$!temp].volume" value="$!sku.volume" class="input-sm input-xsmall positiveFloatNum2" required>
+					</td>
+					<td>
+						<input type="text" name="skus[$!temp].weight" value="$!sku.weight" class="input-sm input-xsmall positiveFloatNum2" required>
+						<input type="hidden" name="skus[$temp].flag" value='1' />
+					</td>
+					<td style="text-align: center;">
+						<a href="javascript:;" onclick="$(this).parents('tr').remove();">删除</a>
+                   	</td>
+				</tr>
+				#end
+			</tbody>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+	MyTouchSpin.init1()
+	
+	function unitName(){
+	 var attrId=$(".attrId").eq(0).val();//默认单位	
+	 if(attrId==0){
+		 $(".transUnit").css("display","block");
+	 }
+	 var unitName = $("form .unitName option:selected").text();
+	 $(".baseUnit").text(unitName+"/");
+	 if(null==$(".attrName").val()||""==$(".attrName").val()){
+		 $(".attrName").val(unitName);
+	 }
+	}
+	unitName();
+</script>

@@ -1,0 +1,209 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+		<div class="caption font-dark">
+			<i class="fa fa-cog font-dark"></i>
+			<span class="caption-subject bold">系统管理 > 接口管理> 数据关系管理>新增同步小组 </span>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form role="form" action="/syncGroup/add" class="form-horizontal" method="post">
+			<div class="form-actions right">
+				<a thref="/syncGroup/list?$!queryReturn" class="btn green ajax-post">
+					<i class="fa fa-check"></i>
+					提交
+				</a>
+				<a href="/syncGroup/list?$!queryReturn" class="btn btn-outline grey-salsa ajaxify">返回</a>
+			</div>
+			
+			<div class="form-body">
+				<div class="form-group">
+
+					<label class="control-label col-md-1">同步组名称：</label>
+					<div class="col-md-2">
+						<input type="text" name="groupName" class="form-control">
+					</div>
+
+					<label class="control-label col-md-1">模块：</label>
+					<div class="col-md-1">
+						<select name="moduleId" class="form-control" required>
+							<option value="">--请选择--</option>
+							#foreach($module in $syncModules)
+							<option value="$!module.id" data-name="$!module.moduleName">$!module.moduleName</option>
+							#end
+						</select>
+					</div>
+					<label class="control-label col-md-1">ERP数据源：</label>
+					<div class="col-md-1">
+						<select name="erpId" class="form-control" id="erpId" onchange="erpDataSourceChange(this) ;" required>
+							<option value="">--请选择--</option>
+							#foreach($erpLink in $erpLinks)
+							<option value="$!erpLink.id" data-name="$!erpLink.sourceName">$!erpLink.sourceName</option>
+							#end
+						</select>
+					</div>
+					<label class="control-label col-md-1">传输方式：</label>
+					<div class="col-md-1">
+						<select name="transWay" class="form-control" id="transWay" required>
+							<option value="">--请选择--</option>
+							<option value="rw">读写</option>
+							<option value="w">写入</option>
+							<option value="r">读取</option>
+						</select>
+					</div>
+					
+					<label class="control-label col-md-1">状态：</label>
+					<div class="col-md-1" style="vertical-align: middle; margin-top: 7px;">
+						<input type="radio" name="status" value="true">
+						启用
+						<input type="radio" name="status" value="false" checked>
+						禁用
+					</div>
+
+					
+					
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-6">商城表信息</label>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">表信息：</label>
+							<div class="col-md-5">
+								<select name="mallTable" class="form-control attr-select" size="15" >
+									<option value="">--请选择--</option>
+									#foreach($tbName in $tables)
+									<option value="$!tbName" data-name="$!tbName">$!tbName</option>
+									#end
+								</select>
+							</div>
+							
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-2"></label>
+							<div class="input-group input-search col-md-5">
+								<span class="input-group-addon">
+									<i class="fa fa-search"></i>
+								</span>
+								<select class="bs-select form-control erp-table-search" data-live-search="true" data-size="5">
+									<option value="">--请选择--</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">表信息：</label>
+							<div class="col-md-5">
+								<select name="erpTable" class="form-control attr-select" id="erpTable" size="15" required>
+									<option value="">--请选择--</option>
+								</select>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">补充where 条件：</label>
+							<div class="col-md-10">
+								<textarea style="width: 96%;height: 115px;" name="mallWhereCondition" placeholder=" where id=101"></textarea>
+							</div>
+							
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">补充where 条件：</label>
+							<div class="col-md-10">
+								<textarea style="width: 96%;height: 115px;" name="erpWhereCondition" placeholder=" where id=101"></textarea>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-10" id="tsql">
+						<div class="form-group">
+							<label class="control-label col-md-2">修正SQL：</label>
+							<div class="col-md-8">
+								<textarea style="width: 96%;height: 50px;" name="laterSqls" placeholder="sql"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<button type="button" class="btn green newSQL" >再新增一条SQL</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="form-group"  id="templatesSql" style="display: none;">
+	<label class="control-label col-md-2">修正SQL：</label>
+	<div class="col-md-8">
+		<textarea style="width: 96%;height: 50px;" name="laterSqls" placeholder="sql"></textarea>
+	</div>
+	<div class="col-md-1">
+	<i style="color: red;" t_srot="1" class="fa fa-remove removeSql"></i>
+	</div>
+</div>
+<script type="text/javascript">
+ 
+
+	function mallColTypeChange(obj) {
+		var txt = $(obj).find("option:selected").text();
+		$('#mallColName').val(txt);
+	}
+
+	function erpTypeChange(obj) {
+		var txt = $(obj).find("option:selected").text();
+		$('#erpColName').val(txt);
+	}
+
+	function erpDataSourceChange(obj) {
+		var erpId = $(obj).val();
+		if (erpId != "") {
+			$.get("/syncGroup/changeDs", { "id" : erpId }, function(res) {
+				var data = JSON.parse(res);
+				var sel1 = $('.erp-table-search');
+				var sel = $('#erpTable');
+				$("#erpTable option:not(:first)").remove();
+				$('.erp-table-search option:not(:first)').remove();
+				$.each(data, function(index, obj) {
+					var opt = "<option value='"+obj+"' >" + obj + "</option>";
+					sel1.append(opt);
+					sel.append(opt);
+				});
+				$(".erp-table-search").selectpicker('refresh');
+			})
+		}
+	}
+
+	$(".erp-table-search").change( function() {
+		var tol = $(this).val();
+		$("#erpTable").find("option[value='" + tol + "']").prop("selected", true);
+	})
+
+	 
+</script>
+<script type="text/javascript">
+$(".newSQL").click(function(){
+	$("#tsql").append("<div class='form-group' >"+$("#templatesSql").html()+"</div>");
+});
+$("#tsql").on("click",".removeSql",function(){
+   var target = $(this);
+   target.parents(".form-group").remove();
+})
+</script>
+
+<script src="/assets/plugins/bootstrap-select/js/components-bootstrap-select.js" type="text/javascript"></script>

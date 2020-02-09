@@ -1,0 +1,166 @@
+<div class="portlet box green">
+ <div class="portlet-title">
+     <div class="caption">
+         <i class="fa fa-gift"></i>商城基本配置 </div>
+     <div class="tools">
+         <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+     </div>
+ </div>
+ 
+ <div class="portlet-body form">
+     <!-- BEGIN FORM-->
+	   <form id="fromSerialize" role="form" action="/platform/modify" class="form-horizontal" method="post" enctype="multipart/form-data">
+	        <div class="form-body">
+	        	<div class="form-group">
+					<div class="alert alert-warning">
+						<strong> 注：</strong>注：1.输入设置的天数为N，当连续签到大于等于N时，赠送积分数都等于第N天赠送的积分数；
+						 2.依次累加设置的赠送积分数为默认值，可以再次修改。
+					</div>
+				</div>
+				#foreach($item in $!sysParamList)
+				 #set($index = ($velocityCount +(-1)))
+					#if($!item.sysValueType == "INPUT")
+						#if("PRESENT_SIGN_SCORE_LIST" == $!item.code)
+								#foreach($sysMap in $!item.getSysListMap())
+								   <div class="form-group $!item.code"  >
+						                <label class="col-md-3 control-label">第$!sysMap.day次累加赠送积分：</label>
+						                <div class="col-md-4">
+						                		<input type="text" class="form-control T_$!item.code" t_value='{"day": $!sysMap.day,"value": $!sysMap.value}'  value="$!sysMap.value"> 	
+						                </div>
+						            </div>
+								#end
+								<input type="hidden" name="list[$!index].sysOption" value='$!item.sysOption' id="dayValue">
+						#else
+						    <div class="form-group" id="$!item.code" >
+				                <label class="col-md-3 control-label">$!item.display：</label>
+				                <div class="col-md-4">
+				                        <input type="text" class="form-control T_$!item.code " name="list[$!index].value" value="$!item.value" >
+				                </div>
+								<div class="col-md-5">
+			 						<p  class="text-left text-warning form-control-static" >$!item.descs</p>
+			 					</div>
+				            </div>
+			        	#end
+			        #elseif($!item.sysValueType == "SELECT")   
+			             <div class="form-group">
+			             	<label class="col-md-3 control-label">$!item.display：</label>
+			             	<div class="col-md-3">
+			             		<select name="list[$!index].value" id="$!item.code" class="form-control">
+			 						#foreach($sysOption in $!item.getSysOptionMap().entrySet()) 
+			 							<option  #if($!item.value==$!sysOption.value) selected #end  value="$!sysOption.value">$!sysOption.key </option>
+			 						#end
+		 						</select>
+		 						<input type="hidden" name="list[$!index].sysOption" value='$!item.sysOption'>
+		 					</div>
+			             </div>
+	          	  	#end
+      	  			   <input type="hidden" name="list[$!index].id" value="$!item.id">
+                       <input type="hidden" name="list[$!index].code" value="$!item.code">
+                       <input type="hidden" name="list[$!index].descs" value="$!item.descs">
+                       <input type="hidden" name="list[$!index].sysParamType" value="$!item.sysParamType">
+                       <input type="hidden" name="list[$!index].sysValueType" value="$!item.sysValueType">
+              		   <input type="hidden" name="list[$!index].display" value="$!item.display">
+
+				#end
+	        </div>
+		<div class="form-actions right">
+	           <div class="row">
+	               <div class="col-md-offset-3 col-md-4">
+	                   <a class="btn green"  id="submita" >提交</a>
+	               </div>
+	           </div>
+	       </div>
+	   </form>
+     <!-- END FORM-->
+   </div>
+</div>
+<script type="text/javascript">
+ 
+/**
+ * 表单提交
+ */
+$("#submita").on("click",function(){
+
+	var pssl= $(".T_PRESENT_SIGN_SCORE_LIST");
+	var array = new Array();
+	$.each(pssl,function(v,k){
+		array.push($(k).attr("t_value"));
+	})
+	$("#dayValue").val("["+array.toString()+"]");
+	$.ajax({
+		url : '/productSetup/modify',
+		type : 'POST',
+		data : $("#fromSerialize").serialize(),
+ 		dataType :"JSON",
+		success : function(data) {
+			 toastr.success(data.msg);
+		},
+		error : function(data) {
+			 toastr.warning(data.msg);
+		}
+	});
+	
+});
+
+/**
+ * 累加还是自定义
+ */
+function displayLabel(em){
+	var state = em.val();
+	if(state == 0){
+		$(".PRESENT_SIGN_SCORE_LIST").show();
+		$("#SUMMARY_NUMBER_SCORE").hide();
+		$("#INITIAL_VALUE").hide();
+	}else{
+		$(".PRESENT_SIGN_SCORE_LIST").hide();
+		$("#SUMMARY_NUMBER_SCORE").show();
+		$("#INITIAL_VALUE").show();
+	};
+
+}
+
+displayLabel($("#CUSTON_SIGN_SCORE option:selected"));
+
+/**
+ * select 改变
+ */
+$("#CUSTON_SIGN_SCORE").change(function(){
+	displayLabel($(this));
+});
+
+/**
+ * 输入天数 append 
+ */
+$(".T_DAY_SIGN").on("input",function(){
+	var target=$(this);
+	var day= target.val();
+	if(!isNaN(day)&&day.length != 0&&day<=28){
+		$(".PRESENT_SIGN_SCORE_LIST").remove();
+		for (var int = 1; int <= day; int++) {
+			var source = $(" <div class='form-group PRESENT_SIGN_SCORE_LIST'>"+
+			        "<label class='col-md-3 control-label'>第"+int+"次累加赠送积分：</label>"+
+			        '<div class="col-md-4">'+
+			        		"<input type='text' class='form-control T_PRESENT_SIGN_SCORE_LIST' >"+
+			    	   ' </div>'+
+			    	'</div>');
+			source.find(".T_PRESENT_SIGN_SCORE_LIST").attr("t_value",'{"day":'+int+',"value":0}').val(0);
+			$(".form-body").append(source);
+		}
+		displayLabel($("#CUSTON_SIGN_SCORE option:selected"));
+	}else{
+		 target.val(0);
+		 toastr.warning("请输入正确的数字");
+	}
+});
+/**
+ * 输入值 拼接成json 填入t_value中
+ */
+$(".form-body").on("change",".T_PRESENT_SIGN_SCORE_LIST",function(){
+	var target = $(this);
+	var va= target.val();
+	console.log(target.attr("t_value"));
+	var t_value = JSON.parse(target.attr("t_value"));
+	t_value.value=va;
+	target.attr("t_value",JSON.stringify(t_value));
+})
+</script>

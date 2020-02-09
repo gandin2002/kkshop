@@ -1,0 +1,68 @@
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>批量导入</div>
+    </div>
+    <div class="portlet-body form">
+        <form role="form"  class="form-horizontal" method="post" enctype="multipart/form-data">
+            <div class="form-body">
+            	<div class="row">
+            		<input type="hidden" id="productId" value="">
+	            	<div class="form-group">
+	            		<div class="col-md-3">
+		            		<label class="control-label col-md-4">下载导入货品模板</label>
+		                	<div class="col-md-4">
+		                    	<label class="control-label"><a href="/template/商品导入模板.xls">货品导入模板.xlsx </a></label>
+		                	</div>
+	            		</div>
+	            		<div class="col-md-5">
+		            		<label class="col-md-2 control-label">文件路径：</label>
+	                        <div class="col-md-4 control-label" style="text-align:left">
+	                            <div class="fileinput fileinput-new" data-provides="fileinput">
+	                                <div class="input-group input-large">
+	                                    <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+	                                        <i class="fa fa-file fileinput-exists"></i>&nbsp;<span class="fileinput-filename"></span>
+	                                    </div>
+	                                    <span class="input-group-addon btn default btn-file">
+	                                        <span class="fileinput-new " > 选择文件 </span>
+	                                        <span class="fileinput-exists"> 更改 </span>
+	                                        <input type="file" id="file" name="file" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+	                                    </span>
+	                                    <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> 移除 </a>
+	                                    <a href="javascript:;" class="btn   green  btn-sm input-group-addon  submit-a"  > 提交</a>
+	                                </div>
+	                            </div>
+	                        </div>
+	            		</div>
+ 
+	               </div>
+	               <div class="form-group" id="productTable">
+<!-- 	               	#parse("/product/productImportTable.htm") -->
+	               </div>
+            </div>
+			</div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-product.js"></script>
+<script type="text/javascript" src="/assets/scripts/views-product-sku.js"></script>
+<script type="text/javascript" src="/assets/scripts/views-icheck.js"></script>
+<script type="text/javascript">
+$(".submit-a").on("click",function(){
+	$('#productTable').html("");
+	$(".form form").ajaxSubmit({
+		type: "POST",
+	    cache: false,
+	    url: "/product/betch",
+	    dataType: "html",
+	    data: $(".form form").serialize(),
+		success : function(res) {
+	     	$('#productTable').html(res);
+	         App.stopPageLoading();
+	         Layout.fixContentHeight(); // fix content height
+		},
+		beforeSubmit : function() {
+		}
+	});
+})
+</script>
+ 

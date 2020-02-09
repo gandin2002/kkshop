@@ -1,0 +1,268 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">详情</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/companyCheck/edit" class="form-horizontal" method="post">
+        	<div class="form-body">
+ 
+             <div class="row">
+         		<div class="col-md-5">
+			        <div class="form-group">
+		                <label class="control-label col-md-5">企业：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.name</div>
+		            </div>
+		            <div class="form-group"> 
+	                  	<label class="control-label col-md-5">统一企业社会信用代码：</label>
+		                <div class="control-label col-md-7" style="text-align:left">
+		                	$!company.licenseId
+		                 </div>
+               	  	</div>
+		         	<div class="form-group">
+		                <label class="control-label col-md-5">所在地址：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.address</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-5">所属行业：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!industryId</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-5">企业规模：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.scale.name</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-5">月采购量：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.amount.name</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-5">企业邮箱：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.email</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-5">申请信用金额：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.applyCredists</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-5">申请账期时间：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.applyListTime.name</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-5">联系人：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.contacts</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-5">手机号码：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.contacts_phone</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-5">座机：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.phone</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-5">主要采购品类：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!purchasing</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-5">日常支出方式：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!daily</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-5">开票类型：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.ticket.name</div>
+		            </div>
+		            <div class="form-group">
+		                <label class="control-label col-md-5">申请时间：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.applyTime</div>
+		            </div>
+		             <div class="form-group">
+		                <label class="control-label col-md-5">实际申请信用金额：</label>
+		                <div class="col-md-7">
+			                #if($!company.companySate != "PASS" && $!company.companySate != "UNPASS")
+			                <input type="text"  class="form-control col-md-8" name="nowApplyCredists"><span class="col-md-2">￥</span>
+			                #else
+			                <span class="form-control col-md-2" >$!company.nowApplyCredists￥</span>
+			                #end
+		                </div>
+		            </div>
+		            <div class="form-group">
+		                <label class="control-label col-md-5">实际申请账期时间：</label>
+		                #if($!company.companySate != "PASS" && $!company.companySate != "UNPASS")
+		                	<div class="col-md-7">
+		               			 <select class="form-control" name="applyListTimeId" >
+                             		 #foreach($acLit in $!billTimes)
+                                		<option value="$!acLit.erpCode" >$!acLit.conditionName</option>
+ 						      		#end
+                            	 </select>
+                           </div>
+		                #else
+		                	<span style="position: relative;left: 5px;top: 8px;">$!company.applyListTimeName</span>
+		                #end
+		            </div> 
+		            #if($!company.companySate == "PASS")
+		            <div class="form-group">
+		                <label class="control-label col-md-5">通过时间：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.passTime</div>
+		            </div>
+		            #end
+		            <div class="form-group">
+		                <label class="control-label col-md-5">审核状态：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.companySate.name</div>
+		            </div>  
+		            #if($!company.companySate == "PASS" || $!company.companySate == "UNPASS")
+		            <div class="form-group">
+		                <label class="control-label col-md-5">审核信息：</label>
+		                <div class="control-label col-md-7" style="text-align:left">$!company.checkWarn</div>
+		            </div>     
+					 #end
+					 
+		            <div class="form-group">
+		            	<label class="control-label col-md-5">推广人：</label>
+						<div class="col-md-7">
+							#if($!company.companySate != "PASS" && $!company.companySate != "UNPASS")
+							<select class="form-control" name="extensionWorker">
+							<option value="">请选择</option>
+							#foreach($operator in $!operatorList)
+								<option  value="$!operator.id">$!operator.username</option> 
+							#end
+							</select>
+							#else
+							   <div class="control-label col-md-7" style="text-align:left">$!company.extensionWorker</div>
+							#end
+						</div>
+						<input type="hidden" value="$!company.id" name="id">
+					 </div>      		
+         		
+         		#if($!company.companySate != "PASS" && $!company.companySate != "UNPASS")
+		            <div class="form-group"> 
+		            	<label class="control-label col-md-5">是否通过：</label>
+		                <div class="col-md-7 form-control-static">
+	                     	<label class="mt-radio mt-radio-outline">通过
+								<input type="radio" value="PASS" name="companySate" checked  >
+								<span></span>
+							</label>
+							<label class="mt-radio mt-radio-outline">拒绝
+								<input type="radio" value="UNPASS" name="companySate" id="companySate"  >
+								<span></span>
+							</label>
+	                     </div>
+		            </div> 
+ 	                 <div class="form-group" id="jujue">
+ 		            </div>
+ 		        
+ 		            	  
+		            #end
+         		<!-- #if($!company.companySate != "PASS" && $!company.companySate != "UNPASS")
+         		 <div class="form-group">
+		                <label class="control-label col-md-5">是否通过：</label>
+ 							<div class="col-md-7 form-control-static">
+									<select name="companySate" id="companySate">
+										<option value="0">--请选择--</option>
+										<option value="PASS" >通过</option>	
+										<option value="UNPASS">拒绝</option>								
+									</select>
+									<span id="textErroe"></span>								
+ 	                     </div>	
+ 	                 </div>
+ 	                 
+ 	                 
+         		  #end -->
+            
+         		</div>
+         		
+         		<div class="col-md-7">
+         			<div class="form-group">
+		            	<label class="control-label col-md-3">图片信息：</label>
+	                	  #if($!company.licenseImage)
+	                      <div class="col-md-9">
+	                      	<img  width="300px"  height="300px;"  src="$!company.licenseImage">
+	                      </div>
+	                      #else
+	                      <span class="font-red-soft">没有图片!</span>
+	                      #end
+		            </div>
+         		</div>
+         	</div>
+            </div>
+            <div class="form-actions right">
+            	#if($!company.companySate != "PASS" && $!company.companySate != "UNPASS")
+            	<a href="javascript:;" thref="/companyCheck/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+            	#end
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+$(function(){
+	
+	
+	 /*  $(":radio").click(function(){
+		   alert("您是..." + $(this).val());
+		  }); */
+		  
+		  var ht = "<label class='control-label col-md-3'>通过原因</label>";
+			ht = ht + "<div class='col-md-7 form-control-static'><textarea rows='4' cols='30' id='area' name='checkWarn' placeholder='您提供的图片与企业信息不符，请重新提交!'></textarea>";
+			ht = ht + "<span id='textError3'></span></div>";
+			$('#jujue').html(ht);
+	
+		  $(":radio").click(function(){
+		
+		var value = $(this).val();
+		
+		$('#jujue').get(0).innerHTML = "";
+		if (value == "PASS"){
+			
+			var ht = "<label class='control-label col-md-3'>通过原因</label>";
+			ht = ht + "<div class='col-md-7 form-control-static'><textarea rows='4' cols='30' id='area' name='checkWarn' placeholder='您提供的图片与企业信息不符，请重新提交!'></textarea>";
+			ht = ht + "<span id='textError3'></span></div>";
+			$('#jujue').html(ht);
+			
+		}else if (value == "UNPASS"){
+			var ht = "<label class='control-label col-md-3'>拒绝原因</label>";
+			ht = ht + "<div class='col-md-7 form-control-static'><textarea rows='4' cols='30' id='area' name='checkWarn' placeholder='您提供的图片与企业信息不符，请重新提交!'></textarea>";
+			ht = ht + "<span id='textError3'></span></div>";
+			$('#jujue').html(ht);
+		}
+	})
+})
+$(".ajax-post").click(function(){
+
+	 if ($('#authState').val() == "AUTH_REFUSE" && $('#area').val() == ""){
+		
+		// 申请拒绝-->拒绝原因不能为空
+	$('#textError3').html("<font color='red'>这是必填字段</font>");
+		
+		
+		
+		return false;
+		
+	}
+	
+	
+	// 企业审核判断
+if ($('#companySate').val() == "UNPASS" && $('#area').val() == ""){
+		
+		// 申请拒绝-->拒绝原因不能为空
+	$('#textError3').html("<font color='red'>这是必填字段</font>");
+		
+		
+		
+		return false;
+		
+	}
+	
+	return true;
+	
+})
+</script>
+
+
+
+
+
+

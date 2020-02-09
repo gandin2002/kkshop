@@ -1,0 +1,96 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-search"></i>#if($!loc=='pcWeb') PC端货品目录 #else 微信端货品目录 #end &gt; 查看货品
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+		</div>
+		<div class="actions">
+			<a href="javascript:;" class="btn white btn-sm ajax-search"><i class="fa fa-search"></i>查询 </a> 
+			<a href="javascript:;" class="btn white btn-sm search-reset"><i class="fa fa-eraser"></i>清除 </a>
+		</div>
+	</div>
+	<div class="portlet-body form" style="display: block;">
+		<form action="/pageNavigation/showProduct" class="form-horizontal" method="get" id="searchForm">
+			<div class="form-body">
+				<div class="row ">
+					<div class="col-md-3">
+						<label class="control-label col-md-4">货品编号：</label>
+						<div class="col-md-8">
+							<input class="form-control" type="text" name="code" maxlength="10" value="$!code">
+							<input type="hidden" name="id" value="$!id"> 
+							<input type="hidden" name="loc" value="$!loc">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<label class="control-label col-md-4">货品名称：</label>
+						<div class="col-md-8">
+							<input class="form-control" type="text" name="name" maxlength="10" value="$!name">
+						</div>
+					</div>
+					 
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cogs"></i>货品列表
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+		</div>
+	</div>
+	<div class="portlet-body">
+		<div class="table-container table-scrollable">
+			<table class="table table-bordered table-hover icheck-table" id="productTable">
+				<thead>
+					<tr>
+					 	<th style="width: 20px">
+							<input type="checkbox" class="icheck group-icheck"/>
+						</th>
+						<th>货品编码</th>
+						<th>货品名称</th>
+						<th>分类</th>
+						<th>品牌</th>
+						<th>售价</th>
+						<th>标签</th>
+					</tr>
+				</thead>
+				<tbody>
+					#foreach ($!item in $!pageProduct.result)
+					<tr class="odd gradeX">
+						<td>
+							<input type="checkbox" name="checkboxes" class="icheck" value="$!item.id" />
+						</td>
+						<td>
+						<p style="margin: 0">$item.code</p>
+						</td>
+						<td>$item.name</td>
+						<td>$!item.category.name</td>
+						<td>$!item.brand.name</td>
+						<td>$item.salesPrice</td>
+						<td>$!item.lables</td>
+					</tr>
+					 
+					#end
+				</tbody>
+			</table>
+		</div>
+		#set($page=$pageProduct)
+		#set($pageUrl="/pageNavigation/showProduct?loc=$!loc&id=$!id&pageNo=")
+		#parse("_page.htm")
+		<div class="form-actions">
+			 <a href="/pageNavigation/$!loc" class="btn btn-outline grey-salsa ajaxify">返回</a>
+		</div>
+	</div>
+	
+</div>

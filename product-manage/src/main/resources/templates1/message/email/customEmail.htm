@@ -1,0 +1,52 @@
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="tabbable-line ">
+			<ul class="nav nav-tabs ">
+				<li><a href="/messageEmail/emailTemplates" class="ajaxify">邮件模板</a></li>
+				<li class="active"><a href="/messageEmail/customEmail" class="ajaxify">自定义邮件</a></li>
+				<li><a href="/messageEmail/sendBox" class="ajaxify">发件箱</a></li>
+				<li><a href="/messageEmail/emailConfig" class="ajaxify">邮箱配置</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="portlet-body form">
+					<form action="/messageEmail/sendEmail"  method="post" enctype="multipart/form-data" class="form-horizontal form-row-seperated">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="control-label col-md-3  ">邮件标题：</label>
+                                <div class="col-md-9">
+                                    <input type="text" placeholder="40字以内" name="title" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3  ">收 件 人：</label>
+                                <div class="col-md-9">
+                                    <input type="text" placeholder="填写邮箱，多个用英文分号隔开" name="addressee" class="form-control">
+                                </div>
+                            </div>
+	                         <div class="form-group">
+			                     <label class="control-label col-md-3">内容：</label>
+			                     <div class="col-md-9">
+			                         <textarea class="form-control" name="content" id="textContent" style="width:100%;height:400px;"></textarea>
+			                     </div>
+			                 </div>
+		                 </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="button" class="btn green ajax-post">
+                                        <i class="fa fa-paper-plane"></i> 发送</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-kindeditor.js"></script>

@@ -1,0 +1,157 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">库存管理 > 采购管理 > 退购出库单 </span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/purchaseReturn/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+        		<div class="row">
+                <div class="form-group">
+					<label class="control-label col-md-1">采购单：</label>
+                    <div class="col-md-2">
+                        <select name="purchaseReturn.purchaseId" class="form-control purchaseReturn-purchaseId" required>
+							<option value="">--请选择--</option>
+							#foreach($purchaseModel in $purchaseList)
+								<option value="$purchaseModel.id" #if($purchase.id == $purchaseModel.id) selected #end >$purchaseModel.id</option>
+							#end
+						</select>
+                    </div>
+                    
+                    <label class="control-label col-md-1">备注：</label>
+                     <div class="col-md-4">
+                         <input type="text" class="form-control" name="purchaseReturn.mark" maxlength="40">
+                     </div>
+                 </div>
+                 </div>
+                 <div class="row">
+                 	<div class="col-md-12">
+                 		<div class="table-scrollable">
+                 			<table class="table table-bordered table-hover data-tr">
+                 				<thead>
+                 				<tr>
+									<th class="text-center">条形码</th>
+									<th class="text-center">货品编码</th>
+									<th class="text-center">货品名称</th>
+									<th class="text-center">规格</th>
+									<th class="text-center">分类</th>
+									<th class="text-center">库位</th>
+									<th class="text-center">单位</th>
+									<th class="text-center">数量</th>
+									<th class="text-center">售价</th>
+									<th class="text-center">标准进价</th>
+									<th class="text-center">实际进价</th>
+									<th class="text-center">操作</th>
+								</tr>
+								</thead>
+								<tbody>
+									#set($idx = 0)
+									#foreach($item in $items)
+									
+									<tr>
+										<td>
+											$!item.barCode
+											<input type="hidden" name="itemReturn[$idx].barCode" value="$!item.barCode" />
+											<input type="hidden" name="itemReturn[$idx].skuId" value="$!item.skuId" />
+										</td>
+										<td>
+											$!item.skuCode
+											<input type="hidden" name="itemReturn[$idx].skuCode" value="$!item.skuCode" />
+										</td>
+										<td>
+											$!item.productName
+											<input type="hidden" name="itemReturn[$idx].productName" value="$!item.productName" />
+										</td>
+										<td>
+											$!item.attrName
+											<input type="hidden" name="itemReturn[$idx].attrName" value="$!item.attrName" />
+										</td>
+										<td>
+											$!item.categoryName
+											<input type="hidden" name="itemReturn[$idx].categoryName" value="$!item.categoryName" />
+										</td>
+										<td>
+											$!item.wareLocation
+											<input type="hidden" name="itemReturn[$idx].wareLocation" value="$!item.wareLocation" />
+										</td>
+										<td>
+											$!item.unitName
+											<input type="hidden" name="itemReturn[$idx].unitName" value="$!item.unitName" />
+										</td>
+										<td><input type="text" name="itemReturn[$idx].quantity" value="$!item.quantity" maxValue="$!item.quantity" class="form-control quantity input-xsmall positiveIntegerNum2"></td>
+										<td>
+											$!item.salePrice
+											<input type="hidden" name="itemReturn[$idx].salePrice" value="$!item.salePrice" />
+										</td>
+										<td>
+											$!item.costPrice
+											<input type="hidden" name="itemReturn[$idx].costPrice" value="$!item.costPrice" />
+										</td>
+										<td>
+											$!item.factPrice
+											<input type="hidden" name="itemReturn[$idx].factPrice" value="$!item.factPrice" />
+										</td>
+										
+										<td>
+											<a href="javascript:;" onclick="$(this).parents('tr').remove();">删除</a>
+										</td>
+									</tr>
+									#set($idx = $idx+1)
+									#end
+								</tbody>
+                 			</table>
+                 		</div>
+                 	</div>
+                 </div>
+                 
+                 
+            </div>
+            <div class="form-actions right">
+				<a thref="/purchaseReturn/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="/purchaseReturn/list" class="btn btn-outline grey-salsa ajaxify">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+	MyTouchSpin.init1() ;
+	ComponentsSelect2.init() ;
+	
+	$(function(){
+		$('.purchaseReturn-purchaseId').change(function(){
+			var id = $(this).val() ;
+			var url = "/purchaseReturn/add" ;
+		 	var pageContent = $('.page-content');
+	        var pageContentBody = $('.page-content .page-content-body');
+			$.ajax({
+	     		type: "GET",
+	     		cache: false,
+	     		url: url,
+	     		dataType: "html",
+	     		data: {id:id},
+	     		success : function(res) {
+	     			pageContentBody.html('');
+	     			pageContentBody.html(res);
+	     		},
+	     		error: function (xhr, ajaxOptions, thrownError) {
+	     			skuSelectMainDiv.html('<h4>服务器异常，请与管理员联系.</h4>');
+	            }
+	     	})
+		});
+		
+		$('.quantity').change(function(){
+			var maxValue = parseInt($(this).attr('maxValue')) ;
+			var value = parseInt($(this).val()) ;
+			if(value > maxValue) {
+				value = maxValue ;
+			} 
+			if(value <= 0) {
+				value = 1 ;
+			}
+			$(this).val(value) ;
+			
+		}) ;
+	})
+</script>

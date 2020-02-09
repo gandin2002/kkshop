@@ -1,0 +1,54 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">编辑</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/logistics/edit" class="form-horizontal" method="post">
+        	<div class="form-body">
+        	    <div class="form-group">
+                     <label class="control-label col-md-3">物流公司名称：</label>
+                     <div class="col-md-9">
+                         <input type="hidden" class="form-control" name="id" value="$!item.id">
+                         <input type="text" class="form-control" name="companyname" value="$!item.companyname">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">物流编码：</label>
+                     <div class="col-md-9">
+                         <input type="text" class="form-control" name="code" value="$!item.code">
+                     </div>
+                 </div>
+                 
+                 <div class="form-group">
+                     <label class="control-label col-md-3">启用状态：</label>
+                     <div class="col-md-9">
+						<div class="mt-radio-inline">
+							<label class="mt-radio">
+                         <input type="radio" name="status" value="1" #if($!item.status==1) checked #end>是
+                          <span></span>
+                        </label>
+                        <label class="mt-radio">
+                           <input type="radio" name="status" value="0" #if($!item.status==0) checked #end>否
+                           <span></span>
+                       </label>
+						</div>
+                     </div> 
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">备注：</label>
+                     <div class="col-md-9">
+                         <input type="text" class="form-control" name="remark" value="$!item.remark">
+                     </div>
+                 </div>
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/logistics/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+

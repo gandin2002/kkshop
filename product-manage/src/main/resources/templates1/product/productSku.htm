@@ -1,0 +1,389 @@
+<label class="control-label col-md-2">货品SKU：</label>
+<div class="col-md-10">
+	<div class="table-scrollable">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					#foreach($attr in $!attrList)
+						#if($!attrValueMap.get($!attr).size()>0)
+					<th  class="text-center">$!attr.name</th>
+					 	#end
+					 #end
+					<th class="text-center">Sku-ERP编码</th>
+					<!-- 					<th>ERP编码</th> -->
+					<th class="text-center">积分</th>
+					<th class="text-center">换算率</th>
+					<th class="text-center">条形码</th>
+					<th class="text-center">价格</th>
+					<th class="text-center">图片</th>
+					<th class="text-center">体积(m³)</th>
+					<th class="text-center">重量(kg)</th>
+					<th class="text-center">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			
+				
+				#foreach($sku in $!skus)
+				#set($temp = $velocityCount - 1)
+				<tr>
+					#foreach($attrValue in $!attrValueList)
+					#foreach($values in $sku.skuAttr)
+					#set($temp1 = $velocityCount - 1)
+					#if($!values==$!attrValue.id)
+					#set($imageStr = $!mapImage.get($!values))
+					<td>
+						<span>$!attrValue.name</span>
+						<input type="hidden" name="skuAttrs[$!temp][$!temp1].attrId" value="$!attrValue.attrId">
+						<input type="hidden" name="skuAttrs[$!temp][$!temp1].attrValueId" value="$!attrValue.id">
+						#foreach($!jsonImage in  $!jsonImageArray)
+							#if($!values == $!jsonImage.id )
+								<input type="hidden" name="skuAttrs[$!temp][$!temp1].attrImage" value="$!jsonImage.attrImage">
+							#end
+						#end
+					</td>
+					#end
+					#end
+					#end
+					<td width="250px">
+						<input type="hidden" name="skus[$!temp].id" value="$!sku.id">
+						<input type="hidden" name="skus[$!temp].attrValues" value="$!sku.attrValues">
+						<input type="hidden" name="skus[$!temp].attrAndAttrValues" value="$!sku.attrAndAttrValues">
+						<!-- <input type="text"   name="skus[$!temp].erpCode" value="$!sku.erpCode" class="input-sm sku-code input-xsmall"> -->
+						<!-- sku码  *  -->
+<!-- 						 <input type="text"   name="skus[$!temp].erpCode" value="$!sku.erpCode" style="height: 30px">
+ -->						 
+ 							#if($!isFlag)
+	           				<select class="js-data-getAttr-ajax erpcode" name="skus[$!temp].erpCode" >
+	           					<option value="$!sku.erpCode" selected="selected">$!sku.erpCode</option>
+							</select>
+							<input type="hidden" class="isFlag" value="$!isFlag"/>
+ 							#else
+						 <input type="text"   name="skus[$!temp].erpCode" value="$!sku.erpCode" style="height: 30px" class="erpcode"> 							
+ 							#end
+ 							<span class="app"></span>
+						 
+						<input type="hidden" name="skus[$!temp].salesNum" value="$!sku.salesNum" >
+						<input type="hidden" name="skus[$!temp].code" value="$!sku.code">
+						<input type="hidden" name="skus[$!temp].inventory" value="$!sku.inventory">
+						<input type="hidden" name="skus[$!temp].status" value="$!sku.status">
+						<input type="hidden" name="skus[$!temp].salesNum" value="$!sku.salesNum">
+						<input type="hidden" name="skus[$!temp].auxUnitName" value="$!sku.auxUnitName">
+						<input type="hidden" name="skus[$!temp].storageLocation" value="$!sku.storageLocation">
+						<input type="hidden" name="skus[$!temp].name" value="$!sku.name">
+						<input type="hidden" name="skus[$!temp].createDate" value="$!sku.createDateString">
+						<input type="hidden" name="skus[$!temp].erpUnitCode" value="$!sku.erpUnitCode">
+						<input type="hidden" name="skus[$!temp].taxCode" value="$!sku.taxCode">
+						<input type="hidden" name="skus[$!temp].tax" value="$!sku.tax">
+						<input type="hidden" name="skus[$!temp].taxId" value="$!sku.taxId">
+						<input type="hidden" name="skus[$!temp].price" value="$!sku.price">
+					</td>
+					
+					
+					
+					<!--换算率-->
+					<td class="score">
+						<input class="input-sm input-xsmall socre" type="number" id="score"  name="skus[$!temp].score" value="$!sku.score" >%<span class='errors'></span>
+					</td>
+					<td>
+						<input class="input-sm input-xsmall"  id="translateRate" style="height: 30px;width: 50px !important"  type="text" name="skus[$!temp].translateRate" value="$!sku.translateRate" required>
+						<span class="baseUnit">=1</span>
+						<select name="skus[$!temp].auxUnitId" id="auxUnitId" class="input-sm" style="height: 30px;width: 70px">
+							#foreach($unit in $!unitList)
+                    		<option value="$unit.Id" data-name="$unit.name" #if($!sku.auxUnitId==$unit.Id) selected='selected' #end>$unit.name</option>
+                    		#end
+						</select>
+					</td>	
+					<script>
+					
+					$(function(){  
+						 
+						$('#translateRate').bind('input propertychange', function() {  
+							var a = $('#translateRate').val();
+							var b = $('#salesPrice').val();
+							var sum= a * b;
+							
+						    $('#skuPrice').val(sum.toFixed(2));  
+						}); 
+					  
+					})  	
+					
+					$(function(){
+						$('#auxUnitId').bind('input propertychange', function() {
+						var auxUnitId = $('#auxUnitId').val();
+						var basic = $('#basic').val();
+						var num = 1;
+						
+						if(auxUnitId==basic)
+							$('#translateRate').val(num);
+						});
+						
+					})
+					
+					
+					</script>
+					
+					<td>
+					<!-- 条形码  -->
+						<!-- <input class="input-sm input-xsmall" type="text" name="skus[$!temp].barCode" value="$!sku.barCode" > -->
+						<input  type="text" name="skus[$!temp].barCode" id="barCode" value="$!sku.barCode" style="height: 30px;width: 120px">
+						
+					</td>
+					<!-- 价格 -->
+					<td>
+						<input type="number" name="skus[$!temp].skuPrice" id="skuPrice" value="$!sku.skuPrice" class="input-sm input-xsmall positiveFloatNum2" required>
+					</td>
+					<td>
+						    		<label  style="margin-bottom: -25px">
+									            <div class="qrMl" style="display: none; z-index: 98;position:absolute; background-color: #fff; width: 200px;height: 200px;box-shadow: 5px 5px rgba(102,102,102,.1);border: 1px solid #eee;">
+													<button type="button" class="close close-click" style="margin: 10px;"></button>
+													<img  style="width: 151px;height: 151px;margin-left: 20px" class="showImage" src="$!sku.imageUrl">
+												</div>
+								            </label>
+								            <input value="$!sku.imageUrl" type="hidden" class="inputImage" name="skus[$!temp].imageUrl">
+								            <img  style="border: 1px" alt="图" id="img" onclick="chi(this)" class="attrImg" #if($sku.imageUrl) src="$!sku.imageUrl"  #else src="/assets/images/skuDefaultImage.jpg"   #end   width="23px" height="23px">
+								          	<input type="file" class="skufile"  style="display:none;" data-maxsize="1024" accept=".jpg,.bmp,.jpeg,.png">
+								          	<style type="text/css">
+								          			#img{
+								          				position:absolute;   
+								          			}
+								          	</style>
+					</td>
+					<td>
+						<input type="number" name="skus[$!temp].volume" id="volume" value="$!sku.volume" class="input-sm input-xsmall positiveFloatNum2" required>
+					</td>
+					<td >
+						<input type="text" name="skus[$!temp].weight" value="$!sku.weight" id="weight" class="input-sm input-xsmall positiveFloatNum2" required>
+						<input type="hidden" name="skus[$temp].flag" value='1' />
+					</td>
+					
+					
+					
+					<td style="text-align: center;">
+						<a href="javascript:;" onclick="$(this).parents('tr').remove();">删除</a>
+                   	</td>
+                   	
+				</tr>
+				#end
+						<script type="text/javascript">
+							$(function(){
+								
+								$(".socre").blur(function(){
+									socre = $(this).val();
+									var s = $(this);
+									var categoryId = $("#categoryId").val();
+									if(categoryId == "")
+										return;
+									$.get('/category/getCategory', { categoryId: $("#categoryId").val()}, function(data){
+										/* alert(""data); */
+										var da = parseInt(data); 
+										var id = parseInt(socre);
+										s.parent().find("span").html("");
+										 if (id > da){
+											
+											s.parent().find("span").html("<div><font color='red'>大于分类的积分百分比!</font></div>");
+										} 
+										
+								        },'json');
+								    
+								})
+							})
+						</script>
+			</tbody>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+	MyTouchSpin.init1()
+	
+	$(function(){
+		
+		function formatUser(repo) {
+
+			if (repo.loading) {
+
+				return repo.ids;
+			}
+
+			var markup = "<div class='select2-result-repository clearfix'>"
+				+ "<div class='select2-result-repository__meta'>"
+				+ "<div class='select2-result-repository__title'>"
+				+ repo.id
+				+ "</div>"
+				+ "<div class='select2-result-repository__description'>"
+				+ repo.ids
+				+ "</div>"
+				+ "<div class='select2-result-repository__description'>"
+				+ repo.name
+				+ "</div></div>" + "</div>"
+
+				+ "</div>" + "</div>";
+
+		return markup;
+		}
+		
+		
+		
+		
+		$(' .js-data-getAttr-ajax').select2({
+			
+			
+			
+			ajax : {
+				url : "product/getErpcode",
+				dataType: 'json',
+				delay : 250,
+				async : false,
+				data : function(params) {
+					 var term= params.term ; 
+					var map = {};
+					map["str"] = term; 
+					return {
+						
+						str:map["str"] ,
+						pageNo : params.page||1
+					};
+				},
+				processResults: function (data, params) {
+				    params.page = params.page || 1;
+				    return {
+				        results: data.result,
+				        pagination: {
+				            more: (params.page * 10) < data.totalCount
+				        }
+				    };
+				},
+				cache : true 
+			},
+			width : "off",
+			escapeMarkup : function(markup) {
+				return markup;
+			},
+			placeholder:'请选择',
+			minimumInputLength : 1,
+			language: "zh-CN",  
+			templateResult : formatUser,	
+			templateSelection : function(db){
+				
+				/* alert($(this)[0].tagName); */
+				return db.id;
+			}
+		});
+		
+		
+		$(".js-data-getAttr-ajax").change(function(){
+			
+			
+			var select = $(this);
+			
+			var s = select.parent().find(".select2").find(".select2-selection__rendered");
+			
+			  $.post("/product/getSkuData",{"id":select.val()},function(result){
+				    
+				  if (result != "1"){
+					s.text(result.erpCode); 
+					 select.append("<option value='"+result.erpCode+"' selected>"+result.erpCode+"</option>");
+					 
+					 
+					 // 获取里面信息
+					 var tr = select.parent().parent();
+					 var score = tr.find("#score");
+					 score.val(result.score);
+					
+					 // 换算率 
+					var translateRate = tr.find("#translateRate");
+					translateRate.val(result.translateRate);
+					
+					tr.find('#auxUnitId').val(result.auxUnitId);
+							 
+					/* tr.find('.baseUnit') */	
+					
+					tr.find("#barCode").val(result.barCode);
+					tr.find("#skuPrice").val(result.skuPrice);
+					tr.find("#volume").val(result.volume);
+					tr.find("#weight").val(result.weight);
+					
+					// 图片
+					tr.find(".showImage").attr('src',result.imageUrl);
+					tr.find(".inputImage").val(result.imageUrl);
+					tr.find(".attrImg").attr('src',result.imageUrl);
+					
+				  }
+				  
+				  
+				  },"json");
+			
+			/* s.val($(this).val()); */
+			/* alert( $(this).val() + "sdfd" ); */
+			
+		})
+		
+		
+		
+		 
+		
+	})
+	
+</script>
+
+<script type="text/javascript">
+var unit_init = function (){
+	var base_unit = $(".unitName").find("option:selected").text();
+	if(base_unit){
+		 $(".baseUnit").text(base_unit+" = 1");
+	 }
+};
+
+unit_init();
+ $(".unitName").change(function(){
+	 unit_init();
+ });
+ 
+ 
+ function chi(db){
+	 
+	 $(db).next().click();
+ }
+ 
+ $(function(){
+	 
+/* $(".form-body").on("click",".attrImg",function(){
+	 $(this).next().click();
+});  */
+$(".form-body").on("change",".skufile",function(){
+		var target= $(this);
+		var aimg= target.prev();
+		var inputImage = target.prev().prev();
+		var bigimg =target.prev().prev().prev().find('.qrMl').find('img');
+		var files = this.files;
+		var formData = new FormData();
+		for (var i = 0; i < files.length; i++) {
+			var fileSize = parseInt(files[i].size / 1024).toFixed(0);
+			if (fileSize > 1024) {
+				toastr.warning("单张图片大小不要超过1M");
+				return false
+			}
+			formData.append("file", files[i]);
+		};
+		$.ajax({
+			url : "/upload-shareInfo",
+			type : "post",
+			data : formData,
+			contentType : false,
+			processData : false,
+			dataType : "html",
+			success : function(res) {
+				var data = JSON.parse(res);
+				aimg.attr('src', data.url);
+				bigimg.attr('src',data.url);
+				inputImage.val(data.url);
+			}
+		});
+	 
+})
+
+
+
+
+ })
+</script>

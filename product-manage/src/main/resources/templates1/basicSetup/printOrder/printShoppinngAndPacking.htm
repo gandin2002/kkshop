@@ -1,0 +1,168 @@
+ 
+
+		<div class="portlet box green">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-cogs"></i>数据列表
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse" data-original-title=""
+						title=""> </a>
+				</div>
+				<div class="actions"></div>
+			</div>
+			<div class="portlet-body">
+				<div class="tab-content">
+					<div class="portlet-body form" >
+						<form action="printOrder/OrderTemplatesModify" method="post"  class="form-horizontal">
+							<div class="row">
+								<div class="col-md-offset-3 col-md-8" id="printTemplate2" >#parse("\basicSetup\printOrder\printTemplate\printTemplate2.htm")</div>
+								<div class="col-md-1"></div>
+							</div>
+							<div class="row">
+								<div class=" col-md-offset-3  col-md-5 ">
+									<label>
+										<input type="checkbox" #if($!templatePrint.printImageState) checked #end name="pimages" value="true">打印图片
+									</label>
+									 <label>
+									 	<input type="checkbox" #if($!templatePrint.barcodesState)  checked  #end name="barcodes" value="true">打印订单条形码
+									 </label>
+									 <label>
+									 	<input type="checkbox" #if($!templatePrint.qRcodeState) checked #end name="qRcode" value="true">打印订单二维码
+									 </label> 
+									 <label>
+										 <input type="checkbox" #if($!templatePrint.orderIdState) checked #end name="orderId" value="true">打印订单编号
+									</label>
+								</div>
+								<div class="col-md-3">
+								
+									<label class="mt-radio mt-radio-outline">模板二
+											 <input  type="radio" #if($!templatePrint.templateChoose == 2) checked  #end   value="2" name="templateChoose"> <span></span>
+									</label>
+	 								<a href="javascript:;"  class="btn green print" id="print2" >打印预览</a>
+									<input type="hidden" name="templatePrintType" value="PRINT_SHOPPING_AND_PACKING">
+
+							</div>
+							</div>
+							<div class="form-actions right">
+								<a href="javascript:;" thref="printOrder/shoppinngAndPacking" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a> 
+								<!-- <a href="javascript:;" data-dismiss="modal"  class="btn btn-outline grey-salsa">返回</a> -->
+								 	 <a href="javascript:;" data-dismiss="modal" thref="printOrder/setup"  class="btn btn-outline grey-salsa">返回</a>
+								
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+<script type="text/javascript">
+
+	var imageState = $!templatePrint.printImageState;
+	var barcodesState = $!templatePrint.barcodesState;
+	var qRcodeState = $!templatePrint.qRcodeState;
+	var orderIdState  = $!templatePrint.orderIdState;
+	
+	//console.log(imageState);
+	if(imageState==false){
+		$(".productImage").hide();
+	}else{
+		$(".productImage").show();
+	}
+	if(barcodesState==false){
+		$("#barcodes").hide();
+	}else{
+		$("#barcodes").show();
+	}
+	if(qRcodeState==false){
+		$(".orderQR").hide();
+	}else{
+		$(".orderQR").show();
+	}
+	if(orderIdState==false){
+		$(".orderId").hide();
+	}else{
+		$(".orderId").show();
+	}
+	
+ 	$("input[name='qRcode']").click(function(){
+		if($(this).is(':checked')){
+			$(".orderQR").show();
+		}else{
+			$(".orderQR").hide();
+		}
+ 	});
+ 	$("input[name='orderId']").click(function(){
+			if($(this).is(':checked')){
+				$(".orderId").show();
+			}else{
+				$(".orderId").hide();
+			}
+ 	});
+ 	$("input[name='pimages']").click(function(){
+			if($(this).is(':checked')){
+				$(".productImage").show();
+			}else{
+				$(".productImage").hide();
+			}
+ 	});
+ 	 $("input[name='barcodes']").click(function(){
+			if($(this).is(':checked')){
+				$("#barcodes").show();
+			}else{
+				$("#barcodes").hide();
+			}
+ 	});
+ 	$("#print1").on('click',function(){
+ 		$("#printTemplate1").printThis({
+ 	        debug: false,
+ 	        importCSS: true,
+ 	        importStyle: true,
+ 	        printContainer: true,
+ 	        pageTitle: "打印",
+ 	        removeInline: false,
+ 	        printDelay: 333,
+ 	        header: null,
+ 	        formValues: true,
+ 	    });
+ 	});
+ 	$("#print2").on('click',function(){
+ 		$("#printTemplate2").printThis({
+ 	        debug: false,
+ 	        importCSS: true,
+ 	        importStyle: true,
+ 	        printContainer: true,
+ 	        pageTitle: "打印",
+ 	        removeInline: false,
+ 	        printDelay: 333,
+ 	        header: null,
+ 	        formValues: true,
+ 	    });
+ 	})
+ 	
+
+ 	    //返回
+ 		    $('.page-content').off('click','.form .grey-salsa').on('click', '.form .grey-salsa', function (e) {
+	    	var toUrl = $(this).attr("thref");
+		        var pageContent = $('.page-content');
+		        var pageContentBody = $('.page-content .page-content-body');
+		       
+		        //App.startPageLoading();
+		        $.ajax({
+		        	type: "POST",
+		            cache: false,
+		            url: "printOrder/allfan",
+		            dataType: "json",
+		          
+		            success: function (res) {
+	            			$('#modelContent').modal("hide");
+                            $('.modal-backdrop').hide();
+		            		pageContentBody.load(toUrl);
+		            },
+		            error: function (xhr, ajaxOptions, thrownError) {
+		                pageContentBody.html('<h4>服务器异常，请与管理员联系.</h4>');
+		                App.stopPageLoading();
+		            }
+		        });
+	      
+	    });
+</script>

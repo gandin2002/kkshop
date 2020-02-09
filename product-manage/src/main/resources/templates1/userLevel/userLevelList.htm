@@ -1,0 +1,66 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"><a href="#modelContent" thref="/userLevel/add" class="btn white btn-sm ajax-model-get" data-toggle="modal"><i class="fa fa-plus"></i> 新增 </a></div>
+    </div>
+    <div class="portlet-body">
+        <div class="form-group">
+			<div class="alert alert-warning">
+				<strong> 注：</strong>
+				系统会员划分为不同等级，每个等级对应不同的经验值，只有经验值>=更高一级设定的最小经验值时，会员的等级才会提升。系统经验值仅通过购物获取，经验值等于会员购物时支付的金额1元1个经验值。且经验值不会被扣除。
+			</div>
+		</div>
+       	<div class="dataTables_wrapper no-footer">
+			<div class="table-scrollable">
+			    <table class="table table-striped table-bordered table-hover">
+				  	<thead>
+						<tr>
+		   		 			<th>等级名称</th>
+		   		 			<th>等级显示</th>
+		   		 			<th>所需经验值</th>
+		   		 			<th>启用状态</th>
+							<th class="col-md-2">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					#foreach($item in $pageUserLevel.result)
+		  				<tr>  
+						    <td>$!item.name</td>
+						    <td>$!item.level</td>
+						    <td>$!item.exp</td>
+						    <td>#if($!item.state)
+						    	 √
+						    	#else
+						    	 ×
+						    	#end
+						    </td>
+			    			<td>
+						    	<a class="btn green btn-outline btn-sm ajax-model-get" data-toggle="modal"
+									href="#modelContent" thref="/userLevel/edit?id=$!item.id&"> 
+									<i class="fa fa-edit"></i>修改
+								</a>
+								<a class="btn green btn-outline btn-sm ajax-delete" 
+									href="javascript:;" thref="/userLevel/delete?id=$!item.id">
+									<i class="fa fa-trash"></i>删除
+								</a>
+						    </td>		  			
+		  				</tr>
+					#end
+					</tbody>
+				</table>
+			</div>
+			#set($page=$pageUserLevel)
+			#set($pageUrl="/userLevel/list?&pageNo=")
+			#parse("_page.htm")
+		</div>
+    </div>
+</div>
+
+

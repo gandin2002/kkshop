@@ -1,0 +1,135 @@
+<div class="modal fade bs-modal-lg" id="modelContent">
+	<div class="modal-dialog modal-lg">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+<div class="portlet box green">
+	<div class="portlet-title">
+	    <div class="caption"><i class="fa fa-cog"></i>基本设置 > 配送管理 > 物流公司管理 </div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+			<!-- <a href="" class="fullscreen" data-original-title="" title=""> </a> -->
+    	</div>
+    	<div class="actions">
+			<a href="javascript:;" class="btn white btn-sm ajax-search"><i class="fa fa-search"></i> 查询 </a>
+			<a href="javascript:;" class="btn white btn-sm search-reset"><i class="fa fa-eraser"></i> 清除 </a>
+		</div>
+	</div>
+	<div class="portlet-body form">
+	   	<form action="/logistics/list" class="form-horizontal" method="get" id="searchForm" onsubmit="return false">
+			<div class="form-body">
+				<div class="row">
+					<div class="col-md-3">
+						<label class="col-md-4 control-label">物流公司</label>
+						<div class="col-md-8">
+					    	<input type="text" class="form-control" value="$!companyname" name="companyname">
+						</div>
+					</div>
+	    		</div>
+			</div>
+		</form>
+	</div>
+</div>
+<label >快递接口配置 : <label class="raido"><input type="radio" name="" checked/>快递100接口</label></label>
+<div class="tools auth-botton">
+<!-- 		<a class="btn green btn-outline btn-sm ajax-model-get" href="#modelContent" thref="/logistics/list"> 一键更新</a> -->
+<!--         <a class="btn green btn-outline btn-sm ajax-model-get" href="#modelContent" > 批量启用</a> -->
+<!--         <a class="btn green btn-outline btn-sm ajax-model-get" href="#modelContent" > 批量禁用</a> -->
+</div>
+
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"><a href="#modelContent" thref="/logistics/add" class="btn white btn-sm ajax-model-get" data-toggle="modal"><i class="fa fa-plus"></i> 新增 </a></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="dataTables_wrapper no-footer">
+			<div class="table-container table-scrollable">
+			    <table class="table table-bordered table-hover icheck-table">
+				  	<thead>
+						<tr>
+		   		 			<th class="row-selected">
+                                 <input type="checkbox" class="icheck group-icheck"/>
+                           </th>
+		   		 			<th>物流公司名称</th>
+		   		 			<th>物流编码</th>
+		   		 			<th>启用</th>
+		   		 			<th>快递单模板</th>
+		   		 			<th>默认</th>
+		   		 			<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					#foreach($item in $pageLogistics.result)
+		  				<tr>  
+						    <td><input type="checkbox" name="checkboxes" class="icheck" value="$!item.id" /></td>
+						    <td>$!item.companyname</td>
+						    <td>$!item.code</td>
+						     <td>#if($!item.status==1)
+						    	<span class="glyphicon glyphicon-ok-circle" style="color: lightgreen"></span>
+						    	#end
+						    	#if($!item.status==0)
+						    	<span class="glyphicon glyphicon-remove-circle" style="color: red"></span>
+						    	#end
+						    </td>
+			    			<td>
+			    			
+						    	<a  href="/express/add?id=$!item.id" class="btn green btn-outline btn-sm ajaxify" data-toggle="modal"  target='_BLANK'> 
+									<i class="fa fa-plus"></i>设置
+								</a>
+						    </td>
+						    <td  class="dGlyphicon"> 
+								#if($!item.defaultState)
+						    	<span class="glyphicon glyphicon-ok-circle" style="color: lightgreen"></span>
+						    	#else
+						    	<span class="glyphicon glyphicon-remove-circle" style="color: red"></span>
+						    	#end 
+							</td>	
+						    <td>
+						    	  <a class="btn green btn-outline btn-sm ajax-model-get" data-toggle="modal"
+									href="#modelContent" thref="/logistics/edit?id=$!item.id&"> 
+									<i class="fa fa-edit"></i>编辑
+								</a>
+								#if($!item.status==1)
+								<a class="btn green btn-outline" 
+									href="javascript:;" onclick="alert('启用状态不能删除')">
+									<i class="fa fa-trash"></i>删除
+								</a>
+								#end
+								#if($!item.status==0)
+								<a class="btn green btn-outline btn-sm ajax-delete" 
+									href="#modelContent" thref="/logistics/delete?id=$!item.id&" > 
+									<i class="fa fa-trash"></i>删除
+								</a>	
+								#end
+								<a class="btn green btn-outline btn-sm ajax-editState defaultState" 
+									href="javascript:;" #if($!item.defaultState) style="display: none;" #end thref="logistics/modifiedStatus?id=$!item.id" > 
+									<i class="fa fa-trash"></i>默认使用该快递公司
+								</a>	
+						    </td>		  			
+		  				</tr>  
+					#end
+					</tbody>
+				</table>
+			</div>
+			#set($page=$pageLogistics)
+			#set($pageUrl="/logistics/list?&pageNo=")
+			#parse("_page.htm")
+		</div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/assets/scripts/views-permission.js"></script>
+<script type="text/javascript" src="/assets/scripts/views-icheck.js"></script>
+<script type="text/javascript">
+     $("input[name=companyname]").focus();
+	 	$(".defaultState").click(function(){
+	 		$(".dGlyphicon").html("<span class='glyphicon glyphicon-remove-circle' style='color: red'></span>")
+	 		$(".defaultState").show();
+	 		$(this).parents("tr").children().eq(5).html("<span class='glyphicon glyphicon-ok-circle' style='color: lightgreen'></span>");
+	 		$(this).hide();
+	 	})
+</script>
+
+

@@ -1,0 +1,207 @@
+<div class="modal fade bs-modal-md" id="modelContent">
+	<div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+<div class="row">
+	<div class="col-md-2">
+		<div class="portlet box green">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-comments"></i>
+					全部
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+				</div>
+				<div class="actions">
+					<a href="#modelContent" thref="/syncGroup/syncModuleAdd" class="btn white btn-sm ajax-model-get" data-toggle="modal">
+						<i class="fa fa-plus"></i>
+						新增
+					</a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div class="todo-sidebar">
+					<div class="portlet light ">
+						<div class="portlet-title">
+							<div class="caption" data-toggle="collapse" data-target=".todo-project-list-content">
+								<span class="caption-subject font-green-sharp bold uppercase">全部模块</span>
+							</div>
+							<div class="actions"></div>
+						</div>
+						<div class="portlet-body todo-project-list-content">
+							<div class="todo-project-list">
+								<ul class="nav nav-stacked">
+									#foreach($module in $syncModules)
+									<li class="#if($!module.id==$!moduleId)active#end">
+										<div class="row" style="    padding: 10px 15px;" >
+										 	<div class="col-md-10">
+												<a href="/syncGroup/list?moduleId=$!module.id" class="ajaxify">$!module.moduleName</a>
+											</div>
+											<div class="col-md-1">
+													<i class="fa fa-close font-red-flamingo ajax-operation" tohref="/syncGroup/list" thref="/syncGroup/syncModuleDelete?id=$module.id" ><span class="hide">删除</span></i>
+											</div>
+										</div>
+									</li>
+									#end
+									<li>
+										<div class="row" style="    padding: 10px 15px;" >
+										 	<div class="col-md-10">
+												<a href="/syncGroup/list?moduleId=999999" class="ajaxify">未定义</a>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-10">
+		<div class="portlet box green">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-picture"></i>
+					查询
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+				</div>
+				<div class="actions">
+					<a href="javascript:;" class="btn white btn-sm ajax-search"><i class="fa fa-search"></i> 查询 </a>
+					<a href="javascript:;" class="btn white btn-sm search-reset"><i class="fa fa-eraser"></i> 清除 </a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div class="tabbable-line ">
+					<div class="portlet-body form">
+						<form action="/syncGroup/list" class="form-horizontal" method="post" id="searchForm">
+							<div class="form-body">
+								<div class="row">
+									<div class="col-md-3">
+										<label class="col-md-3 control-label">模块</label>
+										<div class="col-md-9">
+											<select name="moduleId" class="form-control">
+												<option value="">--请选择--</option>
+												#foreach($module in $syncModules)
+													<option value="$!module.id" #if($!module.id==$!moduleId) selected #end >$!module.moduleName</option>
+												#end
+											</select>
+										</div>
+									</div>
+									
+									<div class="col-md-3">
+										<label class="col-md-4 control-label">表名称</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="tableName" value="$!tableName" placeholder="请输入表名称！">
+										</div>
+									</div>
+									
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="portlet box green">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-cogs"></i>
+					同步小组数据列表
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+				</div>
+				<div class="actions">
+					<a href="/syncGroup/add?$!queryReturn" class="btn white btn-sm ajaxify">
+						<i class="fa fa-plus"></i>
+						新增
+					</a>
+					<a thref="/syncData/FromThridPartyAndmodule?moduleId=$!moduleId" class="btn white btn-sm ajax-editState"><i class="fa fa-plus"></i>模块同步</a>
+   					<a thref="/syncData/fromThirdParty" class="btn white btn-sm ajax-editState"><i class="fa fa-plus"></i>全部同步</a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div class="dataTables_wrapper no-footer">
+					<div class="table-scrollable">
+						<table class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>同步组名称</th>
+									<th>模块</th>
+									<th>商城表</th>
+									<th>同步数据源</th>
+									<th>同步表</th>
+									<th>传输方式</th>
+									<th class="col-md-1">序号</th>
+									<th>启用状态</th>
+									<th class="col-md-3">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								#foreach($item in $syncGroupPage.result)
+								<tr>
+									<td>$!item.groupName</td>
+									<td>$!item.syncModule.moduleName</td>
+									<td>$!item.mallTable</td>
+									<td>$!item.erpLink.sourceName</td>
+									<td>$!item.erpTable</td>
+									<td>$!item.transWay.name</td>
+									<td>
+											<div class="form-group form-md-line-input" style="padding-top: 0px !important; margin-top:3px;margin-bottom: -10px !important;">
+                                                <input type="text" class="form-control s_control" id="form_control_1" placeholder="序号" value="$!item.sort" t_id="$!item.id" >
+                                            </div>
+									</td>
+									<td>
+										<input type='checkbox' #if($!item.status) checked #end data-size='small' class='make-switch'  sendid="$!{item.id}" data-on-color='success' data-off-color='warning' />
+									</td>
+									<td>
+										<a class="btn green btn-outline btn-sm ajaxify" href="/syncGroup/edit?id=$!item.id&">
+											<i class="fa fa-edit"></i>
+											修改
+										</a>
+										<a class="btn green btn-outline btn-sm ajax-delete" href="javascript:;" thref="/syncGroup/delete?id=$!item.id">
+											<i class="fa fa-trash"></i>
+											删除
+										</a>
+										<a class="btn green btn-outline btn-sm ajaxify" href="/syncRelation/list?groupId=$!item.id">
+											<i class="fa fa-link"></i>
+											关联字段
+										</a>
+										<a class="btn green btn-outline btn-sm ajax-operation" thref="/syncData/syncRightNow?id=$item.id"><i class="fa fa-play"></i>立即同步</a>
+										</td>
+								</tr>
+								#end
+							</tbody>
+						</table>
+					</div>
+					#set($page=$syncGroupPage) #set($pageUrl="/syncGroup/list?$!queryString&pageNo=") #parse("_page.htm")
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="/assets/scripts/views-date.js" type="text/javascript"></script>
+<script type="text/javascript">
+bootstrapSwitch.init({url:"syncGroup/switchStatus",ontext:"是",offtext:"否"});
+
+$(".s_control").blur(function(){
+	 var value= $(this).val();
+	 var t_id = $(this).attr("t_id");
+	 if(!value){
+		toastr.warning("不允许为空!");
+	 }
+	 $.post("/syncGroup/syncModuleDelete",{id:t_id,sort:value},function(result){
+		 if(result.code == 0){
+             toastr.success(result.msg);
+     	}else{
+     		 toastr.warning(result.msg);
+     	}
+	 },"JSON");
+});
+</script>

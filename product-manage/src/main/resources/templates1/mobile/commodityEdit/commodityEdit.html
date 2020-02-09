@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 ,maximum-scale=1,user-scalable=no">
+    <title>新增货品</title>
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/weui.min.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/jquery-weui.min.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/css/common.css">
+    <link rel="stylesheet" href="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/css/addition.css">
+    <script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/plugins/fancybox/lib/jquery-1.10.1.min.js"></script>
+    <script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/jquery-we/jquery-weui.min.js"></script>
+</head>
+<body class="view-container coutom">
+<div class="header bar-positive">
+    <a href="" class="left"><img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/blockr.png"/></a>
+    <h1>新增货品</h1>
+    <a href="" class="right"><img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/more.png"/></a>
+</div>
+<div class="new-contaner addition">
+    <div class="weui-cells weui-cells_form">
+        <p>货品名称</p>
+        <div class="weui-cell list">
+            <div class="weui-cell__bd text">
+                <textarea class="weui-textarea" placeholder="请输入货品名称，最多30个汉字" rows="2" maxlength="30"></textarea>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">商城交易单价</label></div>
+            <div class="weui-cell__bd">
+                <p class="add_btn"><a class="btn btn-reduce">-</a><input type="text" value="0" class="count"><a class="btn btn-increse">+</a><span>个</span></p>
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells weui-cells_form">
+        <p>货品图册（最多上传5张图片）</p>
+        <div class="weui-cell list">
+            <div class="weui-cell__bd">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__bd">
+                        <ul class="weui-uploader__files" id="uploaderFiles">
+                            <li class="weui-uploader__file">
+                                <img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/skuDefaultImage.jpg" alt="">
+                                <span class="delete"></span>
+                            </li>
+                            <li class="weui-uploader__file">
+                                <img src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/assets/images/skuDefaultImage.jpg" alt="">
+                                <span class="delete"></span>
+                            </li>
+                        </ul>
+                        <div class="weui-uploader__input-box">
+                            <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="top deliver-lists">货品卖点</p>
+        <div class="weui-cell list deliver-lists">
+            <div class="weui-cell__bd text">
+                <textarea class="weui-textarea" placeholder="请输入货品名称，最多30个汉字" rows="2" maxlength="30"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells weui-cells_form deliver-lists">
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__hd"><label class="weui-label">品牌</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请选择品牌">
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__hd"><label class="weui-label">货品分类</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请选择分类（必填）" required>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__hd"><label class="weui-label">计量单位</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请选择单位（必填）" required>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">起订量</label></div>
+            <div class="weui-cell__bd">
+                <p class="add_btn"><a class="btn btn-reduce">-</a><input type="text" value="6" class="count"><a class="btn btn-increse">+</a></p>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">库存预警量</label></div>
+            <div class="weui-cell__bd">
+                <p class="add_btn"><a class="btn btn-reduce">-</a><input type="text" value="6" class="count"><a class="btn btn-increse">+</a></p>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">交易单价</label></div>
+            <div class="weui-cell__bd">
+                <p class="add_btn"><a class="btn btn-reduce">-</a><input type="text" value="6" class="count"><a class="btn btn-increse">+</a><span>元</span></p>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">货品体积</label></div>
+            <div class="weui-cell__bd">
+                <p class="add_btn"><a class="btn btn-reduce">-</a><input type="text" value="6" class="count"><a class="btn btn-increse">+</a><span>m³</span></p>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">货品重量</label></div>
+            <div class="weui-cell__bd">
+                <p class="add_btn"><a class="btn btn-reduce">-</a><input type="text" value="6" class="count"><a class="btn btn-increse">+</a><span>kg</span></p>
+            </div>
+        </div>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__hd"><label class="weui-label">税码</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请选择税码（必填）" required>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__hd"><label class="weui-label">货品标签</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请选择货品标签">
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__hd"><label class="weui-label">添加规格</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请添加货品规格">
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+    </div>
+    <div class="news deliver-lists">
+        <div class="weui-cells weui-cells_form">
+            <span class="delete"></span>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">颜色</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text"  placeholder="黄色">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">尺寸</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text"  placeholder="L">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">SKU编码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text"  placeholder="请输入编码（必填）">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">条形码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text"  placeholder="请输入条形码">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">积分</label></div>
+                <div class="weui-cell__bd">
+                    <p class="add_btn"><a class="btn btn-reduce">-</a><input type="text" value="6" class="count"><a class="btn btn-increse">+</a><span>个</span></p>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">换算率</label></div>
+                <div class="weui-cell__bd">
+                    <p class="add_btn"><a class="btn btn-reduce">-</a><input type="text" value="6" class="count"><a class="btn btn-increse">+</a><span>%</span></p>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">价格</label></div>
+                <div class="weui-cell__bd">
+                    <p class="add_btn"><a class="btn btn-reduce">-</a><input type="text" value="6" class="count"><a class="btn btn-increse">+</a><span>元</span></p>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">货品体积</label></div>
+                <div class="weui-cell__bd">
+                    <p class="add_btn"><a class="btn btn-reduce">-</a><input type="text" value="6" class="count"><a class="btn btn-increse">+</a><span>m³</span></p>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">货品重量</label></div>
+                <div class="weui-cell__bd">
+                    <p class="add_btn"><a class="btn btn-reduce">-</a><input type="text" value="6" class="count"><a class="btn btn-increse">+</a><span>kg</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells weui-cells_form">
+        <a class="weui-cell weui-cell_access deliver-lists" href="javascript:;">
+            <div class="weui-cell__hd"><label class="weui-label">图片描述</label></div>
+            <div class="weui-cell__bd">
+                <!--<input class="weui-input" type="text" placeholder="请添加货品规格">-->
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">货品状态</label></div>
+        <div class="weui-cell__bd newly">
+            <input type="radio" value="" id="item8"  name="payment" class="radio_ch" checked /><label for="item8">放入仓库</label>
+            <input type="radio" value="" id="item4"  name="payment" class="radio_ch" /><label for="item4">销售上架</label>
+        </div>
+    </div>
+    </div>
+    <p class="folding">点击折叠<i class="icon icon-top"></i></p>
+</div>
+<div class="check">
+    <button>提交</button>
+</div>
+
+</body>
+<script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/city/city-data.js"></script>
+<script src="../../../../../../../../bohoon.cn/bohoon-main/src/main/resources/static/city/city-picker.js"></script>
+<script>
+//    $(".weui-navbar a").on("click",function(){
+//        $(this).addClass("blue").siblings().removeClass("blue");
+//    });
+    $(".folding").on('click',function(){
+        console.log(1);
+        var That = $(this).find("i");
+        if(That.hasClass("icon-bottom")){
+            That.removeClass("icon-bottom");
+            $(".deliver-lists").css("display","block")
+            $(this).find("span").text("点此折叠")
+        }else{
+            That.addClass("icon-bottom");
+            $(".deliver-lists").css("display","none")
+            $(this).find("span").text("点此展开")
+        }
+    })
+    //点击-事件
+    $(".btn-reduce").on("click",  function () {
+        var countInput = $(this).next();
+        var value=parseInt(countInput.val());
+        var startNum = parseInt(0) ;
+        if(value <= startNum) {
+            countInput.val(0);
+            $(this).addClass("btn-disable");
+        } else {
+            countInput.val(value - 1);
+            $(".btn-disable").removeClass("btn-disable");
+        }
+    });
+
+    //点击+事件
+    $(".btn-increse").on("click",function () {
+        var countInput = $(this).prev();
+        var value=parseInt(countInput.val());
+        countInput.val(value + 1);
+    });
+
+    $(".popup_wu").on('click',function(){
+        $("#contai").css("display",'block')
+    })
+    $(".warehouse").on('click',function(){
+        $("#warehouse").css("display",'block')
+    })
+    $(".popoff").on('click',function(){
+        $("#contai").css("display",'none');
+        $(".warehouse").css("display",'none')
+    })
+
+</script>
+</html>

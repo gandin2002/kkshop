@@ -1,0 +1,53 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+		<div class="caption font-dark">
+			<i class="fa fa-cog font-dark"></i> <span
+				class="caption-subject bold">支付宝参数</span>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form role="form" action="/paymentType/alipay" class="form-horizontal"
+			method="post">
+			<div class="form-body">
+				<input type="hidden" name="id" value="$!item.id"/>
+				#set($alipay = $item.alipayVo())
+				<div class="form-group">
+					<label class="control-label col-md-4">合作者身份(PID)：</label>
+					<div class="col-md-7">
+						<input type="text" class="form-control" name="partner" value="$!alipay.partner" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-4">服务器异步通知页面路径：</label>
+					<div class="col-md-7">
+						<input type="text" class="form-control" name="notify_url" value="$!alipay.notify_url" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-4">页面跳转步通知页面路径 ：</label>
+					<div class="col-md-7">
+						<input type="text" class="form-control" name="return_url" value="$!alipay.return_url" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-4">支付宝的公钥：</label>
+					<div class="col-md-7">
+						<textarea rows="8" cols="2" class="form-control" name="public_key" required>$!alipay.public_key</textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-4">商户的私钥(PKCS8格式)：</label>
+					<div class="col-md-7">
+						<textarea rows="8" cols="2" class="form-control" name="private_key" required>$!alipay.private_key</textarea>
+					</div>
+				</div>
+			</div>
+			<div class="form-actions right">
+				<a href="javascript:;" thref="/paymentType/list"
+					class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a> <a
+					href="javascript:;" data-dismiss="modal"
+					class="btn btn-outline grey-salsa">返回</a>
+			</div>
+		</form>
+	</div>
+</div>

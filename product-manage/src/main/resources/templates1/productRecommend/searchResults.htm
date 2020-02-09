@@ -1,0 +1,35 @@
+<form action="/productRecommend/add" class="form-horizontal" method="post">
+	<div class="table-container table-scrollable">
+		<table class="table table-bordered table-hover icheck-table">
+			<thead>
+				<tr>
+					<th style="width: 20px"><input type="checkbox" class="icheck group-icheck"></th>
+					<th>货品编号</th>
+					<th>货品名称</th>
+					<th>货品价格</th>
+				</tr>
+			</thead>
+			<tbody>
+				#foreach ($item in $!pageProduct.result)
+				<tr class="odd gradeX">
+					<td>
+						<input type="checkbox" class="icheck" name="productId" value="$!item.id">
+					</td>
+					<td>$item.code</td>
+					<td>$item.name</td>
+					<td>$!item.salesPrice</td>
+				</tr>
+				#end
+			</tbody>
+		</table>
+	</div>
+	#set($page=$pageProduct)
+	#set($pageUrl="/productRecommend/search?pageNo=")
+	#parse("_pageModel.htm")
+	<div class="form-actions right">
+		<a href="javascript:;" thref="/productRecommend/list" class="btn green ajax-post"> <i class="fa fa-check"></i> 提交</a> 
+		<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+	</div>
+</form>
+<script type="text/javascript" src="/assets/scripts/views-search-model.js"></script>
+<script type="text/javascript" src="/assets/scripts/views-icheck.js"></script>

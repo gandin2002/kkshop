@@ -1,0 +1,266 @@
+<div class="portlet light bordered">
+	<div class="portlet-body modal-form">
+		<form role="form" action="/sendGoods/add" class="form-horizontal" method="post">
+			<div class="form-body">
+
+				<div class="form-group">
+					<label class="control-label col-md-2">订单号：</label>
+					<div class="col-md-4">
+						<input type="text" class="form-control" name="orderId" value="$!orderId" readonly>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">物流公司：</label>
+							<div class="col-md-8">
+								<select name="transCompany" class="form-control exp-company" required>
+									<option value="$!logistics1.companyname" com-code="$!logistics1.code" title="$!logistics1.defaultState">$!logistics1.companyname</option>
+									#foreach($logistic in $!logistics)
+			                    	<option value="$!logistic.companyname" com-code="$!logistic.code" title="$!logistic.defaultState">$!logistic.companyname</option>
+			                    	#end
+			                    </select>
+			                    <input type="hidden" name="transCompanycode" id="transCompanycode"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">物流单号：</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" name="transNum" required id="transNum">
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">收货人：</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" name="revicer" value="$!order.shippingInfoModel.receiver" required>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">联系电话：</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" name="rePhone" required value="$!order.shippingInfoModel.phone">
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">收货地区：</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" name="reArea" required value="$!order.shippingInfoModel.province$!order.shippingInfoModel.city$!order.shippingInfoModel.country">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">详细地址：</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" name="reAdress" required value="$!order.shippingInfoModel.address">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">发货仓库：</label>
+							<div class="col-md-8">
+								<select name="sender" class="form-control sender-person" required>
+									#foreach($delivery in $!deliverys)
+			                    	<option value="$!delivery.linkman"  #if($!deliverys1.id == $delivery.id )  selected #end  com-name="$!delivery.corporateName" send-address="$!delivery.address" send-id="$!delivery.id">$!delivery.corporateName</option>
+			                    	#end
+		                    	</select>
+		                    	<input type="hidden" name="sendAdress" id="sendAdress"/>
+	                    		<input type="hidden" name="senderCompany"  id="senderCompany"/>
+	                    		<input type="hidden" name="sendId"  id="sendId"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">发货时间：</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control common-time-datepicker" name="sendTime" value="$!currentTime" readOnly required>
+								<i class="fa fa-calendar" style="position: absolute;right: 10px;top: 10px"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">发货备注：</label>
+					<div class="col-md-7">
+                        <textarea class="form-control" name="note" cols="3" style="width: 100%;"></textarea>
+                    </div>
+				</div>
+			</div>
+			
+			<div class="dataTables_wrapper no-footer">
+				<div class="table-scrollable">
+					<h2>订单货品</h2>
+				      <table class="table table-striped table-bordered table-hover center">
+				      	<thread>
+					      	<tr>
+					      		<td>货品编号</td>
+					      		<td>货品名称</td>
+					      		<td>规格</td>
+					      		<td>销售单价</td>
+					      		<td>单品积分</td>
+					      		<td>库存</td>
+					      		<td>采购数量</td>
+					      		<td>已发货数量</td>
+					      		<td>发货数量</td>
+					      	</tr>
+				      	</thread>
+				      	<tbody>
+				      		#foreach($orderItem in $!itemList)
+				      		#set($sendedNum = $!alMap.get($!orderItem.id))
+				      		#set($cansendNum = $!caMap.get($!orderItem.id))
+				      		#set($sku = $itemSkuMap.get($!orderItem))
+				      		#set($!orderItem.quantity =$!orderItem.quantity/$sku.translateRate)
+				      			<tr>
+					      			<td>$!orderItem.skuCode</td>
+					      			<td>$!orderItem.productName</td>
+					      			<td>$!orderItem.attrAndAttrValues</td>
+					      			
+					      			<td>$!orderItem.price</td>
+					      			<td>$!orderItem.score</td>
+					      			<td id="quantity$!sku.id">$!sku.inventory</td>
+					      			<td>$!orderItem.saleQuantity</td>
+					      			<td>#if($!sendedNum)$!sendedNum #else 0 #end</td>
+					      			<td>
+					      				<input type="hidden" name="itemId" value="$!orderItem.id" />
+					      				<input type="hidden" name="quantity" value="$!orderItem.saleQuantity" />
+					      				
+					      				
+					      				#if($!sendedNum)
+					      				<input type="hidden" name="sendedNum" value="$!sendedNum" />
+					      				<input type="text" #if($!sendedNum  == $!orderItem.saleQuantity)  class="form-control "  readonly="readonly" #else  class="form-control positiveIntegerNums"   #end  style="width: 90px;" value="$!cansendNum" name="sendNum"/>
+					      				#else
+					      				<input type="hidden" name="sendedNum" value="0" />
+					      				<input type="text" class="form-control positiveIntegerNums"  style="width: 90px;" value="$!orderItem.saleQuantity" name="sendNum"/>
+					      				#end
+					      			</td>
+				      			</tr>
+				      		#end
+				      	</tbody>
+				      </table>
+				</div>
+			</div>
+			
+			<div class="form-actions right">
+				<a href="javascript:;" #if($order.orderType =='SHOPPING') thref="/order/edit?orderId=$!orderId" #else thref="/scoreOrder/edit?orderId=$!orderId" #end class="btn green demo-loading-btn modal-ajax-post ">
+					<i class="fa fa-check"></i>
+					确定发货
+				</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-date.js"></script>
+<script type="text/javascript">
+MyTouchSpin.init()
+$('#transNum').focus() ;
+	$(".positiveIntegerNums").TouchSpin({
+		initval: 0,
+	    min: 0,
+	    max: 200000000,
+	    step: 1,
+	    decimals: 0,
+	    verticalbuttons: true,
+	});
+</script>
+<script type="text/javascript">
+
+	$(".exp-company").on("change",function() {
+			var transCompanycode = $(this).find("option:selected").attr("com-code");
+			$("#transCompanycode").val(transCompanycode);
+	})
+
+	$(function() {
+
+		var transCompanycode = $(".exp-company").find("option");
+		$.each(transCompanycode,function(i,k){
+			if($(k).title == "true"){
+				$(k).attr("selected","selecteds");
+			}
+		})
+		var transCompanycode = $(".exp-company").find("option:selected").attr("com-code");
+		$("#transCompanycode").val(transCompanycode);
+		
+	})
+	
+	var bos = false;
+	
+	$(".modal-ajax-post").click(function(){
+		
+        //--解决重复提交 的问题
+        if(bos){
+			return false;
+        }
+        var tt = this;
+        bos = true;
+        tt.setAttribute("disabled", true);
+        setTimeout(function () {
+        	bos = false;
+        	tt.removeAttribute("disabled");
+        },2000);
+        //-----end----------- 
+        
+        
+		var senNums = $("input[name='sendNum']");
+		var num = 0;
+		var bo = false;
+		
+		$.each(senNums,function(k,v){
+			if($(v).val() != num){
+				bo = true;
+			}
+		});
+		if(!bo){
+			toastr.warning("请填写发货数量！");
+		}
+		return bo;
+	})
+</script>
+<script type="text/javascript">
+	var senderCompany = '$!deliverys1.corporateName';
+	var sendAdress =  '$!deliverys1.address';
+	var sendId =  '$!deliverys1.id';
+	$("#sendId").val(sendId);
+	$("#sendAdress").val(sendAdress);
+	$("#senderCompany").val(senderCompany);
+	
+	$(".sender-person").on("change", function() {
+		var senderCompany = $(this).find("option:selected").attr("com-name") || '$!deliverys1.corporateName';
+		var sendAdress = $(this).find("option:selected").attr("send-address") || '$!deliverys1.address';
+		var sendId = $(this).find("option:selected").attr("send-id") || '$!deliverys1.id';
+		$("#sendId").val(sendId);
+		$("#sendAdress").val(sendAdress);
+		$("#senderCompany").val(senderCompany);
+		$.getJSON('/skuWare/getOrderItemSkuWareList', {
+			wareHouseId : sendId
+		}, function(skuWares) {
+			$.each(skuWares, function(index, obj) {
+				var skuId = obj.skuId;
+				var qtrId = '#quantity' + skuId;
+				if ($(qtrId)) {
+					$(qtrId).html(obj.quantity);
+				}
+			})
+		})
+	})
+</script>

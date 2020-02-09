@@ -1,0 +1,77 @@
+<div class="portlet light bordered">
+	
+    <div class="portlet-body modal-form">
+    	<form role="form" action="/order/changePrice" class="form-horizontal" method="post">
+        	<div class="form-body">
+                 <div class="form-group">
+                     <label class="control-label col-md-3">货品总额：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="productFee" id="productFee" readOnly value="$!item.productFee">
+                         <input type="hidden" class="form-control" name="id" value="$!item.id">
+                         <input type="hidden" class="form-control" name="userId" value="$!item.userId">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">促销减免：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="promotionsReduction" readOnly id="promotionsReduction" value="$!item.promotionsReduction">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">优惠券抵扣：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="couponReduction" readOnly id="couponReduction" value="$!item.couponReduction">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">订单运费：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control positiveFloatNum" name="deliverFee" id="deliverFee" value="$!item.deliverFee">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">人工改价：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control positiveFloatNum" name="otherReduction" id="otherReduction" value="$!item.otherReduction">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">订单金额：</label>
+                     <div class="col-md-5">
+                         <input type="text" class="form-control" name="total" readOnly id="total" value="$!item.total">
+                     </div>
+                 </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3">订单备注：</label>
+                     <div class="col-md-5">
+                         <textarea rows="3" style="width: 100%" name="note">$!item.note</textarea>
+                     </div>
+                 </div>
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/order/edit?orderId=$!item.id" class="btn green modal-ajax-post"><i class="fa fa-check"></i> 保存</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+MyTouchSpin.init()
+$(function (){
+	
+	$("input").blur(function(){
+		countFee();
+    });
+})
+
+function countFee() {
+	
+	var productFee = $('#productFee').val() ; //货品价格
+	var promotions = $('#promotionsReduction').val() ; //促销减免
+	var coupon = $('#couponReduction').val() ; //优惠折扣
+	var deliverFee = $('#deliverFee').val() ; //配送费
+	var other = $('#otherReduction').val() ; //人工减免& 友情
+	var total = parseFloat(productFee)+parseFloat(deliverFee)-parseFloat(promotions)-parseFloat(coupon)-parseFloat(other) ;
+	$('#total').val(parseFloat(total).toFixed(2)) ; //订单金额
+}
+</script>

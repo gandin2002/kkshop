@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/base.xml"/>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">   
+		<!-- encoder 默认配置为PatternLayoutEncoder -->   
+		<encoder>   
+		  <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>   
+		</encoder>   
+	</appender>
+	<appender name="infoFile" class="ch.qos.logback.core.rolling.RollingFileAppender">  
+	    <file>logs/b2bm.log</file>
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">  
+	        <fileNamePattern>logs/b2bm-%d{yyyy-MM-dd}.log</fileNamePattern>
+	        <maxHistory>30</maxHistory>   
+	    </rollingPolicy>  
+	    <encoder>  
+	        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>   
+	    </encoder>  
+	</appender>      
+	<root level="info">
+	  	<!-- 
+	  	<appender-ref ref="STDOUT" />
+	  	<appender-ref ref="FILE"/>
+	  	-->
+		<appender-ref ref="infoFile"/>
+	</root>     
+</configuration>

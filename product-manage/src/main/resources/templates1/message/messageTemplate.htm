@@ -1,0 +1,93 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">添加模板</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/messageTemplate" class="form-horizontal" method="POST">
+			<div class="form-body">
+				<div class="form-group">
+					<label class="control-label col-md-2  ">邮件标题：</label>
+					<div class="col-md-8">
+						<input type="text" placeholder="（40字以内）" value="$!messageTemplate.title" name="title" class="form-control">
+						<input type="hidden" value="$!messageTemplate.id" name="id">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">内容：</label>
+					<div class="col-md-8">
+						<textarea class="form-control" name="content"   id="textContent"   style="width: 100%; height: 400px;" >$!messageTemplate.content</textarea>
+					</div>
+					         		<div class="col-md-2">
+         			<div class="form-group">
+		        		<textarea cols="form-control" style="width: 100%;height: 400px;resize:none;" >
+		        			客户请求IP:$ip
+							会员号：$passport_id
+							昵称：$nickname 
+							邮箱：$email
+							用户手机号：$phone
+							真实姓名: $realname
+							现在时间：$date
+							订单信息：$order_info
+							订单编号：$order_number
+							订单货品：$order_goods
+							订单金额：$order_total_pay
+							下单时间：$createDate
+							付款时间: $payDate
+							退款金额：$order_pay_back
+							提货时间：$order_deliver_time
+							提货门店：$order_shop
+							快递公司：$express_company
+							快递单号：$express_number
+							发货时间：$sendTime
+							售后申请时间：$afterservice_ctime
+							售后类型：$afterservice_type
+							售后单号：$afterservice_number
+							售后状态：$afterservice_status
+							售后进度：$afterservice_process
+							礼品卡类型：$type_name
+							礼品卡名称：$card_name
+							礼品卡终止日期：$card_end_time
+							通用审核类型:$check
+							通用审核状态:$checkSate
+							审核备注:$remark
+							公司名称:$checkName
+							消息Code:$msgCode
+							消息Code头:$msghead
+						</textarea>
+		            </div>
+         		</div>
+				</div>
+				<div class="form-group">
+                     <label class="control-label col-md-3">*是否启用: </label>
+                     <div class="col-md-7 form-control-static">
+                     	<label class="mt-radio mt-radio-outline">启用
+							<input type="radio" #if($!messageTemplate.state) checked #end value="TRUE" name="state" >
+							<span></span>
+						</label>
+						<label class="mt-radio mt-radio-outline">禁用
+							<input type="radio"  #if($!messageTemplate.state == "false") checked #end  value="FALSE" name="state">
+							<span></span>
+						</label>
+                     </div>
+                 </div>
+			</div>
+			<div class="form-actions right">
+				<a href="javascript:;" thref="$!toUrl" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-kindeditor.js"></script>
+<script type="text/javascript">
+<!--
+
+//-->
+$("#param").click(function(){
+	$(".target").toggle(500);
+})
+
+</script>

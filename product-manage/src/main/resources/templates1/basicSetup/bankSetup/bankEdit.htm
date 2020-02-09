@@ -1,0 +1,126 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">修改银行帐号</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/bankSetup/edit" class="form-horizontal userRegister" method="post">
+    		<div class="form-body">
+				<div class="form-group">
+					<label class="control-label col-md-3">*开户银行：</label>
+					<div class="col-md-7">
+						<input type="tel" class="form-control"name="bankName" value="$!bankAccount.bankName" required> 
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">*银行账户：</label>
+					<div class="col-md-7">
+						<input type="tel" class="form-control"name="cardBank" value="$!bankAccount.cardBank" required> 
+					</div>
+				</div>
+                 <div class="form-group">
+ 					<label class="control-label col-md-3">所在地区:</label>
+ 					<div class="col-md-7">
+						<select name="province" onchange="getAddress(1, event)" data-id="0"
+                                   class="form-control  " style="width: 33.3% ;float: left;" required>
+                               <option value="">省</option>
+                               #foreach($city in $!listProvince)
+                               <option #if($!bankAccount.province == $!city.cityCode) selected="selected" #end value="$!city.cityCode">$!city.name</option>
+                          	 	#end
+                           </select>
+                           <select name="city" onchange="getAddress(2, event)" data-id="1"
+                                   class="form-control  " style="width: 33.3%;float: left;">
+                                #foreach($city in $!listCity)
+                               <option #if($!bankAccount.city == $!city.cityCode) selected="selected" #end  value="$!city.cityCode">$!city.name</option>
+                               #end
+                           </select>
+                           <select name="area" onchange="getAddress(3, event)" data-id="2"
+                                   class="form-control  " style="width: 33.3%;float: left;">
+                                #foreach($city in $!listArea)    
+                               <option  #if($!bankAccount.area == $!city.cityCode) selected="selected" #end  value="$!city.cityCode">$!city.name</option>
+                                #end
+                           </select>
+ 					</div>
+ 				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">*开户支行：</label>
+					<div class="col-md-7">
+						<input type="tel" class="form-control"name="openingBank" value="$!bankAccount.openingBank" required> 
+					</div>
+				</div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">*启用状态: </label>
+                     <div class="col-md-7 form-control-static">
+                     	<label class="mt-radio mt-radio-outline">启用
+							<input type="radio" value="true" name="display" #if($!bankAccount.display) checked #end >
+							<span></span>
+						</label>
+						<label class="mt-radio mt-radio-outline">禁用
+							<input type="radio" value="false" name="display"  #if($!bankAccount.display == false) checked #end >
+							<span></span>
+						</label>
+						<input type="hidden" name="id" value="$!bankAccount.id">
+                     </div>
+                 </div>
+			</div>
+			<div class="form-actions right">
+				<a href="javascript:;" thref="/bankSetup/display" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+function getAddress(type, event){
+    var me = $(event.target),
+        nextEl = me.next(),
+        n_nextEl = nextEl.next(),
+        n_n_nextEl = n_nextEl.next(),
+        pid = me.val();
+    if(me.val() == ''){
+        switch (type) {
+            case 1: nextEl.html('<option value="">市</option>');
+                n_nextEl.html('<option value="">区/县</option>');
+                n_n_nextEl.hide();
+                break;
+            case 2: nextEl.html('<option value="">区/县</option>');
+                n_nextEl.hide();
+                break;
+            case 3: nextEl.hide();
+                break;
+        }
+        return;
+    }
+    $.get('city/getAddress', { pid: pid }, function(data){
+        if(data.length > 0){
+            switch (type) {
+                case 1: var htmls = '<option value="">市</option>';
+                    n_nextEl.html('<option value="">区/县</option>');
+                    n_n_nextEl.html('<option value="">街道</option>').hide();
+                    break;
+                case 2: var htmls = '<option value="">区/县</option>';
+                    n_nextEl.html('<option value="">街道</option>').hide();
+                    break;
+                case 3: var htmls = '<option value="">街道</option>';
+                    nextEl.show();
+                    break;
+            };
+            $.each(data, function(index, item){
+                htmls += '<option value="'+item.cityCode+'">'+item.name+'</option>';
+            })
+            nextEl.html(htmls);
+        }else{
+            switch (type) {
+                case 1: n_n_nextEl.hide();
+                    break;
+                case 2: n_nextEl.hide();
+                    break;
+                case 3: nextEl.hide();
+                    break;
+            };
+        }
+    },'json');
+}
+</script>

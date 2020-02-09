@@ -1,0 +1,171 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="tabbable-line boxless tabbable-reversed">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tab_0" data-toggle="tab"> 成功 </a>
+                </li>
+                <li>
+                    <a href="#tab_1" data-toggle="tab"> 失败 </a>
+                </li>
+                <li>
+                    <a href="#tab_2" data-toggle="tab"> 重复 </a>
+                </li>
+            </ul>
+			<div class="tab-content">
+			   #set($ptSucceedArray = $!productMap.get("ptSucceedArray"))
+			   #set($ptErrorArray = $!productMap.get("ptErrorArray"))
+			   #set($ptRepetitionArray = $!productMap.get("ptRepetitionArray"))
+				<p>失败货品信息： <span class="font-red-thunderbird font-md sbold">$!ptErrorArray.size()</span>条 &nbsp;&nbsp;&nbsp;&nbsp; 成功货品信息：<span class="font-green-jungle font-md">$!ptSucceedArray.size()</span> 条 &nbsp;&nbsp;&nbsp;&nbsp; 重复货品信息：<span class="font-yellow-lemon font-md sbold">$!ptRepetitionArray.size()</span>条</p>
+				<div class="tab-pane active" id="tab_0">
+					<table class="table table-striped table-bordered table-hover dt-responsive sample_table" width="100%"  >
+						<thead>
+						    <tr>
+								<th>货品编号</th>
+								<th>SKU</th>
+								<th>货品名称</th>
+								<th>规格</th>
+								<th>品牌</th>
+								<th>分类</th>
+								<th>售价</th>
+								<th>积分</th>
+								<th>状态</th>
+							</tr>
+						 </thead>
+						 <tbody>
+						  #foreach($pt in $!ptSucceedArray)
+						     <tr>
+								<td>$!pt.code</td>
+								<td>$!pt.skuCode</td>
+								<td>$!pt.name</td>
+								<td>$!pt.proAttr</td>
+								<td>$!pt.brand</td>
+								<td>$!pt.category</td>
+								<td>$!pt.skuPrice</td>
+								<td>$!pt.score</td>
+								<td> </td>
+						      </tr>
+						  #end
+						  </tbody>
+					</table>
+				</div>
+				<div class="tab-pane " id="tab_1">
+						<table class="table table-striped table-bordered table-hover dt-responsive sample_table" width="100%" >
+						<thead>
+						    <tr>
+								<th>货品编号</th>
+								<th>SKU</th>
+								<th>货品名称</th>
+								<th>规格</th>
+								<th>品牌</th>
+								<th>分类</th>
+								<th>售价</th>
+								<th>积分</th>
+								<th>备注</th>
+								<th>状态</th>
+							</tr>
+						 </thead>
+						 <tbody>
+						  #foreach($pt in $!ptErrorArray)
+						     <tr>
+								<td>$!pt.code</td>
+								<td>$!pt.skuCode</td>
+								<td>$!pt.name</td>
+								<td>$!pt.proAttr</td>
+								<td>$!pt.brand</td>
+								<td>$!pt.category</td>
+								<td>$!pt.skuPrice</td>
+								<td>$!pt.score</td>
+								<td>$!pt.mark</td>
+								<td> </td>
+						      </tr>
+						  #end
+						  </tbody>
+					</table>
+				</div>
+				<div class="tab-pane " id="tab_2">
+					<table class="table table-striped table-bordered table-hover dt-responsive sample_table" width="100%" >
+						<thead>
+						    <tr>
+								<th>货品编号</th>
+								<th>SKU</th>
+								<th>货品名称</th>
+								<th>规格</th>
+								<th>品牌</th>
+								<th>分类</th>
+								<th>售价</th>
+								<th>积分</th>
+								<th>状态</th>
+							</tr>
+						 </thead>
+						 <tbody>
+						  #foreach($pt in $!ptRepetitionArray)
+						     <tr>
+								<td>$!pt.code</td>
+								<td>$!pt.skuCode</td>
+								<td>$!pt.name</td>
+								<td>$!pt.proAttr</td>
+								<td>$!pt.brand</td>
+								<td>$!pt.category</td>
+								<td>$!pt.skuPrice</td>
+								<td>$!pt.score</td>
+								<td> </td>
+						      </tr>
+						  #end
+						  </tbody>
+					</table>			
+				</div>
+			</div>
+		</div>
+      </div>
+</div>
+<script type="text/javascript">
+	var table = $('.sample_table');
+	var oTable = table
+			.dataTable({
+
+				// Internationalisation. For more info refer to http://datatables.net/manual/i18n
+				"language" : {
+					"aria" : {
+						"sortAscending" : ": activate to sort column ascending",
+						"sortDescending" : ": activate to sort column descending"
+					},
+					"emptyTable" : "No data available in table",
+					"info" : "Showing _START_ to _END_ of _TOTAL_ entries",
+					"infoEmpty" : "No entries found",
+					"infoFiltered" : "(filtered1 from _MAX_ total entries)",
+					"lengthMenu" : "_MENU_ entries",
+					"search" : "Search:",
+					"zeroRecords" : "No matching records found"
+				},
+
+				// Or you can use remote translation file
+				//"language": {
+				//   url: '//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Portuguese.json'
+				//},
+
+				buttons : [],
+
+				// setup colreorder extension: http://datatables.net/extensions/colreorder/
+				colReorder : {
+					reorderCallback : function() {
+						console.log('callback');
+					}
+				},
+
+				"order" : [ [ 0, 'asc' ] ],
+
+				"lengthMenu" : [ [ 5, 10, 15, 20, -1 ],
+						[ 5, 10, 15, 20, "All" ] // change per page values here
+				],
+				// set the initial value
+				"pageLength" : 10,
+
+				"dom" : "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>", // horizobtal scrollable datatable
+
+			// Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
+			// setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js). 
+			// So when dropdowns used the scrollable div should be removed. 
+			//"dom": "<'row' <'col-md-12'T>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r>t<'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
+			});
+</script>

@@ -1,0 +1,132 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">详情页面</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    <form role="form"  action="/userAuth/edit" class="form-horizontal" method="POST">
+    <input type="hidden" id="id" name="id" value="$!userInfoModel.id">
+         <div class="form-body left">
+         	<div class="row">
+         		<div class="col-md-5">
+			        <div class="form-group">
+		                <label class="control-label col-md-3">会员号：</label>
+		                <div class="control-label col-md-8" style="text-align:left">$!userInfoModel.id</div>
+		            </div>
+		            
+		         	<div class="form-group">
+		                <label class="control-label col-md-3">申请人：</label>
+		                <div class="control-label col-md-8" style="text-align:left">$!userInfoModel.realname</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-3">身份证号码：</label>
+		                <div class="control-label col-md-8" style="text-align:left">$!userInfoModel.idcard</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-3">注册时间：</label>
+		                <div class="control-label col-md-8" style="text-align:left">$!userInfoModel.createTime</div>
+		            </div>
+		            <div class="form-group">
+		            	<label class="control-label col-md-3">申请时间：</label>
+		                <div class="control-label col-md-8" style="text-align:left">$!userInfoModel.applicationTime</div>
+		            </div>
+		            <div class="form-group">
+		                <label class="control-label col-md-3">审核状态：</label>
+		                <div class="control-label col-md-8" style="text-align:left">$!userInfoModel.idCardAuthState.name</div>
+		            </div>
+		            
+		            #if($!userInfoModel.idCardAuthState == "AUTH_PASS" || $!userInfoModel.idCardAuthState == "AUTH_REFUSE" )
+		            <div class="form-group">
+		                <label class="control-label col-md-3">审核信息：</label>
+		                <div class="control-label col-md-8" style="text-align:left">$!userInfoModel.idCardAuthDesc</div>
+		            </div>  
+		            #end
+		            
+		            #if($!userInfoModel.idCardAuthState != "AUTH_PASS" && $!userInfoModel.idCardAuthState != "AUTH_REFUSE" )
+		               
+		            <div class="form-group">
+		            	<label class="control-label col-md-3">是否通过：</label>
+		                <div class="col-md-7 form-control-static">
+	                     	 <label class="mt-radio mt-radio-outline">通过
+								<input type="radio" value="AUTH_PASS" name="authState" checked >
+								<span></span>
+							</label>
+							<label class="mt-radio mt-radio-outline">拒绝
+								<input type="radio" value="AUTH_REFUSE" name="authState"  id="authState">
+								<span></span>
+							</label> 
+							
+									<!-- <select name="authState" id="authState">
+										<option value="0">--请选择--</option>
+										<option value="AUTH_PASS" >通过</option>	
+										<option value="AUTH_REFUSE">拒绝</option>								
+									</select>
+									<span id="textErroe"></span>	 -->							
+ 	                     </div>
+ 		            </div>    
+ 		            <div class="form-group" id="jujue">
+ 		            </div>   
+ 		            #end
+ 		            
+         		</div>
+         		<div class="col-md-7">
+         			<div class="form-group">
+		            	<label class="control-label col-md-3">图片信息：</label>
+		                <div class="control-label col-md-8" style="text-align:left">
+		                	<a href="$!license.image" class="fancybox-button" data-rel="fancybox-button">
+		                		<img src="$!userInfoModel.idCardImg" width="300px" height="300px" class="authImg"/>
+		                	</a>
+		                </div>
+		            </div>
+         		</div>
+         		
+         		
+         		<!-- <a class="btn green btn-outline btn-sm ajax-operation" thref="/userAuth/pass?id=$!item.id" tohref="/userAuth/list" > 
+									<i class="fa fa-check"></i>通过
+								</a>
+								<a class="btn green btn-outline btn-sm ajax-model-get" href="#modelContent" thref="/userAuth/refuse?id=$!item.id" data-toggle="modal"> 
+									<i class="fa fa-remove"></i>拒绝
+								</a> -->
+         		
+         	</div>
+         </div>
+         
+         <div class="form-actions right">
+         		
+         		#if($!userInfoModel.idCardAuthState != "AUTH_PASS" && $!userInfoModel.idCardAuthState != "AUTH_REFUSE" )
+         		<a href="javascript:;" thref="/userAuth/list" class="btn green ajax-post" id="ts"><i class="fa fa-check"></i> 提交</a>
+				   #end
+         		
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">关闭</a>
+         </div>
+     </form>    
+    </div>
+</div>
+<script type="text/javascript">
+	$(".fancybox-button").fancybox();
+	$(".authImg").click(function(){
+		 $("#modelContent").modal('hide');
+	});
+	
+	
+	$(function(){
+		
+		
+			  $(":radio").click(function(){
+		
+		var value = $(this).val();
+		
+		$('#jujue').get(0).innerHTML = "";
+		 if (value == "AUTH_REFUSE"){
+			var ht = "<label class='control-label col-md-3'>拒绝原因</label>";
+			ht = ht + "<div class='col-md-7 form-control-static'><textarea rows='4' cols='30' id='area' name='idCardAuthDesc' placeholder='您提供的图片与身份信息不符，请重新提交!'></textarea>";
+			ht = ht + "<span id='textError3'></span></div>";
+			$('#jujue').html(ht);
+		}
+	})
+	})
+	
+	
+</script>

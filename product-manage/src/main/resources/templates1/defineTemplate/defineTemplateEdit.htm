@@ -1,0 +1,62 @@
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">模板编辑</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form role="form" action="/defineTemplate/edit" class="form-horizontal" method="post" enctype="multipart/form-data">
+            <div class="form-body">
+            	<input type="hidden" name="id" value="$!item.id">
+            	<input type="hidden" value="$!item.isSystem" name="isSystem">
+            	
+				<div class="form-group">
+				    <label class="control-label col-md-3">*模板名称：</label>
+				    <div class="col-md-5">
+				        <input type="text" class="form-control" name="name" maxlength="20" value="$!item.name"  >
+				    </div>
+				</div>
+				<div class="form-group">
+				    <label class="control-label col-md-3">*所属企业：</label>
+				    <div class="col-md-5">
+				        <select name="companyId" class="form-control bs-select companyName"  data-size="8" >
+	                    	<option value="">请选择</option>
+	                    	#foreach($company in $!companys)
+		                    	<option value="$!company.id" #if($!item.companyId ==$!company.id) selected #end>$!company.name</option>
+	                        #end
+	                    </select>
+	                    <input type="hidden" id="companyName" name="companyName" value="$!item.companyName">
+				    </div>
+				    <script type="text/javascript">
+						$("form").on("change",".companyName",function(){
+							var companyName = $(this).find("option:selected").text()
+							$("#companyName").val(companyName);
+						})
+					</script>
+				</div>
+				<div class="form-group">
+				    <label class="control-label col-md-3">*模板首页链接：</label>
+				    <div class="col-md-5">
+				        <input type="text" class="form-control" name="mainUrl" value="$!item.mainUrl"  >
+				    </div>
+				</div>
+
+				<div class="form-group">
+				    <label class="control-label col-md-3">默认模板：</label>
+				    <div class="col-md-5" style="vertical-align: middle;margin-top: 7px;">
+                     	 <input type="radio"  name="isDefault" value="1" #if($item.isDefault) checked #end >是
+                     	 <input type="radio"  name="isDefault" value="0" #if(!$item.isDefault) checked #end >否
+                     </div>
+				</div>
+            </div>
+            <div class="form-actions right">
+                 <a href="javascript:;" thref="/defineTemplate/list?$!queryReturn" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+                 <a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+	ComponentsSelect2.init()
+</script>

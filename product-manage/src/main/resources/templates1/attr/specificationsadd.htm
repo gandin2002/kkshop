@@ -1,0 +1,276 @@
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i> <span
+                class="caption-subject bold">关联规格</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form action="/product/pSpecificationsP" class="form-horizontal" method="post">
+            <input type="hidden" id ="mainPId" value="$!productId" name="mainPId">
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label class="control-label col-md-4">关联名称：</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="pName" name="name" maxlength="20" value="$!name" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6"></div>
+                    <div class="col-md-2 form-group">
+                        <a class="btn green btn-outline btn-sm" onclick="addValue()">
+                            <i class="fa fa-plus"></i> 增加
+                        </a>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div class="table-scrollable">
+                        <table class="table table-striped table-bordered table-hover" id="attrValueTable">
+                            <thead>
+                            <tr>
+                                <th style="width: 208px;">货品编码</th>
+                                <th>货品名称</th>
+                                <th>品牌</th>
+                                <th>价格</th>
+                                <th>删除</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+							#set($num = 0)
+                            #foreach($!product in $!products)
+                            #set($num = $!velocityCount+(-1))
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control name procter vicePId" t-Num="$!num" name="vicePId[$!num]" value="$!product.id" disabled>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control name" name="" value="$!product.name" disabled>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control aav" name="" value="$!product.brandName" disabled>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control skuprice" name="" value="$!product.salesPrice" disabled>
+                                </td>
+                                <td>
+                                    <a class="btn green btn-outline btn-sm" data-attrValueId="" onclick="delValue(this)">
+                                        <i class="fa fa-trash"></i> 删除
+                                    </a>
+                                </td>
+                            </tr>
+                            #end
+							#set($num = $num +(1))
+                            <tr>
+                                <td>
+                                    <select class="js-data-user-ajax form-control vicePId" t-Num="$!num" name="vicePId[$num]">
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control name" name="" value="" disabled>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control aav" name="" value="" disabled>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control skuprice" name="" value="" disabled>
+                                </td>
+                                <td>
+                                    <a class="btn green btn-outline btn-sm" data-attrValueId="" onclick="delValue(this)">
+                                        <i class="fa fa-trash"></i> 删除
+                                    </a>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions right">
+                <a href="javascript:;" thref="/userInfo/list" class="btn green ajax-post2" > <i class="fa fa-check"></i> 提交</a>
+                <a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<table class="hiddenTable" style="display: none;">
+    <tr>
+        <td>
+            <select class="form-control vicePId" name="vicePId" required>
+            </select>
+        </td>
+        <td>
+            <input type="text" class="form-control name" name="" value="" disabled>
+        </td>
+        <td>
+            <input type="text" class="form-control aav" name="" value="" disabled>
+        </td>
+        <td>
+            <input type="text" class="form-control skuprice" name="" value="" disabled>
+        </td>
+        <td>
+            <!--<a class="btn green btn-outline btn-sm" onclick="addValue()">-->
+                <!--<i class="fa fa-plus"></i> 增加-->
+            <!--</a>-->
+            <a class="btn green btn-outline btn-sm" data-attrValueId="" onclick="delValue(this)">
+                <i class="fa fa-trash"></i> 删除
+            </a>
+        </td>
+    </tr>
+</table>
+<style>
+    .modal-content{
+        width: 900px !important;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".procters").val($(".procter").val());
+    });
+    $(function(){
+        MyTouchSpin.init()
+    }) ;
+    function addValue(){
+//        select();
+		debugger;
+		var  vicepid = $(".vicePId");
+
+		var num = 0;
+		$.each(vicepid,function(i,l){
+	 			num = i;
+		})
+		num += 2;
+		
+		
+		$(".hiddenTable .vicePId").attr("name","vicePId["+num+"]");
+        $(".hiddenTable tbody tr").clone().appendTo($("#attrValueTable tbody"));
+        $("#attrValueTable tbody tr:last-child select").addClass("js-data-user-ajax");
+        select();
+        init();
+//        MyTouchSpin.init()
+    }
+    function delValue(obj){
+        var attrValueId = $(obj).attr("data-attrValueId");
+        if(attrValueId == ""){
+            $(obj).parents("tr").remove();
+            return
+        }else{
+            $.ajax({
+                url: "/attr/delete",
+                type: "get",
+                data: {"attrValueId": attrValueId},
+                dataType: "json",
+                success: function(res){
+                    select();
+                    if(res.msg > 0){
+                        toastr.warning("属性值已被引用，不能删除");
+                        return
+                    }else{
+                        $(obj).parents("tr").remove();
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    toastr.error("操作失败");
+                }
+            })
+        }
+    }
+    function select() {
+        $(' .js-data-user-ajax').select2({
+            ajax: {
+                url: "/product/skuInquire",
+                dataType: 'json',
+                delay: 250,
+                async: false,
+                data: function (params) {
+                    var term = params.term;
+                    var map = {};
+                    map["str"] = term;
+                    return {
+                        str: map["str"],
+                        pageNo: params.page || 1
+                    };
+                },
+                processResults: function (data, params) {
+                    console.log($(".js-data-user-ajax").val());
+                    console.log(data);
+                    params.page = params.page || 1;
+                    return {
+                        results: data.result,
+                        pagination: {
+                            more: (params.page * 10) < data.totalCount
+                        }
+                    }
+                },
+                cache: true
+            },
+            width: "off",
+            escapeMarkup: function (markup) {
+                return markup;
+            },
+            placeholder: '请选择',
+            minimumInputLength: 1,
+            language: "zh-CN",
+            templateResult: formatAttr,
+            templateSelection: formatRepoSelection,
+        });
+    }select();
+    function init(){
+        $(".js-data-user-ajax").on('change',function(){
+//    $("input.select2-search__field").on('blur',function(){
+            var name= $(this).parents('tr').find(".name");
+            var aav = $(this).parents('tr').find(".aav");
+            var skuprice = $(this).parents('tr').find(".skuprice");
+            console.log(name);
+            console.log(aav);
+            console.log(skuprice);
+        var id = $(this).val();
+        $.ajax({
+            url:'/product/pitchSku',
+            type:'get',
+            dataType:'json',
+            data:{
+                id:id
+            },
+            success:function(data){
+                console.log(data);
+                name.val(data.name);
+                aav.val(data.brandName);
+                skuprice.val(data.salesPrice);
+            }
+
+        })
+    })
+    }init();
+</script>
+
+<script type="text/javascript">
+$(".ajax-post2").click(function(){
+	var mainPId = $("#mainPId").val();
+	var pName = $("#pName").val();
+	var vicePIds = $(".vicePId");
+	var mycars = new Array();
+	$.each(vicePIds,function(k,i){
+		 var id = $(i).val();
+		if(id){
+			mycars[k]=(id);
+		}
+	})
+	if(!pName){
+		toastr.warning("名称不能为空");
+	}
+	
+	$.post("product/pSpecificationsP",{"mainPId":mainPId,"name":pName,"pIdArray":mycars},function(result){
+		
+    	if(result.code==0){
+    		$('#modelContent').modal("hide");
+    		toastr.success(result.msg);
+    	}else{
+    		toastr.warning(result.msg);
+    	}
+ 
+	},"json")
+	
+});
+ 
+</script>

@@ -1,0 +1,277 @@
+<div class="modal fade bs-modal-lg" id="modelContent">
+	<div class="modal-dialog modal-lg" style="width: 80% !important;">
+		<div class="modal-content"></div>
+	</div>
+</div>
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions">
+			<a href="$!_requestURI?$!_queryParams" class=" btn-left btn white btn-sm ajaxify"><i class="fa fa-mail-reply"></i> 返回</a>
+		</div>
+    </div>
+    <div class="portlet-body">
+    	<div class="tabbable-line ">
+			<ul class="nav nav-tabs ">
+				<li   class="active"  ><a href="userInfo/detail?id=$!id" class="ajaxify">基本信息</a></li>
+				<li  ><a href="userInfo/orderDetail?id=$!id" class="ajaxify"> 订单记录</a></li>
+				<li  ><a href="userInfo/creditDetail?id=$!id"  class="ajaxify"> 信用记录</a></li>
+				<li  ><a href="userInfo/scoreDetail?id=$!id" class="ajaxify"> 积分记录</a></li>
+				<li  ><a href="userInfo/commendfriendDetail?id=$!id" class="ajaxify"> 推荐会员</a></li>
+				<li  ><a href="userInfo/expDetail?id=$!id" class="ajaxify"> 经验值记录</a></li>
+				<li  ><a href="userInfo/afterSaleDetail?id=$!id" class="ajaxify"> 售后记录</a></li>
+				<li  ><a href="userInfo/invoiceDetail?id=$!id" class="ajaxify">开票记录</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active form">
+                        <div class="form-body">
+                            <h3 class="form-section">基本信息</h3>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">会员号：</label>
+                                        <div class="col-md-8">
+                                            <p>$!userInfo.id</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">昵称：</label>
+                                        <div class="col-md-8">
+                                           <p>  $!userInfo.nickname</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">真实姓名：</label>
+                                        <div class="col-md-8">
+                                           <p>$!userInfo.realname</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">性别：</label>
+                                        <div class="col-md-8">
+                                           <p>$!userInfo.sex.name</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">出生日期：</label>
+                                        <div class="col-md-8">
+                                          <p>$!userInfo.birthday</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">身份证号码：</label>
+                                        <div class="col-md-8">
+                                          <p>$!userInfo.idcard</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">身份证有效期限：</label>
+                                        <div class="col-md-8">
+<!--                                           <p>$!userInfo.idcard</p> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">居住地址：</label>
+                                        <div class="col-md-8">
+                                          <p>$!userInfo.site</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/row-->
+                           <div class="row">
+								<div class="col-md-3">
+                                   <div class="form-group">
+                                       <label class="control-label col-md-4">手机号码：</label>
+                                       <div class="col-md-8">
+                                         	<p>$!userInfo.phone</p>
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="col-md-3">
+                                   <div class="form-group">
+                                       <label class="control-label col-md-4">邮箱：</label>
+                                       <div class="col-md-8">
+                                          <p>$!userInfo.email</p>
+                                       </div>
+                                   </div>
+                               </div>
+                               <!--/span-->
+ 								<div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">QQ：</label>
+                                        <div class="col-md-8">
+                                           <p>$!userInfo.qq</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">微信号：</label>
+                                        <div class="col-md-8">
+                                          <p>$!userInfo.wechat</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                           </div>
+                            <h3 class="form-section">账户信息</h3>
+                            <!--/row-->
+                            <div class="row">
+                             	<div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">会员积分：</label>
+                                        <div class="col-md-8">
+                                            <p>$!userInfo.score</p></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">经验值：</label>
+                                        <div class="col-md-8">
+                                           <p>$!userInfo.exp</p> </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">会员等级</label>
+                                        <div class="col-md-8">
+                                           <p>$!memberLevel.name</p>
+                                           </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">推荐会员数：</label>
+                                        <div class="col-md-8">
+                                           <p></p> </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                               <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">会员来源：</label>
+                                        <div class="col-md-8">
+                                           <p>$!userInfo.MemberSource</p> </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">注册时间：</label>
+                                        <div class="col-md-8">
+                                           <p>$!userInfo.createTime</p> </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">微信OpenID：</label>
+                                        <div class="col-md-8">
+                                            <p>$!userInfo.wechatMpOpenid</p> </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">微信UnioID：</label>
+                                        <div class="col-md-8">
+                                            <p>$!userInfo.wechatUnioid</p> </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+ 							   <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">小程序Openid：</label>
+                                        <div class="col-md-8">
+                                            <p>$!userInfo.wechatOpenid</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="form-section">发票信息</h3>
+                            <div class="table-scrollable">
+                            	<table class="table table-striped table-bordered table-hover" id="tableCategory">
+                            		 <thead>
+										<tr>
+											<th>序号</th>
+											<th>发票类型</th>
+											<th>发票抬头</th>
+											<th>社会统一信用代码</th>
+											<th>默认开票</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+                            		<tbody  class="font-yellow-gold">
+                            			#foreach($invoce in $!invoceList)
+                            			<tr>
+											<td>$velocityCount</td>
+											<td>$!invoce.invoiceType.name</td>
+											<td>$!invoce.title</td>
+											<td>$!invoce.socialCreditCode</td>
+											<td>#if($!invoce.state == 0 ) <i class="fa fa-check font-yellow-gold"></i> #else <i class="fa fa-close font-red-flamingo"></i> #end</td>
+											<td>
+												<a  href="#modelContent"  data-toggle="modal" thref="/orderInvoice/detail?id=$!invoce.id" class=" ajax-model-get " >操作</a>
+											</td>
+										</tr>
+										#end
+                            		</tbody>
+                            	</table>
+                            </div>
+                            <h3 class="form-section">收货地址</h3>
+							<div class="table-scrollable">
+							   <table class="table table-striped table-bordered table-hover" id="tableCategory">
+								  	<thead>
+										<tr>
+											<th>序号</th>
+											<th>收货地址</th>
+											<th>收货人</th>
+											<th>联系电话</th>
+											<th>默认收货地址</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+									#foreach($!shippingInfo in $!shippingInfoList)
+										<tr>
+											<td>$velocityCount</td>
+											<td>$!shippingInfo.province $!shippingInfo.city $!shippingInfo.county $!shippingInfo.address</td>
+											<td>$!shippingInfo.receiver</td>
+											<td>$!shippingInfo.phone</td>
+											<td>
+											#if($!shippingInfo.first)
+												<i class="fa fa-check font-yellow-gold"></i>
+											 #else
+												 <i class="fa fa-close font-red-flamingo"></i>
+											#end
+											</td>
+											<td></td>
+										</tr>
+									#end								
+									 </tbody>
+								</table>
+							</div>
+                        </div>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>

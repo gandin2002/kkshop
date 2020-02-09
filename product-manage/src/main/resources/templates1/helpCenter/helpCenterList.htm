@@ -1,0 +1,75 @@
+
+<div class="portlet box green">
+	<div class="portlet-title">
+	    <div class="caption"><i class="fa fa-cog"></i>页面设置 &gt; 商城自定义功能 &gt; 帮助中心管理 </div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+    	</div>
+	</div>
+</div>
+
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"><a href="/helpCenter/add" class="btn white btn-sm ajaxify" ><i class="fa fa-plus"></i> 新增 </a></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="dataTables_wrapper no-footer">
+			<div class="table-container table-scrollable">
+			    <table class="table table-striped table-bordered table-hover" id="tableCategory">
+				  	<thead>
+						<tr>
+		   		 			<th>栏目名称</th>
+		   		 			<th>状态</th>
+		   		 			<th>启用终端</th>
+		   		 			<th>序号</th>
+							<th class="col-md-2">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					#foreach($item in $pageHelpCenter.result)
+		  				<tr data-tt-id="$!item.id"  status='$!item.status' data-tt-parent-id="$!item.pid" id="$!item.id">  
+						    <td>$!item.name</td>
+						    <td>#if($!item.status)√#else × #end</td>
+						    <td>$!item.loc</td>
+						    <td>$!item.sort</td>
+			    			<td nowrap="nowrap">
+						    	<a class="btn green btn-outline btn-sm ajaxify" href="/helpCenter/edit?id=$!item.id&"> 
+									<i class="fa fa-edit"></i>修改
+								</a>
+								#if($!item.level == 1 )
+								<a  href="/helpCenter/add?id=$!item.id" class="btn green btn-outline btn-sm ajaxify" >
+								<i class="fa fa-edit"></i>新增下级栏目</a>
+	    						#end
+	    						
+								<a class="btn green btn-outline btn-sm ajax-delete" 
+									href="javascript:;" thref="/helpCenter/delete?id=$!item.id">
+									<i class="fa fa-trash"></i>删除
+								</a>
+						    </td>		  			
+		  				</tr>
+					#end
+					</tbody>
+				</table>
+			</div>
+			#set($page=$pageHelpCenter)
+			#set($pageUrl="/helpCenter/list?&pageNo=")
+			#parse("_page.htm")
+		</div>
+    </div>
+</div>
+<script type="text/javascript">
+
+$("#tableCategory").treetable({
+	expandable : true,
+	onInitialized : function(){
+		 
+	},
+	onNodeExpand: function(){
+		 
+	},
+});
+
+</script>
+

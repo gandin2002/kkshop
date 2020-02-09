@@ -1,0 +1,114 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+		<div class="caption font-dark">
+			<i class="fa fa-cog font-dark"></i> <span
+				class="caption-subject bold">添加规格</span>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form action="/attr/add.do" class="form-horizontal" method="post">
+			<div class="form-body">
+                <div class="row">
+					<div class="col-md-6 form-group">
+					    <label class="control-label col-md-4">*规格名称：</label>
+					    <div class="col-md-6">
+					        <input type="text" class="form-control" name="attr.name" maxlength="20" required>
+					    </div>
+					</div>
+                    <div class="col-md-6 form-group">
+                        <label class="control-label col-md-4">规格备注：</label>
+                        <div class="col-md-6">
+                        	<input type="text" class="form-control" name="attr.meno" maxlength="20">
+                        </div>
+                    </div>
+                </div>
+				<div class="table-container">
+					<div class="table-scrollable">
+						<table class="table table-striped table-bordered table-hover" id="attrValueTable">
+							<thead>
+								<tr>
+									<th>规格值</th>
+									<th>排序</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<input type="text" class="form-control" maxlength="20" name="attrValue.name">
+									</td>
+									<td>
+										<input type="text" class="form-control integerNum" name="sort" maxlength="3">
+									</td>
+									<td>
+										<a class="btn green btn-outline btn-sm" onclick="addValue()">
+											<i class="fa fa-plus"></i> 增加
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="form-actions right">
+				<a href="javascript:;" class="btn green ajax-post-no-refresh grey-salsa" data-dismiss="modal"> <i class="fa fa-check"></i> 提交</a> 
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+			</div>
+		</form>
+	</div>
+</div>
+<table class="hiddenTable" style="display: none;">
+	<tr>
+        <td>
+        	<input type="text" class="form-control" name="attrValue.name"  maxlength="20" required>
+        </td>
+           <td>
+	 		<input type="text" class="form-control" name="sort">
+	    </td>
+        <td>
+			<a class="btn green btn-outline btn-sm" onclick="addValue()">
+				<i class="fa fa-plus"></i> 增加
+			</a>
+			<a class="btn green btn-outline btn-sm" data-attrValueId="" onclick="delValue(this)">
+				<i class="fa fa-trash"></i> 删除
+			</a>
+        </td>
+	</tr>
+</table>
+<script type="text/javascript">
+	$(function(){
+		MyTouchSpin.init()
+	}) ;
+	function addValue(){
+		$(".hiddenTable tbody tr").clone().appendTo($("#attrValueTable tbody"));
+		var e = $("#attrValueTable tbody tr:last-child")
+		e.find("input[name='sort']").addClass("integerNum");
+		MyTouchSpin.init()
+	}
+	function delValue(obj){
+		var attrValueId = $(obj).attr("data-attrValueId");
+		if(attrValueId == ""){
+			$(obj).parents("tr").remove();
+			return
+		}else{
+			$.ajax({
+				url: "/attr/delete",
+				type: "get",
+				data: {"attrValueId": attrValueId},
+				dataType: "json",
+				success: function(res){
+					if(res.msg > 0){
+						toastr.warning("属性值已被引用，不能删除");
+						return
+					}else{
+						$(obj).parents("tr").remove();
+					}
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					toastr.error("操作失败");
+	            }
+			})
+		}
+	}
+</script>

@@ -1,0 +1,38 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">基本设置 > 服务项管理 > 售后服务说明 > 新增售后服务说明</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/serve/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+                 
+                 <div class="form-group">
+                     <label class="control-label col-md-3">服务说明：</label>
+                     <div class="col-md-9">
+                         <input type="text" class="form-control" name="saleExplain">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">服务类型：</label>
+                     <div class="col-md-9">
+                         <input type="text" class="form-control" name="saleType">
+                     </div>
+                 </div>
+<!--                  <div class="form-group"> -->
+<!--                      <label class="control-label col-md-3">state：</label> -->
+<!--                      <div class="col-md-9"> -->
+<!--                          <input type="text" class="form-control" name="state"> -->
+<!--                      </div> -->
+<!--                  </div> -->
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" thref="/serve/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+

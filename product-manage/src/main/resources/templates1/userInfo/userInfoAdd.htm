@@ -1,0 +1,144 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">添加</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/userInfo/add" class="form-horizontal userRegister" method="post">
+    		<div class="form-body">
+	    		<div class="form-group">
+						<div class="alert alert-warning">
+							<strong> 注：</strong>默认密码为：#if($!defaultpwd) $!defaultpwd #else 123456 #end
+						</div>
+					</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">*手机号码：</label>
+					<div class="col-md-7">
+						<input type="tel" class="form-control" minlength="11" maxlength="11" name="userInfo.phone" required> 
+					</div>
+				</div>
+ 				<div class="form-group">
+ 					<label class="control-label col-md-3">昵称:</label>
+ 					<div class="col-md-7">
+						<input type="text" class="form-control" name="userInfo.nickname" maxlength="15" required>
+					</div>
+ 				</div>
+                 <div class="form-group">
+                     <label class="control-label col-md-3">*性     别: </label>
+                     <div class="col-md-7 form-control-static">
+                     	<label class="mt-radio mt-radio-outline">男
+							<input type="radio" value="MAN" name="userInfo.sex" checked>
+							<span></span>
+						</label>
+						<label class="mt-radio mt-radio-outline">女
+							<input type="radio" value="WOMAN" name="userInfo.sex" >
+							<span></span>
+						</label>
+                     </div>
+                 </div>
+ 				<div class="form-group">
+ 					<label class="control-label col-md-3">真实姓名:</label>
+ 					<div class="col-md-7">
+ 						<input type="text" class="form-control" name="userInfo.realname" required>
+ 					</div>
+ 				</div>
+ 				 <div class="form-group">
+ 					<label class="control-label col-md-3">出生日期:</label>
+ 					<div class="col-md-7">
+ 						<input class="form-control" type="text" placeholder="从身份证自动获取" name="userInfo.birthday" id="birthday" readonly required>
+						<i class="fa fa-calendar" style="position: absolute;right: 10px;top: 10px"></i>
+ 					</div>
+ 				</div>
+ 				<div class="form-group">
+ 					<label class="control-label col-md-3">身份证号码:</label>
+ 					<div class="col-md-7">
+ 						<input type="text" class="form-control" id="idcard"  name="userInfo.idcard" required>
+ 					</div>
+ 				</div>
+ 				<div class="form-group">
+ 					<div class="col-md-4"> 
+ 						<h4 class="text-success text-left"><strong>默认收货地址:</strong></h4>
+ 					</div>
+ 				</div>
+ 				<div class="form-group">
+ 					<label class="control-label col-md-3">收件人:</label>
+ 					<div class="col-md-7">
+ 						<input type="text" class="form-control" name="shippingInfo.receiver" required>
+ 					</div>
+ 				</div>
+ 				<div class="form-group">
+ 					<label class="control-label col-md-3">联系电话:</label>
+ 					<div class="col-md-7">
+ 						<input type="text" class="form-control" name="shippingInfo.phone" minlength="11" maxlength="11" required>
+ 					</div>
+ 				</div>
+ 				 <div class="form-group">
+ 					<label class="control-label col-md-3">所在地区:</label>
+ 					<div class="col-md-7">
+ 						<div id="element_id" class="row">
+ 							<div class="col-md-4">
+						  <select name="shippingInfo.province" class=" form-control input-small province" required></select>
+						  </div>
+						  <div class="col-md-4">
+						  <select  name="shippingInfo.city"  class=" form-control input-small city" required></select>
+						  </div>
+						  <div class="col-md-4">
+						  <select name="shippingInfo.county"   class=" form-control input-small area" required></select>
+						  </div>
+						</div>
+ 					</div>
+ 				</div>
+ 				<div class="form-group">
+ 					<label class="control-label col-md-3">街道地址：</label>
+ 					<div class="col-md-7">
+ 						<input type="text" class="form-control" name="shippingInfo.address" maxlength="128" required>
+ 					</div>
+ 				</div>
+			</div>
+			<div class="form-actions right">
+				<a href="javascript:;" thref="/userInfo/list" class="btn green ajax-post"><i class="fa fa-check"></i> 提交</a>
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+$('#element_id').cxSelect({
+	  url: '/assets/plugins/cxSelect-master/js/cityData.min.json',               // 如果服务器不支持 .json 类型文件，请将文件改为 .js 文件
+	  selects: ['province', 'city', 'area'],  // 数组，请注意顺序
+	  emptyStyle: 'none'
+	});
+	
+$("#idcard").blur(function(){
+	  var target= $(this);
+	  var bday = $("#birthday");
+	  var card= target.val();
+	  if (!( /^(\d{6})(18|19|20)?(\d{2})([01]\d)([0123]\d)(\d{3})(\d|X|x)?$/.test(card)) ){
+		 //身份证验证失败
+		  target.val("");
+		  bday.val("");
+		  toastr.warning("请输入正确身份证号码！");
+	  }else{
+	         if(card.length==15){ // 十五身份证
+	        	var yera = card.substring(6,8); //年
+	        	var month = card.substring(8,10);//月
+	        	var day =  card.substring(10,12);//日
+	        	
+	        	var date = "19"+yera+"-"+month+"-"+day;
+	        	bday.val(date);
+	         }
+	         if(card.length==18){ // 十八身份证
+	        	var yera = card.substring(6,10); //年
+	        	var month = card.substring(10,12);//月
+	        	var day =  card.substring(12,14);//日
+        	 
+	        	var date =yera+"-"+month+"-"+day;
+	        	bday.val(date);
+	         }
+		  
+	  }
+})
+	
+</script>

@@ -1,0 +1,133 @@
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cog"></i>
+			库存管理 > 采购管理 > 采购退库单
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+		</div>
+		<div class="actions">
+			<a href="javascript:;" class="btn white btn-sm ajax-search">
+				<i class="fa fa-search"></i>
+				查询
+			</a>
+			<a href="javascript:;" class="btn white btn-sm search-reset">
+				<i class="fa fa-eraser"></i>
+				清除
+			</a>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<form action="/purchaseReturn/list" class="form-horizontal" method="get" id="searchForm" onsubmit="return false">
+			<div class="form-body">
+				<div class="row">
+					<div class="col-md-3">
+						<label class="col-md-4 control-label">单号：</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" name="id" value="$!id">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<label class="col-md-4 control-label">供应商：</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" name="supplierName" value="$!supplierName">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<label class="col-md-4 control-label">仓库名称：</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" name="wareHouseName" value="$!wareHouseName">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<label class="col-md-4 control-label">操作人：</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" name="operator" value="$!operator">
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="portlet box green">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-cogs"></i>
+			数据列表
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+		</div>
+		<div class="actions">
+			<a class="btn white btn-sm ajaxify" href="/purchaseReturn/add">
+				<i class="fa fa-plus"></i>
+				新增
+			</a>
+		</div>
+	</div>
+	<div class="portlet-body">
+		<div class="dataTables_wrapper no-footer">
+			<div class="table-scrollable">
+				<table class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+							<th>采购单号</th>
+							<th>退购单号</th>
+							<th>供应商名称</th>
+							<th>仓库名称</th>
+							<th>总金额</th>
+							<th>总数量</th>
+							<th>备注</th>
+							<th>操作人</th>
+							<th>出库时间</th>
+							<th>审核状态</th>
+							<th class="col-md-2">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						#foreach($item in $_thisPage.result)
+						<tr>
+							<td>$item.purchaseId</td>
+							<td>$item.id</td>
+							<td>$!item.supplierName</td>
+							<td>$!item.wareHouseName</td>
+							<td>$!item.total</td>
+							<td>$!item.totalNum</td>
+							<td>$!item.mark</td>
+							<td>$!item.operator</td>
+							<td>$!item.outWareHouseTime</td>
+							<td>$!item.state.getName()</td>
+							<td>
+								<a class="btn green btn-outline btn-sm ajaxify" href="/purchaseReturn/view?id=$!item.id"> 
+									<i class="fa fa-eye"></i>查看
+								</a>
+								#if($!item.state == 'INIT')
+						    	<a class="btn green btn-outline btn-sm ajax-operation" thref="/purchaseReturn/pass?id=$!item.id" tohref="/purchaseReturn/list"> 
+									<i class="fa fa-check"></i>通过
+								</a>
+								<a class="btn green btn-outline btn-sm ajax-operation" thref="/purchaseReturn/refuse?id=$!item.id" tohref="/purchaseReturn/list"> 
+									<i class="fa fa-remove"></i>拒绝
+								</a>
+								<a class="btn green btn-outline btn-sm ajax-delete" href="javascript:;" thref="/purchaseReturn/delete?id=$!item.id">
+									<i class="fa fa-trash"></i>
+									删除
+								</a>
+								#end
+
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			#set($page=$_thisPage) #set($pageUrl="/purchaseReturn/list?&pageNo=") #parse("_page.htm")
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("input[name=id]").focus();
+</script>
+

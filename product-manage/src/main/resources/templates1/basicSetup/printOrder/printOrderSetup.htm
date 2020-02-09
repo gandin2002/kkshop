@@ -1,0 +1,83 @@
+<div class="modal fade bs-modal-lg" id="modelContent">
+	<div class="modal-dialog modal-lg">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="table-scrollable">
+			<div class="alert alert-warning">
+				<strong>注意:</strong>
+				<p>1.系统打印单据存在三种：购物单、配货单、购物单和配货单的联合单，系统已给出对应的单据模板，模板部分信息可按需要设置；</p>
+      		    <p>2.换货单的单据模板与其他订单的单据模板有少许差异；</p>
+       			<p>3.订单编号是用于标记该订单是本商城门店的第几个订单，以便于给用户发货时使用。</p>
+			</div>
+			<div class="form-group">
+ 				<div class="col-md-6">
+ 					<h4 class="text-center"><strong>快递订单相关模板</strong></h4>
+ 					<table class="table table-striped table-bordered table-hover ">
+ 						<thead>
+ 							<tr>
+ 								<th class="text-center">购物单</th>
+ 								<th class="text-center">配货单</th>
+ 								<th class="text-center">联合单据</th>
+ 							</tr>
+ 						</thead>
+ 						<tbody  class="text-center">
+ 							<tr>
+								<td><a   href="printOrder/shoppingList" class="btn green btn-outline btn-sm ajaxify" >预览与编辑</a></td>
+								<td><a   href="printOrder/packingList" class="btn green btn-outline btn-sm ajaxify" >预览与编辑</a></td>
+								<td><a   href="printOrder/shoppinngAndPacking" class="btn green btn-outline btn-sm ajaxify" >预览与编辑</a></td>
+							</tr>
+						</tbody>
+ 					</table>
+ 				</div>
+ 				<div class="col-md-6">
+ 					<h4 class="text-center"><strong>换货单相关模板</strong></h4>
+ 					<table class="table table-striped table-bordered table-hover ">
+ 						<thead>
+ 							<tr>
+ 								<th class="text-center">换货货品清单</th>
+ 								<th class="text-center">换货货品配货单</th>
+ 								<th class="text-center">联合单据</th>
+ 							</tr>
+ 						</thead>
+ 						<tbody  class="text-center">
+ 							<tr>
+								<td><a  href="printOrder/exchangeList"  class="btn green btn-outline btn-sm ajaxify" >预览与编辑</a></td>
+								<td><a  href="printOrder/exchangePackingList" class="btn green btn-outline btn-sm ajaxify " >预览与编辑</a></td>
+								<td><a  href="printOrder/exchangeAndPacking" class="btn green btn-outline btn-sm ajaxify "  >预览与编辑</a></td>
+							</tr>
+						</tbody>
+ 					</table>
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 			 	<div class="col-md-6">
+ 					<h4 class="text-center"><strong>门店提货订单相关模板</strong></h4>
+ 					<table class="table table-striped table-bordered table-hover ">
+ 						<thead>
+ 							<tr>
+ 								<th class="text-center">购物单</th>
+ 								<th class="text-center">配货单</th>
+ 								<th class="text-center">联合单据</th>
+ 							</tr>
+ 						</thead>
+ 						<tbody  class="text-center">
+ 							<tr>
+								<td><a class="btn green btn-outline btn-sm ajaxify" href="printOrder/CollectionList">预览与编辑</a></td>
+								<td><a class="btn green btn-outline btn-sm ajaxify"href="printOrder/CollectionPacking">预览与编辑</a></td>
+								<td><a class="btn green btn-outline btn-sm ajaxify" href="printOrder/collectPackingUnion">预览与编辑</a></td>
+							</tr>
+						</tbody>
+ 					</table>
+ 				</div>
+ 			</div>
+ 		</div>
+    </div>
+</div>

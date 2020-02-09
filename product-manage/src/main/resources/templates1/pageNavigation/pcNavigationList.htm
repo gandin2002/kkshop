@@ -1,0 +1,101 @@
+<div class="modal fade bs-modal-lg" id="modelContent">
+	<div class="modal-dialog modal-lg">
+        <div class="modal-content"></div>
+    </div>
+</div> 
+<div class="portlet box green">
+	<div class="portlet-title">
+	    <div class="caption"><i class="fa fa-cog"></i>PC端商城货品目录展示 </div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse right" data-original-title="" title=""> </a>
+    	</div>
+    	<div class="actions">
+			<a href="javascript:;" class="btn white btn-sm ajax-search"><i class="fa fa-search"></i> 查询 </a>
+			<a href="javascript:;" class="btn white btn-sm search-reset"><i class="fa fa-eraser"></i> 清除 </a>
+		</div>
+	</div>
+	<div class="portlet-body form">
+	   	<form action="/pageNavigation/pcWeb" class="form-horizontal" method="get" id="searchForm" onsubmit="return false">
+			<div class="form-body">
+				<div class="row">
+					<div class="col-md-3">
+						<label class="col-md-4 control-label">目录名称：</label>
+						<div class="col-md-8">
+					    	<input type="text" class="form-control" name="name" value="$!name">
+						</div>
+					</div>
+	    		</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="portlet box green">
+    <div class="portlet-title">
+		<div class="caption"><i class="fa fa-cogs"></i>数据列表</div>
+		<div class="tools"><a href="javascript:;" class="collapse" data-original-title="" title=""> </a></div>
+		<div class="actions"><a href="/pageNavigation/add?loc=pcWeb" class="btn white btn-sm ajaxify" ><i class="fa fa-plus"></i> 新增 </a></div>
+    </div>
+    <div class="portlet-body">
+    	<div class="dataTables_wrapper no-footer">
+			<div class="table-container table-scrollable">
+			    <table class="table table-striped table-bordered table-hover" id="tableCategory">
+				  	<thead>
+						<tr>
+		   		 			<th>目录名称</th>
+		   		 			<th>顺序</th>
+		   		 			<th>状态</th>
+		   		 			<th>创建时间</th>
+		   		 			 
+							<th class="col-md-2">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					#foreach($item in $pagePageNavigation.result)
+		  				<tr data-tt-id="$!item.id"  status='$!item.status' data-tt-parent-id="$!item.pid" id="$!item.id">  
+						    <td>$!item.name</td>
+						    <td>$!item.sort</td>
+						    <td>#if($!item.status)√#else × #end</td>
+						    <td>$!item.createTime</td>
+			    			<td nowrap="nowrap">
+						    	<a class="btn green btn-outline btn-sm ajaxify" href="/pageNavigation/edit?id=$!item.id&"> 
+									<i class="fa fa-edit"></i>修改
+								</a>
+								#if($!item.level == 1 || $!item.level == 2 )
+								<a  href="/pageNavigation/add?loc=pcWeb&pid=$!item.id" class="btn green btn-outline btn-sm ajaxify" >
+								<i class="fa fa-edit"></i>新增子类</a>
+	    						#end
+	    						#if( $!item.level == 3 )
+	    						<a  href="/pageNavigation/showProduct?loc=pcWeb&id=$!item.id" class="btn green btn-outline btn-sm ajaxify" >
+								<i class="fa fa-eye"></i>查看货品</a>
+	    						#end
+								<a class="btn green btn-outline btn-sm ajax-delete" 
+									href="javascript:;" thref="/pageNavigation/delete?id=$!item.id">
+									<i class="fa fa-trash"></i>删除
+								</a>
+						    </td>		  			
+		  				</tr>
+					#end
+					</tbody>
+				</table>
+			</div>
+			#set($page=$pagePageNavigation)
+			#set($pageUrl="/pageNavigation/pcWeb?&pageNo=")
+			#parse("_page.htm")
+		</div>
+    </div>
+</div>
+<script type="text/javascript">
+
+$("#tableCategory").treetable({
+	expandable : true,
+	onInitialized : function(){
+		 
+	},
+	onNodeExpand: function(){
+		 
+	},
+});
+$("input[name=name]").focus();
+</script>
+

@@ -1,0 +1,69 @@
+<div class="portlet light bordered">
+	<div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="fa fa-cog font-dark"></i>
+            <span class="caption-subject bold">查看详情</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+    	<form role="form" action="/userLevel/add" class="form-horizontal" method="post">
+        	<div class="form-body">
+        		<div class="form-group">
+        			<label class="control-label col-md-3">消息类型:</label>
+        			<div class="col-md-7">
+        				<select class="form-control"  disabled="disabled">
+        					<option #if(!$!messageSite.sendType)  selected="selected" #end  >自定义消息</option>
+        					<option #if($!messageSite.sendType)  selected="selected" #end >模板消息</option>
+        				</select>
+        			</div>
+        		</div>
+        		<div class="form-group">
+        			<label class="control-label col-md-3">收信用户类型：</label>
+        			<div class="col-md-7">
+  						<select class="form-control" disabled="disabled">
+  							<option #if(!$!messageSite.userType)  selected="selected" #end >企业</option>
+  							<option #if($!messageSite.userType)  selected="selected" #end  >个人</option>
+  						</select>      			
+        			</div>
+        		</div>
+        		<div class="form-group">
+        			<label class="control-label col-md-3">站内消息标题：</label>
+        			<div class="col-md-7">
+        				<input type="text" class="form-control" value="$!messageSite.title" disabled="disabled">
+        			</div>
+        		</div>
+                <div class="form-group">
+                	<label class="control-label col-md-3">发送时间：</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control"  value="$!messageSite.sendDate"  disabled="disabled" placeholder = "例如：V1、V2">
+                    </div>
+                </div>
+                <div class="form-group">
+                	<label class="control-label col-md-3">收 信 人：</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" value="$!messageSite.sendTo" disabled="disabled">
+                    </div>
+                </div>
+                <div class="form-group">
+                	<label class="control-label col-md-3">发 信 人：</label>
+                	<div class="col-md-7">
+                		<input type="text" class="form-control" value="$!messageSite.beFrom" disabled="disabled" >
+                	</div>
+                </div>
+                <div class="form-group">
+                     <label class="control-label col-md-3">短信内容：</label>
+                     <div class="col-md-7 form-control-static">
+                     	<textarea style="width:100%;height:400px;"  id="textContent" class="form-control" disabled="disabled"  readonly="readonly" style="resize:none" >
+                     	$!messageSite.content
+                     	</textarea>
+                     </div>
+                 </div>
+
+            </div>
+            <div class="form-actions right">
+				<a href="javascript:;" data-dismiss="modal" class="btn btn-outline grey-salsa">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/scripts/views-kindeditor.js"></script>
