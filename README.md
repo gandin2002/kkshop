@@ -5,7 +5,8 @@
 提供完备的电商功能：符合行业规则与习惯的前端，操作方便逻辑缜密的后台管理系统，整套系统安全、稳定，便捷的功能 扩展及可以进行二次开发的商城源码，
 为企业电商业务长线快速发展提供了强有力的保障
 
-交流群:1005105627 <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=1b032d11fddca41e08d72605998e53bbe8a15c134d01a66ad4dd29258ef57cfd"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="kkinvest" title="kkinvest" /></a>
+交流群:1005105627 <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=1b032d11fddca41e08d72605998e53bbe8a15c134d01a66ad4dd29258ef57cfd">
+<img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="kkinvest" title="kk" /></a>
 #### 软件架构
 springboot 
 
