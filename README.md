@@ -6,7 +6,7 @@
 为企业电商业务长线快速发展提供了强有力的保障
 
 交流群:1005105627 <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=1b032d11fddca41e08d72605998e53bbe8a15c134d01a66ad4dd29258ef57cfd">
-<img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="kkinvest" title="kk" /></a>
+<img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="kk" title="kk" /></a>
 #### 软件架构
 springboot 
 
